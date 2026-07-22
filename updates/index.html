@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Register your copy · Cedarstone updates</title>
+<meta name="description" content="Registered owners of a Cedarstone rental workbook get the next tax-year edition free, plain-English alerts when a rule that touches the file changes, and priority answers by email.">
+<!-- Canonical points at the origin that actually serves today. At DNS go-live this flips to
+     https://cedarstonellc.com/updates/ , and that is the same moment the printed URL goes into the PDFs. -->
+<link rel="canonical" href="https://cedarstone-ventures.github.io/updates/">
+<meta name="theme-color" content="#1F3D2F">
+<meta property="og:title" content="Register your Cedarstone copy">
+<meta property="og:description" content="Next year's edition free, law-change alerts in plain English, and priority answers. Takes about 60 seconds.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://cedarstone-ventures.github.io/updates/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='11' fill='%231F3D2F'/%3E%3Cg fill='%23F4F0E6'%3E%3Crect x='22.2' y='33' width='3.6' height='7'/%3E%3Cpolygon points='24,9 33,22 15,22'/%3E%3Cpolygon points='24,16 34,30 14,30'/%3E%3Cpolygon points='24,23 35.5,37 12.5,37'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cedar:#1F3D2F; --cedar-deep:#16301F; --stone:#C9BCA3; --stone-soft:#E7DFCE;
+  --ink:#1A1A1A; --paper:#FAF7F0; --cream:#F4F0E6; --dim:#6f6a5c; --line:#e4dcc9;
+  --serif:'Fraunces',Georgia,serif; --sans:'Inter',system-ui,-apple-system,sans-serif;
+  --wrap:1120px; --r:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 26px}
+h1,h2,h3{font-family:var(--serif);font-weight:500;line-height:1.08;letter-spacing:-.014em}
+a{color:inherit}
+.btn{display:inline-block;background:var(--cedar);color:var(--cream);font-weight:600;font-size:1rem;
+  padding:15px 28px;border-radius:999px;text-decoration:none;border:0;cursor:pointer;transition:transform .18s ease,background .2s ease}
+.btn:hover{background:var(--cedar-deep);transform:translateY(-2px)}
+.eyebrow{font-size:.74rem;letter-spacing:.24em;text-transform:uppercase;font-weight:600;color:var(--cedar)}
+
+/* header */
+header{position:sticky;top:0;z-index:20;background:rgba(250,247,240,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:72px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.brand .logo{width:38px;height:38px;border-radius:10px;display:block}
+.brand .name{font-family:var(--serif);font-weight:600;font-size:1.4rem;color:var(--cedar);letter-spacing:-.01em}
+.nav .links{display:flex;align-items:center;gap:26px}
+.nav .links a{text-decoration:none;font-weight:500;font-size:.95rem;color:var(--ink)}
+.nav .links a.btn{color:var(--cream)} /* .btn alone loses on specificity to .nav .links a */
+@media(max-width:720px){.nav .links a:not(.btn){display:none}}
+
+/* hero */
+.hero{background:radial-gradient(1100px 620px at 78% -10%,#264a38 0%,var(--cedar) 52%,var(--cedar-deep) 100%);color:var(--cream);padding:84px 0 92px}
+.hero .eyebrow{color:var(--stone)}
+.hero h1{font-size:clamp(2.4rem,5.2vw,3.8rem);color:#fff;font-weight:500;margin-top:14px;max-width:17ch}
+.hero .lead{margin-top:22px;font-size:1.18rem;color:#dbe6de;max-width:52ch}
+.hero .micro{margin-top:18px;font-size:.88rem;color:#a9bcae}
+
+/* what you get */
+.perks .g{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:44px}
+.perk{border:1px solid var(--line);border-radius:var(--r);padding:30px;background:#fff}
+.perk .n{font-family:var(--serif);font-size:1.7rem;color:var(--stone);display:block;line-height:1}
+.perk h3{font-size:1.28rem;margin:14px 0 10px}
+.perk p{color:#514c40;font-size:.98rem}
+@media(max-width:860px){.perks .g{grid-template-columns:1fr}}
+
+/* form */
+.reg{background:var(--stone-soft)}
+.reg .box{background:#fff;border:1px solid var(--line);border-radius:22px;padding:52px;display:grid;grid-template-columns:1fr .95fr;gap:48px;align-items:start;box-shadow:0 30px 60px -40px rgba(31,61,47,.4)}
+.reg h2{font-size:clamp(1.9rem,3.4vw,2.5rem)}
+.reg .box>div>p{margin-top:14px;color:#514c40;font-size:1.06rem}
+.reg form{display:flex;flex-direction:column;gap:13px}
+.reg label{font-size:.82rem;font-weight:600;color:var(--cedar);letter-spacing:.02em}
+.reg input,.reg select{font-family:var(--sans);font-size:1rem;padding:15px 18px;border:1.5px solid var(--line);border-radius:12px;width:100%;background:#fff;color:var(--ink)}
+.reg input:focus,.reg select:focus{outline:none;border-color:var(--cedar)}
+.reg .fine{font-size:.8rem;color:var(--dim)}
+.reg .ok{display:none;background:var(--cedar);color:var(--cream);padding:22px;border-radius:14px}
+.reg .ok b{display:block;font-family:var(--serif);font-size:1.3rem;font-weight:500;margin-bottom:8px}
+.reg .err{display:none;color:#b4432f;font-size:.85rem;font-weight:600}
+@media(max-width:860px){.reg .box{grid-template-columns:1fr;padding:34px;gap:32px}}
+
+/* why */
+.why{background:var(--cedar);color:var(--cream);text-align:center}
+.why .eyebrow{color:var(--stone)}
+.why h2{font-size:clamp(1.8rem,3.2vw,2.4rem);color:#fff;margin-top:14px;max-width:26ch;margin-left:auto;margin-right:auto}
+.why p{margin:20px auto 0;color:#c3d1c6;font-size:1.06rem;max-width:60ch}
+
+/* fine print */
+.fineprint{padding:64px 0}
+.fineprint .box{border:1px solid var(--line);border-radius:var(--r);padding:32px;background:#fff}
+.fineprint h4{font-family:var(--sans);font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--cedar);font-weight:700;margin-bottom:10px}
+.fineprint p{color:#514c40;font-size:.93rem}
+.fineprint p+h4{margin-top:24px}
+
+section{padding:88px 0}
+.sec-head{max-width:660px}
+.sec-head h2{font-size:clamp(2rem,3.8vw,2.8rem);margin-top:14px}
+.sec-head p{margin-top:16px;color:#514c40;font-size:1.1rem}
+
+/* footer */
+footer{background:var(--cedar-deep);color:#b9c8bd;padding:64px 0 40px;font-size:.94rem}
+footer .top{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;border-bottom:1px solid rgba(201,188,163,.18);padding-bottom:30px}
+footer .brand .name{color:#fff}
+footer a{color:#cdd9cf;text-decoration:none}footer a:hover{color:#fff}
+footer .cols{display:flex;gap:52px;flex-wrap:wrap}
+footer .cols b{color:var(--stone);font-family:var(--sans);font-weight:600;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;display:block;margin-bottom:12px}
+footer .cols a{display:block;margin-bottom:8px}
+footer .legal{margin-top:26px;color:#8ea092;font-size:.84rem;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+body{animation:pgfade .55s ease both}
+@keyframes pgfade{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){body{animation:none}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="mk" viewBox="0 0 48 48"><rect width="48" height="48" rx="11" fill="#1F3D2F"/><g fill="#F4F0E6"><rect x="22.2" y="33" width="3.6" height="7"/><polygon points="24,9 33,22 15,22"/><polygon points="24,16 34,30 14,30"/><polygon points="24,23 35.5,37 12.5,37"/></g></symbol></svg>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="/"><svg class="logo"><use href="#mk"/></svg><span class="name">Cedarstone</span></a>
+    <nav class="links">
+      <a href="/">Home</a>
+      <a href="/#tools">Tools</a>
+      <a class="btn" href="#register">Register</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">For owners of a Cedarstone file</div>
+    <h1>Register your copy.</h1>
+    <p class="lead">Your purchase includes registration. It takes about 60 seconds, and it is how next year's edition reaches you.</p>
+    <p class="micro">Email only. A handful of tax-relevant notes a year. Unsubscribe anytime.</p>
+  </div>
+</section>
+
+<section class="perks">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">What registration gets you</div>
+      <h2>Three things, at no extra charge.</h2>
+      <p>Nothing else. We do not run a daily newsletter and we do not sell your address.</p>
+    </div>
+    <div class="g">
+      <div class="perk">
+        <span class="n">01</span>
+        <h3>The 2027 Edition, free</h3>
+        <p>When the IRS locks next year's figures, the updated workbook and guide land in your inbox. No re-buying, and no hunting for what changed.</p>
+      </div>
+      <div class="perk">
+        <span class="n">02</span>
+        <h3>Law-change alerts, in plain English</h3>
+        <p>When a rule that touches your file moves mid-year, like the July 1, 2026 mileage revision, you get one short note saying exactly what to change and where.</p>
+      </div>
+      <div class="perk">
+        <span class="n">03</span>
+        <h3>Priority answers</h3>
+        <p>Product questions answered by email, usually within two business days, by a person.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="reg" id="register">
+  <div class="wrap">
+    <div class="box">
+      <div>
+        <div class="eyebrow">60 seconds</div>
+        <h2>Register your file.</h2>
+        <p>Tell us which file you own so we send you the right edition. If you own more than one, register once and say so below.</p>
+      </div>
+      <div>
+        <form id="reg" novalidate>
+          <div>
+            <label for="email">Your email</label>
+            <input id="email" type="email" name="email" placeholder="you@email.com" required autocomplete="email">
+          </div>
+          <div>
+            <label for="product">Which file do you own?</label>
+            <select id="product" name="product" required>
+              <option value="">Choose one</option>
+              <option>Airbnb &amp; STR Tax Bundle, 2026 Edition</option>
+              <option>Landlord Bookkeeping Bundle</option>
+              <option>Rental Income &amp; Expense Tracker</option>
+              <option>Year-End Tax Planner, 2026</option>
+              <option>More than one of the above</option>
+            </select>
+          </div>
+          <p class="err" id="err">Please enter a valid email and choose your file.</p>
+          <button class="btn" type="submit">Register my copy</button>
+          <p class="fine">One email to confirm. Unsubscribe anytime. We never sell your data.</p>
+        </form>
+        <div class="ok" id="okmsg">
+          <b>You are registered.</b>
+          Check your inbox for a confirmation. When the 2027 Edition is ready, or a rule that touches your file changes, that is where it will arrive.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="why">
+  <div class="wrap">
+    <div class="eyebrow">Why we do this</div>
+    <h2>Our whole product is accuracy.</h2>
+    <p>A spreadsheet sold once and left to rot becomes quietly wrong within a year in this niche. So updates are part of the product, not an upsell.</p>
+  </div>
+</section>
+
+<div class="fineprint">
+  <div class="wrap">
+    <div class="box">
+      <h4>Educational disclaimer</h4>
+      <p>Cedarstone files are educational bookkeeping resources, not tax, legal, accounting, or financial advice, and no professional-client relationship is created by buying, using, or registering one. Tax rules change and apply differently to different situations. Confirm every figure and position with a qualified tax professional before filing. Cedarstone Ventures LLC is not a CPA firm.</p>
+      <h4>What we do with your address</h4>
+      <p>We use it to send you edition updates, alerts about rules that affect the file you own, and answers to questions you send us. That is all. We do not sell or rent it, and every email carries an unsubscribe link. See the <a href="/privacy.html" style="color:var(--cedar);font-weight:600">privacy policy</a>.</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="top">
+      <a class="brand" href="/"><svg class="logo" style="width:34px;height:34px"><use href="#mk"/></svg><span class="name" style="font-family:var(--serif);font-weight:600;font-size:1.3rem">Cedarstone</span></a>
+      <div class="cols">
+        <div><b>Product</b><a href="/#tools">Tax &amp; bookkeeping</a><a href="/updates">Register your copy</a><a href="/#free">Free checklist</a></div>
+        <div><b>Company</b><a href="/#about">About</a><a href="mailto:info@cedarstonellc.com">Contact</a><a href="/privacy.html">Privacy</a></div>
+      </div>
+    </div>
+    <div class="legal"><span>&copy; 2026 Cedarstone Ventures LLC. All rights reserved.</span><span>info@cedarstonellc.com</span></div>
+  </div>
+</footer>
+
+<script>
+// Registration capture. Real ESP endpoint is wired at go-live (MailerLite account = Chairman's click).
+// Until then every registration is stored locally so no owner is lost pre-backend.
+document.getElementById('reg').addEventListener('submit', function (ev) {
+  ev.preventDefault();
+  var email = this.email.value.trim();
+  var product = this.product.value;
+  var err = document.getElementById('err');
+  var okEmail = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email);
+  if (!okEmail || !product) {
+    err.style.display = 'block';
+    this.email.style.borderColor = okEmail ? '' : '#b4432f';
+    this.product.style.borderColor = product ? '' : '#b4432f';
+    (okEmail ? this.product : this.email).focus();
+    return;
+  }
+  err.style.display = 'none';
+  // TODO(go-live): POST to the ESP endpoint.
+  try {
+    var q = JSON.parse(localStorage.getItem('cs_registrations') || '[]');
+    q.push({ email: email, product: product, ts: Date.now() });
+    localStorage.setItem('cs_registrations', JSON.stringify(q));
+  } catch (e) {}
+  this.style.display = 'none';
+  document.getElementById('okmsg').style.display = 'block';
+});
+</script>
+</body>
+</html>

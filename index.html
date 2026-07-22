@@ -42,6 +42,7 @@ header{position:sticky;top:0;z-index:20;background:rgba(250,247,240,.86);backdro
 .brand .name{font-family:var(--serif);font-weight:600;font-size:1.4rem;color:var(--cedar);letter-spacing:-.01em}
 .nav .links{display:flex;align-items:center;gap:26px}
 .nav .links a{text-decoration:none;font-weight:500;font-size:.95rem;color:var(--ink)}
+.nav .links a.btn{color:var(--cream)} /* .btn alone loses on specificity to .nav .links a */
 .nav .links a.na{color:var(--dim)}
 @media(max-width:720px){.nav .links a:not(.btn){display:none}}
 
@@ -216,7 +217,7 @@ body{animation:pgfade .55s ease both}
     <div class="top">
       <a class="brand" href="/"><svg class="logo" style="width:34px;height:34px"><use href="#mk"/></svg><span class="name" style="font-family:var(--serif);font-weight:600;font-size:1.3rem">Cedarstone</span></a>
       <div class="cols">
-        <div><b>Product</b><a href="#tools">Tax &amp; bookkeeping</a><a href="#tools">Compliance</a><a href="#free">Free checklist</a></div>
+        <div><b>Product</b><a href="#tools">Tax &amp; bookkeeping</a><a href="#tools">Compliance</a><a href="#free">Free checklist</a><a href="/updates/">Register your copy</a></div>
         <div><b>Company</b><a href="#about">About</a><a href="mailto:info@cedarstonellc.com">Contact</a><a href="/privacy.html">Privacy</a></div>
       </div>
     </div>
