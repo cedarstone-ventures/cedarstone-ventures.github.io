@@ -3,18 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cedarstone — the operator's toolkit for short-term-rental hosts</title>
-<meta name="description" content="Cedarstone builds the systems independent Airbnb and short-term-rental hosts actually use — turnovers, guests, maintenance, and taxes. Start with the free STR Tax Deduction Checklist.">
-<link rel="canonical" href="https://cedarstonellc.com/">
+<title>Cedarstone | The Rental-Property Money System</title>
+<meta name="description" content="IRS-grounded spreadsheets and tax tools for people who rent out property and do their own money. Every sheet maps to the actual Schedule E. Year-labeled, updated when the law changes, files you own.">
+<link rel="canonical" href="https://cedarstone-ventures.github.io/">
 <meta name="theme-color" content="#1F3D2F">
-<meta property="og:title" content="Cedarstone — short-term-rental host operations">
-<meta property="og:description" content="One branded system for running a rental: turnovers, guests, maintenance, and taxes.">
+<meta property="og:title" content="Cedarstone | The Rental-Property Money System">
+<meta property="og:description" content="IRS-grounded spreadsheets for rental-property owners. Schedule E mapped, year-labeled, updated when the law changes. Files you own.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://cedarstonellc.com/">
+<meta property="og:url" content="https://cedarstone-ventures.github.io/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='11' fill='%231F3D2F'/%3E%3Cg fill='%23F4F0E6'%3E%3Crect x='22.2' y='33' width='3.6' height='7'/%3E%3Cpolygon points='24,9 33,22 15,22'/%3E%3Cpolygon points='24,16 34,30 14,30'/%3E%3Cpolygon points='24,23 35.5,37 12.5,37'/%3E%3C/g%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --cedar:#1F3D2F; --cedar-deep:#16301F; --stone:#C9BCA3; --stone-soft:#E7DFCE;
@@ -50,7 +50,7 @@ header{position:sticky;top:0;z-index:20;background:rgba(250,247,240,.86);backdro
 .hero{background:radial-gradient(1100px 620px at 78% -10%,#264a38 0%,var(--cedar) 52%,var(--cedar-deep) 100%);color:var(--cream);padding:96px 0 104px}
 .hero .grid{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center}
 .hero h1{font-size:clamp(2.6rem,5.6vw,4.15rem);color:#fff;font-weight:500}
-.hero .lead{margin-top:22px;font-size:1.2rem;color:#dbe6de;max-width:44ch}
+.hero .lead{margin-top:22px;font-size:1.2rem;color:#dbe6de;max-width:46ch}
 .hero .cta{margin-top:34px;display:flex;gap:14px;flex-wrap:wrap;align-items:center}
 .hero .cta .btn{background:var(--stone);color:var(--cedar-deep)}
 .hero .cta .btn:hover{background:#d8ccb2}
@@ -77,12 +77,13 @@ section{padding:88px 0}
 @media(max-width:520px){.pain .g{grid-template-columns:1fr}}
 
 .ladder .g{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
-.tool{border:1px solid var(--line);border-radius:var(--r);padding:30px;background:#fff;transition:transform .18s ease,box-shadow .2s ease}
+.tool{border:1px solid var(--line);border-radius:var(--r);padding:30px;background:#fff;transition:transform .18s ease,box-shadow .2s ease;display:flex;flex-direction:column}
 .tool:hover{transform:translateY(-3px);box-shadow:0 18px 40px -24px rgba(31,61,47,.35)}
-.tool .tag{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--cedar);background:var(--stone-soft);padding:5px 10px;border-radius:999px;display:inline-block}
+.tool .tag{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--cedar);background:var(--stone-soft);padding:5px 10px;border-radius:999px;display:inline-block;align-self:flex-start}
 .tool h3{font-size:1.4rem;margin:18px 0 10px}
 .tool p{color:#514c40;font-size:.98rem}
-.tool .st{margin-top:16px;font-size:.82rem;color:var(--dim);font-weight:600}
+.tool .st{margin-top:auto;padding-top:16px;font-size:.82rem;color:var(--dim);font-weight:600}
+.tool .st a{color:var(--cedar)}
 @media(max-width:860px){.ladder .g{grid-template-columns:1fr}}
 
 /* lead magnet */
@@ -102,6 +103,8 @@ section{padding:88px 0}
 .trust .g{display:flex;gap:44px;justify-content:center;flex-wrap:wrap;margin-top:14px}
 .trust .t b{font-family:var(--serif);font-size:2.4rem;color:var(--cedar);display:block}
 .trust .t span{color:var(--dim);font-size:.94rem}
+.trust .sig{margin-top:34px;color:var(--dim);font-size:.95rem}
+.trust .sig b{font-family:var(--serif);color:var(--cedar);font-size:1.05rem;font-weight:600;display:block;margin-bottom:2px}
 
 /* footer */
 footer{background:var(--cedar-deep);color:#b9c8bd;padding:64px 0 40px;font-size:.94rem}
@@ -136,46 +139,49 @@ body{animation:pgfade .55s ease both}
 <section class="hero">
   <div class="wrap grid">
     <div>
-      <div class="eyebrow">Short-term-rental host operations</div>
-      <h1>Run your rental like a pro&nbsp;— not a spreadsheet.</h1>
-      <p class="lead">Cedarstone builds the systems independent Airbnb &amp; STR hosts actually use — turnovers, guests, maintenance, and the taxes nobody warns you about. One calm, branded system instead of ten scattered notebooks.</p>
+      <div class="eyebrow">The rental-property money system</div>
+      <h1>Rental income tracked. Deductions caught. Schedule&nbsp;E ready.</h1>
+      <p class="lead">Cedarstone builds formula-deep, IRS-grounded spreadsheets for people who rent out property and do their own money. Every sheet maps to the actual Schedule E. Every file is year-labeled and refreshed when the tax law changes. You own the files; no app owns your data.</p>
       <div class="cta">
-        <a class="btn" href="#free">Get the free STR tax checklist</a>
+        <a class="btn" href="#free">Get the free deduction checklist</a>
         <a class="btn ghost" href="#tools" style="background:transparent;color:var(--stone);box-shadow:inset 0 0 0 1.5px var(--stone)">See the tools</a>
       </div>
-      <p class="micro">Free · no spam · built by a registered US company for 1–3-property hosts.</p>
+      <p class="micro">Free. No spam. Built by a registered US company for owners with 1 to 3 rentals.</p>
     </div>
     <div class="card-visual" aria-hidden="true">
-      <h4>This tax year · Maple St. unit</h4>
-      <div class="row"><span>Gross payouts (Airbnb + VRBO)</span><span class="v">$28,410</span></div>
-      <div class="row"><span>Deductions captured</span><span class="v">$11,972</span></div>
-      <div class="row"><span>Schedule&nbsp;E — ready</span><span class="v">✓</span></div>
-      <div class="row"><span>1099-K reconciled</span><span class="v">✓</span></div>
-      <div class="row"><span>Time in spreadsheets</span><span class="v">0 hrs</span></div>
+      <h4>STR Tax Bundle · 2026 Edition</h4>
+      <div class="row"><span>Schedule E, mapped line by line</span><span class="v">&#10003;</span></div>
+      <div class="row"><span>38-deduction checklist built in</span><span class="v">&#10003;</span></div>
+      <div class="row"><span>27.5-year depreciation, auto-calculated</span><span class="v">&#10003;</span></div>
+      <div class="row"><span>1099-K reconciliation</span><span class="v">&#10003;</span></div>
+      <div class="row"><span>2026 mileage rates loaded</span><span class="v">&#10003;</span></div>
     </div>
   </div>
 </section>
 
 <section class="pain" id="why">
   <div class="wrap">
-    <div class="sec-head"><div class="eyebrow">Sound familiar?</div><h2>Hosting is a hundred small jobs. Most of them slip.</h2></div>
+    <div class="sec-head"><div class="eyebrow">Sound familiar?</div><h2>Renting the place out is easy. The money side is where it slips.</h2></div>
     <div class="g">
-      <div class="p reveal"><b>Bundled payouts</b><span>One deposit hides cleaning fees, taxes, and nightly rates — good luck at tax time.</span></div>
-      <div class="p reveal"><b>Missed deductions</b><span>The average host leaves real money on the table because nothing was tracked.</span></div>
-      <div class="p reveal"><b>Turnover chaos</b><span>Cleaners, restock, damage — remembered in your head, forgotten by Friday.</span></div>
-      <div class="p reveal"><b>Rule whiplash</b><span>Your city changes the STR rules and you find out from a fine.</span></div>
+      <div class="p"><b>Bundled payouts</b><span>One deposit hides nightly rates, cleaning fees, and platform taxes. At filing time you get to un-bake the cake.</span></div>
+      <div class="p"><b>Leaked deductions</b><span>Mileage, supplies, repairs, depreciation: if it was not tracked in the year, it is not on the return.</span></div>
+      <div class="p"><b>Schedule E guesswork</b><span>Generic budget templates do not map to the form the IRS actually wants, so April becomes translation work.</span></div>
+      <div class="p"><b>The law moved again</b><span>Bonus depreciation, 1099-K reporting: the rules changed in 2025. A file from two tax years ago quietly files wrong.</span></div>
     </div>
   </div>
 </section>
 
 <section class="ladder" id="tools">
   <div class="wrap">
-    <div class="sec-head"><div class="eyebrow">The Cedarstone system</div><h2>Purpose-built tools, one brand you can trust.</h2>
-      <p>We start where the pain is sharpest — taxes — then grow into the whole operation. Buy the piece you need; it all speaks the same language.</p></div>
+    <div class="sec-head"><div class="eyebrow">The Cedarstone line</div><h2>One system for the money side of renting out property.</h2>
+      <p>Formula-deep spreadsheets and tools, built from the IRS's own instructions and year-labeled so you always know your file matches the current law. Start with the piece that hurts; it all speaks the same language.</p></div>
     <div class="g">
-      <div class="tool reveal"><span class="tag">Available now</span><h3>STR Tax &amp; Bookkeeping</h3><p>Track income, expenses, mileage, and per-property P&amp;L. Reconcile your 1099-K and export a clean Schedule E — without the spreadsheet dread.</p><div class="st">Log book live on Amazon · digital toolkit next</div></div>
-      <div class="tool reveal"><span class="tag">In progress</span><h3>Compliance &amp; Renewals</h3><p>Know when your city's short-term-rental rules change and when a permit is due — before it costs you a listing or a fine.</p><div class="st">"Check my city" tool — join the list below</div></div>
-      <div class="tool reveal"><span class="tag">On the roadmap</span><h3>Turnover &amp; Guests</h3><p>Cleaning + restock checklists, damage logs, guest welcome and message templates — the daily operation, systemized.</p><div class="st">Shaped by what hosts ask us for</div></div>
+      <div class="tool"><span class="tag">Flagship · launching now</span><h3>STR Tax Bundle, 2026 Edition</h3><p>The complete tax system for short-term-rental hosts: income and expense tracking, the 38-deduction checklist, mileage log with 2026 rates, 1099-K reconciliation, and a Schedule E that fills itself from your entries.</p><div class="st">First on Etsy and Gumroad. Join the list below to be told the day it opens.</div></div>
+      <div class="tool"><span class="tag">Launching now</span><h3>Rental Income &amp; Expense Tracker</h3><p>The general workhorse for any long-term rental: every dollar in and out, categorized to match Schedule E, with per-property totals your tax preparer will actually thank you for.</p><div class="st">First on Etsy and Gumroad.</div></div>
+      <div class="tool"><span class="tag">Launching now</span><h3>Schedule E Bookkeeping Bundle</h3><p>Year-round bookkeeping that ends on the form: expense categories mapped line by line, and a 27.5-year depreciation schedule that matches the IRS's own table exactly.</p><div class="st">First on Etsy and Gumroad.</div></div>
+      <div class="tool"><span class="tag">This fall</span><h3>Year-End Tax Planner, 2026</h3><p>The September-to-December playbook: 16 concrete year-end steps, timed to the 2025 law changes, so the moves that save real money happen before December 31, not after.</p><div class="st">Listing ahead of the Q4 planning window.</div></div>
+      <div class="tool"><span class="tag">Live on Amazon</span><h3>Airbnb Host Log Book</h3><p>The paper companion: bookings, income and expenses, cleaner schedules, maintenance, and tax-ready hour logs in one printed operations tracker.</p><div class="st"><a href="https://www.amazon.com/dp/B0GV9WSVCC" rel="noopener">See it on Amazon, $12.99</a></div></div>
+      <div class="tool"><span class="tag">For buyers</span><h3>Next year's edition, free</h3><p>Tax law moves every year, so Cedarstone files carry a year label. Register your copy and the next tax year's edition comes to you free, with plain-English notes on what changed.</p><div class="st"><a href="/updates/">Register a copy you own</a></div></div>
     </div>
   </div>
 </section>
@@ -184,9 +190,9 @@ body{animation:pgfade .55s ease both}
   <div class="wrap">
     <div class="box">
       <div>
-        <div class="eyebrow">Free · start here</div>
+        <div class="eyebrow">Start here</div>
         <h2>The 38 STR tax deductions most hosts miss.</h2>
-        <p>A plain-English checklist built for 1–3-property hosts. Grab it free, and we'll send the occasional genuinely-useful host-ops tip — never spam.</p>
+        <p>A plain-English checklist for short-term-rental hosts who file their own Schedule E. Tell us where to send it, and we'll follow with the occasional genuinely useful rental-money tip. Never spam.</p>
       </div>
       <div>
         <form id="lm" novalidate>
@@ -194,7 +200,7 @@ body{animation:pgfade .55s ease both}
           <button class="btn" type="submit">Send me the checklist</button>
           <p class="fine">One email to confirm. Unsubscribe anytime. We never sell your data.</p>
         </form>
-        <div class="ok" id="okmsg">Thanks — you're on the list. Check your inbox to confirm and we'll send the checklist right over.</div>
+        <div class="ok" id="okmsg">Thanks, you're on the list. Check your inbox to confirm and the checklist comes right over.</div>
       </div>
     </div>
   </div>
@@ -202,13 +208,14 @@ body{animation:pgfade .55s ease both}
 
 <section class="trust" id="about">
   <div class="wrap">
-    <div class="sec-head" style="margin:0 auto 24px"><div class="eyebrow">Why Cedarstone</div><h2>A real company, built for hosts — not a faceless app.</h2>
-      <p style="margin-left:auto;margin-right:auto">Cedarstone Ventures LLC is a registered US company. We make focused tools for the independent host the big property-management platforms design past — and we stand behind them by name.</p></div>
+    <div class="sec-head" style="margin:0 auto 24px"><div class="eyebrow">Why Cedarstone</div><h2>The only rental-property money system that is IRS-grounded, year-labeled, and updated when the law changes.</h2>
+      <p style="margin-left:auto;margin-right:auto">Cedarstone Ventures LLC is a registered US company. We build from the IRS's own Schedule E instructions and publications, we label every file with its tax year, and we send buyers the next year's edition free. Files you own and keep, not another subscription app holding your records.</p></div>
     <div class="g">
-      <div class="t"><b>1–3</b><span>units — the host we build for</span></div>
-      <div class="t"><b>US</b><span>registered LLC · real support</span></div>
-      <div class="t"><b>$0</b><span>to start — the checklist is free</span></div>
+      <div class="t"><b>38</b><span>deductions in the free checklist</span></div>
+      <div class="t"><b>2026</b><span>year-labeled current editions</span></div>
+      <div class="t"><b>$0</b><span>to start; the checklist is free</span></div>
     </div>
+    <p class="sig"><b>Gabriel, Office of the CEO</b>Questions? Write to info@cedarstonellc.com and a real person answers.</p>
   </div>
 </section>
 
@@ -217,11 +224,11 @@ body{animation:pgfade .55s ease both}
     <div class="top">
       <a class="brand" href="/"><svg class="logo" style="width:34px;height:34px"><use href="#mk"/></svg><span class="name" style="font-family:var(--serif);font-weight:600;font-size:1.3rem">Cedarstone</span></a>
       <div class="cols">
-        <div><b>Product</b><a href="#tools">Tax &amp; bookkeeping</a><a href="#tools">Compliance</a><a href="#free">Free checklist</a><a href="/updates/">Register your copy</a></div>
+        <div><b>Product</b><a href="#tools">The tool line</a><a href="https://www.amazon.com/dp/B0GV9WSVCC" rel="noopener">Host Log Book on Amazon</a><a href="#free">Free checklist</a><a href="/updates/">Register your copy</a></div>
         <div><b>Company</b><a href="#about">About</a><a href="mailto:info@cedarstonellc.com">Contact</a><a href="/privacy.html">Privacy</a></div>
       </div>
     </div>
-    <div class="legal"><span>© 2026 Cedarstone Ventures LLC. All rights reserved.</span><span>info@cedarstonellc.com</span></div>
+    <div class="legal"><span>© 2026 Cedarstone Ventures LLC. All rights reserved. Educational tools, not tax advice.</span><span>info@cedarstonellc.com</span></div>
   </div>
 </footer>
 
