@@ -76,6 +76,14 @@ header{position:sticky;top:0;z-index:20;background:rgba(250,247,240,.86);backdro
 .reg .err{display:none;color:#b4432f;font-size:.85rem;font-weight:600}
 @media(max-width:860px){.reg .box{grid-template-columns:1fr;padding:34px;gap:32px}}
 
+/* subscribe — for people who do not own a file yet */
+.notyet{padding:64px 0 0}
+.notyet .nbox{border:1px solid var(--line);border-radius:22px;background:#fff;padding:38px 42px;display:grid;grid-template-columns:1.35fr .65fr;gap:38px;align-items:center}
+.notyet h3{font-family:var(--serif);font-weight:500;font-size:clamp(1.3rem,2.2vw,1.7rem);margin-top:10px;line-height:1.12}
+.notyet p{margin-top:13px;color:#514c40;font-size:1rem}
+.notyet .fine{margin-top:13px;font-size:.8rem;color:var(--dim)}
+@media(max-width:860px){.notyet .nbox{grid-template-columns:1fr;padding:30px;gap:24px}}
+
 /* why */
 .why{background:var(--cedar);color:var(--cream);text-align:center}
 .why .eyebrow{color:var(--stone)}
@@ -173,6 +181,26 @@ body{animation:pgfade .55s ease both}
         <p class="fine" style="margin-top:16px">Or write to <b>info@cedarstonellc.com</b> yourself, saying which
           file you own. Your address is recorded against that file and used for one thing: the next tax year's
           edition, and a note if a rule that touches your file changes. We never sell your data.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="notyet">
+  <div class="wrap">
+    <div class="nbox">
+      <div>
+        <div class="eyebrow">Don&rsquo;t own a Cedarstone file yet?</div>
+        <h3>You can still get the rule-change notes.</h3>
+        <p>Registration above is for owners &mdash; it is how the 2027&nbsp;Edition finds you. If you have not
+          bought anything, subscribe instead and you still get the plain-English note when a rule that touches
+          rental bookkeeping moves.</p>
+      </div>
+      <div>
+        <a class="btn" href="https://cedarstone5.gumroad.com/subscribe" rel="noopener">Subscribe to the notes</a>
+        <p class="fine">Opens our Gumroad page. Gumroad emails a confirmation link first &mdash; your address is
+          not added until you click it. Unsubscribe anytime. Subscribing is not registration: the free
+          2027&nbsp;Edition goes to owners who register above.</p>
       </div>
     </div>
   </div>
