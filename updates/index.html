@@ -164,33 +164,15 @@ body{animation:pgfade .55s ease both}
       <div>
         <div class="eyebrow">60 seconds</div>
         <h2>Register your file.</h2>
-        <p>Tell us which file you own so we send you the right edition. If you own more than one, register once and say so below.</p>
+        <p>Tell us which file you own so we send you the right edition. If you own more than one, register once and list them in the same email.</p>
       </div>
       <div>
-        <form id="reg" novalidate>
-          <div>
-            <label for="email">Your email</label>
-            <input id="email" type="email" name="email" placeholder="you@email.com" required autocomplete="email">
-          </div>
-          <div>
-            <label for="product">Which file do you own?</label>
-            <select id="product" name="product" required>
-              <option value="">Choose one</option>
-              <option>Airbnb &amp; STR Tax Bundle, 2026 Edition</option>
-              <option>Landlord Bookkeeping Bundle</option>
-              <option>Rental Income &amp; Expense Tracker</option>
-              <option>Year-End Tax Planner, 2026</option>
-              <option>More than one of the above</option>
-            </select>
-          </div>
-          <p class="err" id="err">Please enter a valid email and choose your file.</p>
-          <button class="btn" type="submit">Register my copy</button>
-          <p class="fine">One email to confirm. Unsubscribe anytime. We never sell your data.</p>
-        </form>
-        <div class="ok" id="okmsg">
-          <b>You are registered.</b>
-          Check your inbox for a confirmation. When the 2027 Edition is ready, or a rule that touches your file changes, that is where it will arrive.
-        </div>
+        <p style="margin-top:0">Registration is by email. Write to us from the address you want next year's
+          edition to arrive at, and tell us which file you own &mdash; that is the whole process.</p>
+        <p style="margin-top:18px"><a class="btn" href="mailto:info@cedarstonellc.com?subject=Register%20my%20Cedarstone%20copy&amp;body=Which%20file%20do%20you%20own%3F%20Delete%20the%20lines%20that%20do%20not%20apply%3A%0A%0A-%20Airbnb%20%26%20STR%20Tax%20Bundle%2C%202026%20Edition%0A-%20Schedule%20E%20Bookkeeping%20Bundle%0A-%20Rental%20Income%20%26%20Expense%20Tracker%0A-%20Year-End%20Tax%20Planner%2C%202026%0A%0ASend%20this%20from%20the%20address%20you%20want%20the%202027%20Edition%20to%20arrive%20at.%20Thank%20you.">Email us to register</a></p>
+        <p class="fine" style="margin-top:16px">Or write to <b>info@cedarstonellc.com</b> yourself, saying which
+          file you own. Your address is recorded against that file and used for one thing: the next tax year's
+          edition, and a note if a rule that touches your file changes. We never sell your data.</p>
       </div>
     </div>
   </div>
@@ -220,7 +202,7 @@ body{animation:pgfade .55s ease both}
     <div class="top">
       <a class="brand" href="/"><svg class="logo" style="width:34px;height:34px"><use href="#mk"/></svg><span class="name" style="font-family:var(--serif);font-weight:600;font-size:1.3rem">Cedarstone</span></a>
       <div class="cols">
-        <div><b>Product</b><a href="/#tools">Tax &amp; bookkeeping</a><a href="/updates">Register your copy</a><a href="/#free">Free checklist</a></div>
+        <div><b>Product</b><a href="/#tools">Tax &amp; bookkeeping</a><a href="/updates/">Register your copy</a><a href="/checklist/">Free checklist</a></div>
         <div><b>Company</b><a href="/#about">About</a><a href="mailto:info@cedarstonellc.com">Contact</a><a href="/privacy.html">Privacy</a></div>
       </div>
     </div>
@@ -228,32 +210,11 @@ body{animation:pgfade .55s ease both}
   </div>
 </footer>
 
-<script>
-// Registration capture. Real ESP endpoint is wired at go-live (MailerLite account = Chairman's click).
-// Until then every registration is stored locally so no owner is lost pre-backend.
-document.getElementById('reg').addEventListener('submit', function (ev) {
-  ev.preventDefault();
-  var email = this.email.value.trim();
-  var product = this.product.value;
-  var err = document.getElementById('err');
-  var okEmail = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email);
-  if (!okEmail || !product) {
-    err.style.display = 'block';
-    this.email.style.borderColor = okEmail ? '' : '#b4432f';
-    this.product.style.borderColor = product ? '' : '#b4432f';
-    (okEmail ? this.product : this.email).focus();
-    return;
-  }
-  err.style.display = 'none';
-  // TODO(go-live): POST to the ESP endpoint.
-  try {
-    var q = JSON.parse(localStorage.getItem('cs_registrations') || '[]');
-    q.push({ email: email, product: product, ts: Date.now() });
-    localStorage.setItem('cs_registrations', JSON.stringify(q));
-  } catch (e) {}
-  this.style.display = 'none';
-  document.getElementById('okmsg').style.display = 'block';
-});
-</script>
+<!-- The registration form that stood here until 2026-07-22 wrote each buyer's address to
+     the VISITOR'S OWN localStorage and then told them "You are registered. Check your inbox
+     for a confirmation." Nothing was sent and nothing was received: every registration from
+     a PAYING customer was lost. Registration is now plain email to info@cedarstonellc.com,
+     which is a real inbox we own, so the promise on this page is one we can keep. Do not
+     reinstate a form here without a backend that receives it. -->
 </body>
 </html>

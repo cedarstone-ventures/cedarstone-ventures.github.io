@@ -130,8 +130,8 @@ body{animation:pgfade .55s ease both}
     <nav class="links">
       <a href="#tools">Tools</a>
       <a href="#why">Why us</a>
-      <a href="#about">About</a>
-      <a class="btn" href="#free">Free checklist</a>
+      <a href="/checklist/">Free checklist</a>
+      <a class="btn" href="https://cedarstone5.gumroad.com/l/airbnb-str-tax-bundle-2026" rel="noopener">Get the bundle, $29</a>
     </nav>
   </div>
 </header>
@@ -143,10 +143,10 @@ body{animation:pgfade .55s ease both}
       <h1>Rental income tracked. Deductions caught. Schedule&nbsp;E ready.</h1>
       <p class="lead">Cedarstone builds formula-deep, IRS-grounded spreadsheets for people who rent out property and do their own money. Every sheet maps to the actual Schedule E. Every file is year-labeled and refreshed when the tax law changes. You own the files; no app owns your data.</p>
       <div class="cta">
-        <a class="btn" href="#free">Get the free deduction checklist</a>
-        <a class="btn ghost" href="#tools" style="background:transparent;color:var(--stone);box-shadow:inset 0 0 0 1.5px var(--stone)">See the tools</a>
+        <a class="btn" href="https://cedarstone5.gumroad.com/l/airbnb-str-tax-bundle-2026" rel="noopener">Get the STR Tax Bundle, $29</a>
+        <a class="btn ghost" href="#tools" style="background:transparent;color:var(--stone);box-shadow:inset 0 0 0 1.5px var(--stone)">See all four tools</a>
       </div>
-      <p class="micro">Free. No spam. Built by a registered US company for owners with 1 to 3 rentals.</p>
+      <p class="micro">Instant download, yours to keep. Built by a registered US company for owners with 1 to 3 rentals. Not ready to buy? <a href="/checklist/" style="color:var(--stone)">Take the free 38-deduction checklist</a> &mdash; no email required.</p>
     </div>
     <div class="card-visual" aria-hidden="true">
       <h4>STR Tax Bundle · 2026 Edition</h4>
@@ -190,17 +190,13 @@ body{animation:pgfade .55s ease both}
   <div class="wrap">
     <div class="box">
       <div>
-        <div class="eyebrow">Start here</div>
+        <div class="eyebrow">Start here &middot; free</div>
         <h2>The 38 STR tax deductions that are easy to miss.</h2>
-        <p>A plain-English checklist for short-term-rental hosts who file their own Schedule E. Tell us where to send it, and we'll follow with the occasional genuinely useful rental-money tip. Never spam.</p>
+        <p>A plain-English checklist for short-term-rental hosts who file their own Schedule E. Each deduction is named alongside the expense category that captures it, so a year of receipts ends up somewhere the form can use.</p>
       </div>
       <div>
-        <form id="lm" novalidate>
-          <input type="email" name="email" placeholder="you@email.com" required aria-label="Email address">
-          <button class="btn" type="submit">Send me the checklist</button>
-          <p class="fine">Unsubscribe anytime. We never sell your data.</p>
-        </form>
-        <div class="ok" id="okmsg">Thanks, you're on the list. The checklist and your launch invite go to this address the day the doors open.</div>
+        <a class="btn" href="/checklist/">Read the checklist</a>
+        <p class="fine">It is on the next page in full. No email, no download gate, nothing to unsubscribe from. Print it or work down it on screen.</p>
       </div>
     </div>
   </div>
@@ -224,7 +220,7 @@ body{animation:pgfade .55s ease both}
     <div class="top">
       <a class="brand" href="/"><svg class="logo" style="width:34px;height:34px"><use href="#mk"/></svg><span class="name" style="font-family:var(--serif);font-weight:600;font-size:1.3rem">Cedarstone</span></a>
       <div class="cols">
-        <div><b>Product</b><a href="#tools">The tool line</a><a href="https://www.amazon.com/dp/B0GV9WSVCC" rel="noopener">Host Log Book on Amazon</a><a href="#free">Free checklist</a><a href="/updates/">Register your copy</a></div>
+        <div><b>Product</b><a href="#tools">The tool line</a><a href="https://www.amazon.com/dp/B0GV9WSVCC" rel="noopener">Host Log Book on Amazon</a><a href="/checklist/">Free checklist</a><a href="/updates/">Register your copy</a></div>
         <div><b>Company</b><a href="#about">About</a><a href="mailto:info@cedarstonellc.com">Contact</a><a href="/privacy.html">Privacy</a></div>
       </div>
     </div>
@@ -232,16 +228,11 @@ body{animation:pgfade .55s ease both}
   </div>
 </footer>
 
-<script>
-// lead-magnet (placeholder capture — real backend wired at go-live)
-document.getElementById('lm').addEventListener('submit',function(ev){
-  ev.preventDefault();
-  var email=this.email.value.trim();
-  if(!email||!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){this.email.style.borderColor='#b4432f';this.email.focus();return;}
-  // TODO(go-live): POST to Listmonk / ESP endpoint. For now, store locally so no lead is lost pre-backend.
-  try{var q=JSON.parse(localStorage.getItem('cs_leads')||'[]');q.push({email:email,ts:Date.now()});localStorage.setItem('cs_leads',JSON.stringify(q));}catch(e){}
-  this.style.display='none';document.getElementById('okmsg').style.display='block';
-});
-</script>
+<!-- The lead-magnet form that stood here until 2026-07-22 wrote each address to the
+     VISITOR'S OWN localStorage and then told them "you're on the list". Every lead was
+     lost and the promise was false. Real capture needs an ESP (the Chairman's click);
+     until then the checklist is simply given away at /checklist/, which needs nobody's
+     permission and is the better top-of-funnel asset anyway. Do not reinstate a form
+     here without a backend that receives it. -->
 </body>
 </html>
