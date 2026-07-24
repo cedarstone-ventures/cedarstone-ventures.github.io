@@ -107,6 +107,17 @@ td.c{width:34%;color:var(--dim);font-size:.9rem}
 .cta .btn:hover{background:#d8ccb2}
 .cta .fine{margin-top:14px;font-size:.84rem;color:#a9bcae}
 
+/* secondary path — for the reader who will not buy a spreadsheet.
+   Placed AFTER the $29 band so it catches the leaver, never competes with the buyer. */
+.alt{padding:0 0 78px}
+.alt .abox{background:var(--stone-soft);border-radius:22px;padding:44px 46px;display:grid;grid-template-columns:1.3fr .7fr;gap:40px;align-items:center}
+.alt h2{font-size:clamp(1.45rem,2.4vw,1.9rem);margin-top:12px}
+.alt p{margin-top:14px;color:#4a4636;font-size:1rem}
+.alt .fine{margin-top:14px;font-size:.82rem;color:var(--dim)}
+.alt .btn{background:var(--cedar);color:var(--cream)}
+.alt .btn:hover{background:var(--cedar-deep)}
+@media(max-width:860px){.alt .abox{grid-template-columns:1fr;padding:32px;gap:26px}}
+
 /* rule-change notes */
 .follow{padding:0 0 84px}
 .follow .fbox{background:#fff;border:1px solid var(--line);border-radius:22px;padding:44px 46px;display:grid;grid-template-columns:1.3fr .7fr;gap:40px;align-items:center}
@@ -131,7 +142,7 @@ footer .legal{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap
 
 /* print — this page is meant to be printed and worked through */
 @media print{
-  header,.cta,footer,.intro .micro,.stats{display:none}
+  header,.cta,.alt,footer,.intro .micro,.stats{display:none}
   body{background:#fff}
   .intro{background:#fff;color:#000;padding:0 0 18px;border-bottom:2px solid #000}
   .intro h1{color:#000;font-size:1.7rem}
@@ -252,6 +263,25 @@ footer .legal{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap
         <li>Split-year 2026 mileage rates, by trip date</li>
         <li>Personal-use &amp; 14-day-rule split</li>
       </ul>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <div class="abox">
+      <div>
+        <div class="eyebrow">Prefer paper</div>
+        <h2>Some hosts are never going to open a spreadsheet.</h2>
+        <p>If that is you, we print one. The <b>Airbnb Host Log Book</b> is a 118-page, 8.5&nbsp;&times;&nbsp;11
+          paperback you keep at the property and write in as the year happens.</p>
+        <p>It does no arithmetic. What it does is get the number written down on the day, in the place, which is the
+          part most hosts actually lose. A deduction you never recorded is not a deduction.</p>
+      </div>
+      <div>
+        <a class="btn" href="https://www.amazon.com/dp/B0GV9WSVCC" rel="noopener">See it on Amazon, $12.99</a>
+        <p class="fine">Paperback, sold and shipped by Amazon. The checklist above stays free either way.</p>
+      </div>
     </div>
   </div>
 </section>
