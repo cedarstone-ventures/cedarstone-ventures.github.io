@@ -88,7 +88,9 @@ td.c{width:34%;color:var(--dim);font-size:.9rem}
   table.dl thead{display:none}
   table.dl tr{border-bottom:1px solid var(--line);padding:14px 0}
   table.dl td{border:0;padding:2px 0}
-  td.n{display:none}
+  /* needs the table.dl prefix: bare `td.n` (0,0,1,1) loses to `table.dl td` (0,0,1,2)
+     above, so the row numbers were still rendering on mobile. */
+  table.dl td.n{display:none}
   td.c{width:100%}
   td.c:before{content:"Log it under \2192 ";color:var(--stone)}
 }
