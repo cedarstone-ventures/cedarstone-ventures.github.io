@@ -34,15 +34,27 @@ a{color:inherit}
 .eyebrow{font-size:.74rem;letter-spacing:.24em;text-transform:uppercase;font-weight:600;color:var(--cedar)}
 
 /* header */
-header{position:sticky;top:0;z-index:20;background:rgba(250,247,240,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-.nav{display:flex;align-items:center;justify-content:space-between;height:72px}
-.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
-.brand .logo{width:38px;height:38px;border-radius:10px;display:block}
-.brand .name{font-family:var(--serif);font-weight:600;font-size:1.4rem;color:var(--cedar);letter-spacing:-.01em}
-.nav .links{display:flex;align-items:center;gap:26px}
+header{position:sticky;top:0;z-index:20;background:rgba(250,247,240,.97);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+@supports not (backdrop-filter:blur(2px)){header{background:var(--paper)}}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:14px;height:72px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;min-width:0}
+.brand .logo{width:38px;height:38px;border-radius:10px;display:block;flex:none}
+.brand .name{font-family:var(--serif);font-weight:600;font-size:1.4rem;color:var(--cedar);letter-spacing:-.01em;white-space:nowrap}
+.nav .links{display:flex;align-items:center;gap:26px;flex:none}
 .nav .links a{text-decoration:none;font-weight:500;font-size:.95rem;color:var(--ink)}
 .nav .links a.btn{color:var(--cream)}
 @media(max-width:720px){.nav .links a:not(.btn){display:none}}
+/* small phones: the header CTA must never crowd or clip the wordmark */
+@media(max-width:560px){
+  .nav{height:64px}
+  .brand .logo{width:32px;height:32px}
+  .brand .name{font-size:1.06rem}
+  .nav .links a.btn{font-size:.8rem;padding:10px 15px}
+}
+@media(max-width:360px){
+  .brand .name{font-size:.98rem}
+  .nav .links a.btn{font-size:.75rem;padding:9px 12px}
+}
 
 /* intro */
 .intro{background:radial-gradient(1000px 560px at 80% -20%,#264a38 0%,var(--cedar) 54%,var(--cedar-deep) 100%);color:var(--cream);padding:72px 0 78px}
