@@ -1,0 +1,8 @@
+# Cedarstone Ventures LLC — crawlers welcome.
+# Our distribution depends on being found and cited by search and AI answer engines,
+# so every well-behaved crawler (incl. GPTBot, ClaudeBot, PerplexityBot, Google-Extended)
+# is allowed full access. No disallow rules by design.
+User-agent: *
+Allow: /
+
+Sitemap: https://cedarstone-ventures.github.io/sitemap.xml
