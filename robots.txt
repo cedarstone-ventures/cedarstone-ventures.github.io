@@ -5,7 +5,7 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://cedarstone-ventures.github.io/sitemap.xml
+Sitemap: https://deedwell.co/sitemap.xml
 
 User-agent: *
 Disallow: /review/
