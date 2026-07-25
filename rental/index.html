@@ -92,6 +92,10 @@ header{position:sticky;top:0;z-index:20;background:rgba(250,247,240,.97);backdro
 .brand .name{font-family:var(--serif);font-weight:600;font-size:1.4rem;color:var(--cedar);letter-spacing:-.01em;white-space:nowrap}
 .nav .links{display:flex;align-items:center;gap:22px;flex:none}
 .nav .links a{text-decoration:none;font-weight:500;font-size:.95rem;color:var(--ink)}
+/* .btn alone (0,0,1,0) LOSES to .nav .links a (0,0,2,1), which rendered the primary
+   CTA as near-black ink on cedar at 1.46:1. Same specificity trap already fixed on
+   the home page; it was omitted when this nav was copied across. */
+.nav .links a.btn{color:var(--cream)}
 @media(max-width:720px){.nav .links a:not(.btn){display:none}}
 @media(max-width:560px){.nav{height:64px}.brand .logo{width:32px;height:32px}.brand .name{font-size:1.06rem}}
 
@@ -111,7 +115,7 @@ header{position:sticky;top:0;z-index:20;background:rgba(250,247,240,.97);backdro
 ul.ticks{list-style:none;display:grid;gap:11px;margin-top:6px}
 ul.ticks li{display:flex;gap:11px;align-items:flex-start;font-size:.97rem}
 ul.ticks li::before{content:"";flex:none;width:9px;height:9px;margin-top:.5em;border-radius:2px;background:var(--stone)}
-.lineno{color:var(--gold);font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+.lineno{color:#8A6D1F;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
 
 /* rate callout */
 .rate{background:var(--cedar);color:var(--cream);border-radius:var(--r);padding:34px 30px;margin:14px 0 0}
