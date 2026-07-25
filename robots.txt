@@ -6,3 +6,6 @@ User-agent: *
 Allow: /
 
 Sitemap: https://cedarstone-ventures.github.io/sitemap.xml
+
+User-agent: *
+Disallow: /review/
