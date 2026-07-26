@@ -65,6 +65,107 @@ NEVER_CAPTURE_PHRASES = [
     r"no email is (?:ever )?collected",
 ]
 
+# --- rule 5: a delivery promise with no delivery mechanism -------------------
+# 2026-07-26. /updates/ promised "every email carries an unsubscribe link" and
+# "Unsubscribe anytime" while there is no sending platform at all: registration is a
+# mailto: into an ordinary Zoho mailbox, so a hand-written reply cannot carry a link.
+# Same class as the registration form that silently dropped every paying customer on
+# 07-22 - a capability asserted to buyers with nothing behind it.
+#
+# Both halves are mechanically detectable, which is this file's bar for a rule:
+#   the claim      -> affirmative unsubscribe/auto-delivery phrasing, below
+#   the capability -> any sending platform present anywhere in the repo
+# It AUTO-RELAXES: the hour an ESP is actually wired, ESP_MARKERS matches and these
+# promises become legal to make. So the rule encodes the open blocker rather than
+# banning the words forever.
+#
+# LIMIT, stated rather than implied: it distinguishes "some sending platform exists"
+# from "none at all". It cannot tell whether a configured ESP is wired correctly, and
+# a broken-but-present ESP passes. That is a weaker check than it looks, deliberately -
+# the incident it exists for is the total absence, which is unambiguous.
+SENDING_PROMISES = [
+    r"carries an unsubscribe link",
+    r"unsubscribe in one click",
+    r"one[- ]click unsubscribe",
+    r"click the unsubscribe link",
+    r"unsubscribe (?:anytime|any time|at any time)",
+    r"check your inbox",
+    r"arrives? in your inbox",
+    r"sent to your inbox",
+]
+# An affirmative pattern preceded by a negator is our own honest disclosure, not a
+# promise: "there is NO unsubscribe link, because there is no marketing platform".
+#
+# The negator must be in the SAME CLAUSE. A plain proximity window would have excused
+# the real incident: the dead generator's "No spam - unsubscribe in one click" puts a
+# negator ten characters before the claim, but it negates *spam*, not the unsubscribe.
+# So the lookback is cut at the nearest clause break first. Caught by writing the
+# selftest fixture before trusting the rule.
+PROMISE_NEGATORS = r"(?:\bno\b|\bnot\b|\bnever\b|\bwithout\b|\bcannot\b|\bcan'?t\b)"
+CLAUSE_BREAK = r"(?:&mdash;|&ndash;|[.;:,—–]|\s[-]\s)"
+
+
+def _negated(before):
+    """True when a negator governs the claim - same clause, not merely nearby."""
+    parts = re.split(CLAUSE_BREAK, before)
+    return bool(re.search(PROMISE_NEGATORS, parts[-1], re.I))
+ESP_MARKERS = [
+    r"mailerlite", r"convertkit", r"buttondown", r"formspree", r"mailchimp",
+    r"sendgrid", r"klaviyo", r"substack", r"listmonk", r"beehiiv",
+    r"netlify\b[^>]*\bform", r"data-netlify", r"<form[^>]*action=[\"']https?://",
+]
+
+
+def _without_comments(text):
+    """Blank out HTML comments, preserving every offset so line numbers stay true.
+
+    Rule 5 is about promises made to a READER, and a comment makes none. This is not
+    a loophole: text that does not render cannot promise anything. It is here because
+    the first real run flagged updates/index.html's own post-mortem, which quotes the
+    dead 2026-07-22 copy verbatim ("Check your inbox for a confirmation") in order to
+    warn the next author off reinstating it. A check that fires on the incident report
+    is a check somebody switches off.
+    """
+    def blank(m):
+        return re.sub(r"[^\n]", " ", m.group(0))
+    return re.sub(r"<!--.*?-->", blank, text, flags=re.S)
+
+
+def sending_promises(path, text, esp_present=False):
+    """Flag an unsubscribe / auto-delivery promise when nothing can send mail."""
+    if esp_present:
+        return []
+    problems = []
+    text = _without_comments(text)
+    for pat in SENDING_PROMISES:
+        for m in re.finditer(pat, text, re.I):
+            before = text[max(0, m.start() - 60):m.start()]
+            if _negated(before):
+                continue  # our own disclosure that the mechanism does not exist
+            line = text.count("\n", 0, m.start()) + 1
+            problems.append(
+                "%s:%d promises /%s/ but no sending platform exists anywhere in the "
+                "repo, so nothing can deliver it" % (path, line, m.group(0)))
+    return problems
+
+
+def esp_configured(root):
+    """True if any sending platform is referenced anywhere in the served site."""
+    for base, dirs, files in os.walk(root):
+        dirs[:] = [d for d in dirs if d not in (".git", "node_modules", "tools")]
+        for name in files:
+            if not name.endswith((".html", ".js", ".toml", ".yml", ".yaml")):
+                continue
+            try:
+                body = open(os.path.join(base, name), encoding="utf-8",
+                            errors="replace").read()
+            except OSError:
+                continue
+            if find(ESP_MARKERS, body)[0]:
+                return True
+    return False
+
+
 # --- rule 2: "no form" claim vs. an actual form control ----------------------
 NO_FORM_PHRASES = [
     r"no form to fill in",
@@ -354,7 +455,7 @@ def pdf_pages(path):
     return [(p.extract_text() or "") for p in PdfReader(path).pages]
 
 
-def check_file(path, text, capture_pages=None):
+def check_file(path, text, capture_pages=None, esp_present=False):
     problems = []
     capture_pages = capture_pages or {}
 
@@ -390,6 +491,7 @@ def check_file(path, text, capture_pages=None):
 
     problems.extend(interior_claims(path, text))
     problems.extend(mileage_sources(path, text))
+    problems.extend(sending_promises(path, text, esp_present))
 
     return problems
 
@@ -475,12 +577,41 @@ SELFTEST = [
 ]
 
 
+# positive control for rule 5: the three that actually shipped - two live on
+# /updates/ until 2026-07-26, one latent in a landing generator - and the corrected
+# copy that replaced them. The generator fixture is the one that matters most: it is
+# the case a naive proximity guard would have waved through.
+SENDING_SELFTEST = [
+    ("updates hero, live until 07-26", True,
+     '<p class="micro">Email only. A handful of tax-relevant notes a year. '
+     'Unsubscribe anytime.</p>'),
+    ("updates address block, live until 07-26", True,
+     '<p>We do not sell or rent it, and every email carries an unsubscribe link.</p>'),
+    ("dead landing generator (negator governs *spam*, not the claim)", True,
+     '<p class="trust">Instant download. No spam &mdash; unsubscribe in one click.</p>'),
+    ("corrected updates hero", False,
+     '<p class="micro">Email only. A handful of tax-relevant notes a year. Reply '
+     '&ldquo;stop&rdquo; to any of them and we delete your address.</p>'),
+    ("corrected address block", False,
+     '<p>There is no unsubscribe link, because there is no marketing platform behind '
+     'this &mdash; the notes are written and sent from an ordinary mailbox.</p>'),
+    ("corrected privacy disclosure", False,
+     '<p>Because there is no sending platform, our notes carry no unsubscribe link. '
+     'Reply &ldquo;stop&rdquo; to any of them and we delete the address.</p>'),
+    ("the page's own post-mortem, quoting the dead copy it warns against", False,
+     '<!-- The registration form that stood here until 2026-07-22 told them "You are\n'
+     '     registered. Check your inbox for a confirmation." Nothing was sent. -->'),
+]
+
+
 def selftest():
     ok = True
     cases = ([(n, f, h, interior_claims) for n, f, h in SELFTEST]
              + [(n, f, h, mileage_sources) for n, f, h in RATE_SELFTEST]
              + [(n, f, h, lambda p, t: mileage_sources_page(p, t, 1))
-                for n, f, h in PDF_SELFTEST])
+                for n, f, h in PDF_SELFTEST]
+             + [(n, f, h, lambda p, t: sending_promises(p, t, esp_present=False))
+                for n, f, h in SENDING_SELFTEST])
     for name, should_flag, html, rule in cases:
         flagged = bool(rule("selftest", html))
         status = "PASS" if flagged == should_flag else "FAIL"
@@ -489,6 +620,15 @@ def selftest():
         print("  [%s] %s (expected %s, got %s)"
               % (status, name, "flag" if should_flag else "clean",
                  "flag" if flagged else "clean"))
+
+    # rule 5 must AUTO-RELAX, or it is a permanent ban on words rather than a check on
+    # capability. Asserted with the worst fixture: the promise that shipped.
+    relaxes = not sending_promises(
+        "selftest", SENDING_SELFTEST[1][2], esp_present=True)
+    print("  [%s] rule 5 permits the promise once a sending platform exists"
+          % ("PASS" if relaxes else "FAIL"))
+    if not relaxes:
+        ok = False
 
     # why the page rule exists, asserted rather than described
     blind = not mileage_sources("selftest", SENTENCE_RULE_IS_BLIND_TO)
@@ -532,9 +672,13 @@ def main():
             # and here it produced a right answer with a wrong reason.
             capture_pages[label(path)] = cap
 
+    # rule 5's capability half, measured once across the served site
+    esp_present = esp_configured(ROOT)
+
     problems = []
     for path in sorted(targets):
-        problems.extend(check_file(label(path), texts[path], capture_pages))
+        problems.extend(
+            check_file(label(path), texts[path], capture_pages, esp_present))
 
     # Served PDFs are public copy too. files/ is what deedwell.co actually hands the
     # reader - and the QR printed inside the book points at a page offering it.
@@ -547,7 +691,8 @@ def main():
         for i, page_text in enumerate(pdf_pages(path)):
             problems.extend(mileage_sources_page(label(path), page_text, i + 1))
 
-    print("checked %d html file(s) and %d served pdf(s)" % (len(targets), len(pdfs)))
+    print("checked %d html file(s) and %d served pdf(s) [sending platform: %s]"
+          % (len(targets), len(pdfs), "present" if esp_present else "NONE"))
     if problems:
         print("")
         print("PROMISE CONTRADICTIONS (%d):" % len(problems))
