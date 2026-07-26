@@ -151,6 +151,21 @@ SECTION_TERMS = [
 #   - This script only walks this repo's HTML. The same defect shipped the same
 #     morning in kdp-stack (the printed book, deedwell_rental_records.py) and in the
 #     brain (the Amazon listing copy). Those surfaces have NO mechanism yet.
+#
+# 11:0x, AND THE FIRST BULLET IS WHY: the lead-magnet PDF served out of files/ - the
+# download offered on BOTH /checklist/ and /rental/, and the destination of the QR
+# code printed permanently inside the book - still read "IRS Announcement 2026-11."
+# for BOTH halves, four hours after the same defect was fixed everywhere else. Its
+# generator (kdp-stack/build/deedwell_lead_magnet.py) had already been corrected; the
+# artifact was simply never rebuilt and re-copied. Source fixed, artifact stale.
+#
+# Measured, not assumed: rule 4 could not have caught it even if it walked PDFs. In
+# print the citation stands as its own sentence - sentences() carves out exactly
+# "[IRS Announcement 2026-11.]", which contains no rate, so the sentence rule cannot
+# fire. That is the FIRST bullet's blind spot again, in a second form. Print callouts
+# are visual units, not grammatical ones, so served PDFs get a PAGE-scoped rule below.
+# HTML and served PDFs are now both covered; kdp-stack's own build sources and the
+# brain's listing copy still are not.
 RATE_SOURCES = [
     (r"72\.5\s*(?:\u00a2|cents?\b)", "72.5c (Jan 1 - Jun 30)", "IRS Notice 2026-10"),
     (r"\b76\s*(?:\u00a2|cents?\b)", "76c (Jul 1 - Dec 31)", "IRS Announcement 2026-11"),
@@ -287,6 +302,58 @@ def mileage_sources(path, text):
     return problems
 
 
+def mileage_sources_page(path, page_text, page_no):
+    """Rule 4, PAGE-scoped, for print artifacts we serve.
+
+    A printed callout is a visual unit: the reader sees the rate and the line of
+    small type under it as one thing, whatever the sentence boundaries are. So the
+    unit here is the page - if a page quotes a rate and names exactly ONE of the two
+    documents anywhere on it, that document had better be the one that sets the rate.
+
+    Deliberately conservative in the same direction rule 4 already chose when its
+    proximity draft was dropped for noise: naming BOTH documents anywhere on the page
+    clears the page. LIMIT, stated rather than glossed - a page that cites both but
+    pairs one with the wrong rate passes this check. Catching that needs layout
+    geometry, not text. What it does catch is the whole-artifact miss that actually
+    shipped: one document credited for a split year.
+    """
+    flat = " ".join(page_text.split())
+    has_notice = re.search(CITE_NOTICE, flat, re.I)
+    has_announce = re.search(CITE_ANNOUNCE, flat, re.I)
+    if bool(has_notice) == bool(has_announce):
+        return []
+    cited = "IRS Notice 2026-10" if has_notice else "IRS Announcement 2026-11"
+    problems = []
+    for rate_pat, rate_label, sets_it in RATE_SOURCES:
+        if sets_it == cited:
+            continue
+        if re.search(rate_pat, flat, re.I):
+            problems.append(
+                "%s page %d quotes the %s mileage rate but the only IRS document "
+                "named on that page is %s, which does not set it - that rate is set "
+                "by %s. A reader sent to the wrong document will not find the number."
+                % (path, page_no, rate_label, cited, sets_it)
+            )
+    return problems
+
+
+def pdf_pages(path):
+    """Per-page text of a served PDF.
+
+    Import failure is a HARD error, never a skip. A checker that cannot read its
+    target must not report green - that is precisely how the 08:07 sentry ended up
+    matching a regex against a byte[] and checking nothing at all.
+    """
+    try:
+        from pypdf import PdfReader
+    except ImportError:          # pragma: no cover - environment, not logic
+        raise SystemExit(
+            "check_promises: pypdf is required to read served PDFs (pip install pypdf). "
+            "Refusing to pass without checking them."
+        )
+    return [(p.extract_text() or "") for p in PdfReader(path).pages]
+
+
 def check_file(path, text, capture_pages=None):
     problems = []
     capture_pages = capture_pages or {}
@@ -360,6 +427,31 @@ RATE_SELFTEST = [
 ]
 
 
+# positive control for the PAGE-scoped rule. The flagging fixture is the REAL page-1
+# callout of the lead magnet as it was served on deedwell.co, extracted from the
+# shipped PDF - not a paraphrase. The clean fixture is the same callout after the
+# rebuild. Both keep the standalone citation sentence that defeats the sentence rule,
+# because that structure IS the thing under test.
+PDF_SELFTEST = [
+    ("lead magnet p1 as served: one document for a split year", True,
+     "2026 changed the mileage rate halfway through the year. "
+     "72.5 cents a mile from 1 January to 30 June, then 76 cents from 1 July. "
+     "IRS Announcement 2026-11. Total each half of the year separately."),
+    ("lead magnet p1 rebuilt: each half to its own document", False,
+     "2026 changed the mileage rate halfway through the year. "
+     "72.5 cents a mile from 1 January to 30 June, then 76 cents from 1 July. "
+     "IRS Notice 2026-10, revised by Announcement 2026-11. Total each half separately."),
+    ("a page with no rate on it at all", False,
+     "Schedule E line numbers per the current IRS instructions. Not tax advice."),
+]
+
+# The reason the page rule had to exist, kept executable so it cannot be forgotten:
+# the sentence rule is PROVED blind to the fixture above. If a future change ever
+# makes mileage_sources catch it, this assertion fails loudly and the page rule can
+# be reconsidered - rather than two rules quietly overlapping forever.
+SENTENCE_RULE_IS_BLIND_TO = PDF_SELFTEST[0][2]
+
+
 # positive control for rule 3: the two claims that rode live, plus the safe copy
 # they were reduced to. Proves the mechanism catches the incident, not just names it.
 SELFTEST = [
@@ -386,7 +478,9 @@ SELFTEST = [
 def selftest():
     ok = True
     cases = ([(n, f, h, interior_claims) for n, f, h in SELFTEST]
-             + [(n, f, h, mileage_sources) for n, f, h in RATE_SELFTEST])
+             + [(n, f, h, mileage_sources) for n, f, h in RATE_SELFTEST]
+             + [(n, f, h, lambda p, t: mileage_sources_page(p, t, 1))
+                for n, f, h in PDF_SELFTEST])
     for name, should_flag, html, rule in cases:
         flagged = bool(rule("selftest", html))
         status = "PASS" if flagged == should_flag else "FAIL"
@@ -395,6 +489,14 @@ def selftest():
         print("  [%s] %s (expected %s, got %s)"
               % (status, name, "flag" if should_flag else "clean",
                  "flag" if flagged else "clean"))
+
+    # why the page rule exists, asserted rather than described
+    blind = not mileage_sources("selftest", SENTENCE_RULE_IS_BLIND_TO)
+    print("  [%s] sentence rule is blind to the shipped PDF callout "
+          "(this is why the page rule exists)" % ("PASS" if blind else "FAIL"))
+    if not blind:
+        ok = False
+
     print("selftest: %s" % ("all cases correct" if ok else "MISMATCH"))
     return 0 if ok else 1
 
@@ -434,7 +536,18 @@ def main():
     for path in sorted(targets):
         problems.extend(check_file(label(path), texts[path], capture_pages))
 
-    print("checked %d html file(s)" % len(targets))
+    # Served PDFs are public copy too. files/ is what deedwell.co actually hands the
+    # reader - and the QR printed inside the book points at a page offering it.
+    pdfs = []
+    for base, dirs, files in os.walk(os.path.join(ROOT, "files")):
+        for f in sorted(files):
+            if f.lower().endswith(".pdf"):
+                pdfs.append(os.path.join(base, f))
+    for path in sorted(pdfs):
+        for i, page_text in enumerate(pdf_pages(path)):
+            problems.extend(mileage_sources_page(label(path), page_text, i + 1))
+
+    print("checked %d html file(s) and %d served pdf(s)" % (len(targets), len(pdfs)))
     if problems:
         print("")
         print("PROMISE CONTRADICTIONS (%d):" % len(problems))
