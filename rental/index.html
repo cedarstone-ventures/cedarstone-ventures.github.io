@@ -106,6 +106,14 @@ header{position:sticky;top:0;z-index:20;background:rgba(250,247,240,.97);backdro
 .getrow{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
 .nofee{font-size:.88rem;color:var(--dim)}
 .nofee b{color:var(--cedar)}
+/* Everyone who scans the QR printed in the back of the book has already bought it.
+   Until 2026-07-26 this page had no line addressed to them and no link to /updates/,
+   so the one route from a paying customer to anything we own was a dead end. */
+.fromqr{margin-top:26px;padding-top:16px;border-top:1px solid var(--line);
+  font-size:.9rem;color:var(--dim);max-width:58ch}
+.fromqr a{color:var(--cedar);font-weight:500;text-decoration:none;
+  border-bottom:1px solid rgba(31,61,47,.32)}
+.fromqr a:hover{border-bottom-color:var(--cedar)}
 
 /* card */
 .grid2{display:grid;grid-template-columns:1fr;gap:34px;align-items:start;padding:48px 0}
@@ -170,6 +178,7 @@ footer a{color:var(--stone-soft)}
       <a class="btn" href="/files/Deedwell-Schedule-E-Deduction-Checklist.pdf" download>Download the PDF</a>
       <span class="nofee"><b>No signup.</b> No email. It downloads straight away.</span>
     </div>
+    <p class="fromqr">Scanned the code in the back of the record book? This checklist is yours, and nothing is asked for it. <a href="/updates/">What changes each tax year, and how to register your copy</a>.</p>
   </div>
 
   <div class="wrap grid2" id="checklist">
@@ -220,9 +229,9 @@ footer a{color:var(--stone-soft)}
     <div class="wrap">
       <p class="eyebrow">If the checklist earns a spot on your desk</p>
       <h2 class="sec">The Rental Property Record Book</h2>
-      <p class="lead">The checklist tells you where a cost belongs. The record book gives you somewhere to put it, all year, in the order your tax return reads. It is built backwards from Schedule E: a plain-English map of every line, a worked example month, twelve monthly rent rolls, a full-year expense ledger, mileage with the 2026 split rate already handled, a repairs versus improvements tracker, depreciation, and a year-end summary you copy straight onto the form.</p>
+      <p class="lead">The checklist tells you where a cost belongs. The record book gives you somewhere to put it, all year, in the order your tax return reads. It is built backwards from Schedule E: a plain-English map of every line, a worked example month, twelve monthly rent rolls, 42 expense-ledger pages that each close with their own 15-box Schedule E tally so a year of entries adds up instead of piling up, mileage with the 2026 split rate already handled, a repairs versus improvements tracker, depreciation, and a year-end summary you copy straight onto the form.</p>
       <p class="lead" style="margin-top:14px"><strong>So you know what it is:</strong> a structured record book organised around one tax form, for the landlord with one to a few rentals. It is not a blank ledger and it is not software. If you want free-form columns, a plain ledger will serve you better and cost less.</p>
-      <p class="meta">Paperback &middot; 94 pages &middot; 8.5 x 11 inches &middot; published by Deedwell, a brand of Cedarstone Ventures LLC</p>
+      <p class="meta">Paperback &middot; 108 pages &middot; 8.5 x 11 inches &middot; published by Deedwell, a brand of Cedarstone Ventures LLC</p>
       <p class="meta" style="margin-top:6px">Coming to Amazon shortly. The checklist above is yours regardless, free and with nothing to sign up for.</p>
     </div>
   </section>

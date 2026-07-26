@@ -1,15 +1,15 @@
 {
-  "book_pages": 94,
+  "book_pages": 108,
   "builder": "build_review_gallery.py",
-  "built_utc": "2026-07-26T16:12:56Z",
+  "built_utc": "2026-07-26T21:16:14Z",
   "outputs": {
     "A_read_sample_window.jpg": {
       "bytes": 291320,
       "sha256": "b6e008c23d3e3d65b3e47392afaaf18581d092b4368901a0bccb0298d4716735"
     },
     "B_interior_pages.jpg": {
-      "bytes": 251809,
-      "sha256": "b41877714635770e8d0ef885d614cd019356c98c81fdad09f77464e9f98659d6"
+      "bytes": 252070,
+      "sha256": "8e44a16a7bf933de4d3be283a0af3188e3c31d1f41af112db6510a7d3bfb41b5"
     },
     "C_amazon_images.jpg": {
       "bytes": 162665,
@@ -20,12 +20,12 @@
       "sha256": "3de7ce2c51891b3d649fea5c479d5a06f170006494b2772b890885175f70735f"
     },
     "E_cover.jpg": {
-      "bytes": 198554,
-      "sha256": "e784342b7a7e1cb86367cc6dba6ee7279eaf468fab97ac7dbd2b422b013b0a07"
+      "bytes": 211521,
+      "sha256": "8b2bd3b88ec25bd33755f8d12b0cbc355e7a14c7a5c80d6bdb5a299bc99f1b8c"
     },
     "F_print_wrap.jpg": {
-      "bytes": 374041,
-      "sha256": "f6868ecfb07a2edc1331d1bf80fd96e300831148bd5f2cffa6e094420ae0f798"
+      "bytes": 390212,
+      "sha256": "8116c8d6d2d8c19844da98d171fc5de36e04d77c4f6dfe4af3a162a63feec67c"
     }
   },
   "sources": {
@@ -48,9 +48,9 @@
       "sha256": "d03346e6515822851bc38cfd169811ff03cfc2136f70e3a80bbffe14744cfc5a"
     },
     "book": {
-      "bytes": 232599,
+      "bytes": 259174,
       "path": "out/Deedwell_Rental_Property_Record_Book.pdf",
-      "sha256": "26349f6ef08de706879205feda22065193395221e2dd00d8c680afbffd162f30"
+      "sha256": "53873cf2caeb58668889388cd73c1ebd458d858a28b1cc171647ab86878748b4"
     },
     "checklist": {
       "bytes": 32565,
@@ -58,15 +58,17 @@
       "sha256": "464b9fbcb7edf636bc346ebcec2b7aa903803b952302b7481afd7c13fc54986b"
     },
     "cover": {
-      "bytes": 7060306,
+      "bytes": 7100520,
       "path": "out/dw_cover_C_hi.png",
-      "sha256": "bb6691d5425c7e4043dea6f000a07f1495a8ee1d61742fec93acd0f2ee32ed8d"
+      "sha256": "9e5f1871e6b13e924088a9d7ad948544d3868e29695f6b505f8ee2b9d4d891b4"
     },
     "wrap": {
-      "bytes": 9112124,
+      "bytes": 9185085,
       "path": "out/Deedwell_cover_wrap.png",
-      "sha256": "826ba36354ec2206817b64e1b3d316cf23fc02fa97c6b081418ac76faeba4a6e"
+      "sha256": "b2249b7beaf7e70459c69a88f53bff2a36da28224d5746d1d39ad08b071b2b60"
     }
   },
-  "tallied_ledger_pages": 30
+  "spine_inches": 0.2432,
+  "tallied_ledger_pages": 42,
+  "tallied_pages": 54
 }
