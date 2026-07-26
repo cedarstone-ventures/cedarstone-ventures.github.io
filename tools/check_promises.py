@@ -1,7 +1,13 @@
 #!/usr/bin/env python
 """Cedarstone site: catch promises the page itself falsifies.
 
-ASCII-only. No dependencies. Exit 0 = clean, exit 1 = a live contradiction.
+ASCII-only SOURCE. Exit 0 = clean, exit 1 = a live contradiction.
+
+DEPENDENCIES: the standard library, EXCEPT that reading served PDFs needs `pypdf`
+(pip install pypdf). This header said "No dependencies" for six hours after the live
+PDF path landed, which is the same defect class this file exists to catch - a claim
+the artifact falsifies. pdf_pages() raises rather than skipping, so a missing pypdf
+fails the run loudly instead of reporting green on unchecked files.
 
 WHY THIS EXISTS
 ---------------
@@ -32,8 +38,13 @@ which is worse than no checker, so this deliberately refuses to guess:
      to stay precise against the shared income/expenses/mileage vocabulary that is
      legitimate (and machine-verified) when predicated of the spreadsheets. Run
      `check_promises.py --selftest` to prove it still catches both incidents.
-  4. The IRS document credited NEAREST a 2026 mileage rate must be the document that
-     actually sets that rate. 2026 is a split-rate year with two different sources.
+  4. A SENTENCE that names exactly one of the two 2026 mileage documents must not
+     quote the rate the other one sets. 2026 is a split-rate year with two different
+     sources. (Proximity - "the document credited NEAREST the rate" - was tried first
+     and dropped for noise; see the rule 4 block. Served PDFs get a PAGE-scoped
+     variant, because a print callout is a visual unit and not a grammatical one.)
+  5. An unsubscribe / auto-delivery promise must not be made while no sending platform
+     is wired anywhere in the repo. Auto-relaxes the hour an ESP exists.
 
 Rule 1 follows one hop of local links on purpose. The first draft of this script only
 looked at the page's own markup, and it reproduced the exact blind spot it was written
@@ -74,24 +85,31 @@ NEVER_CAPTURE_PHRASES = [
 #
 # Both halves are mechanically detectable, which is this file's bar for a rule:
 #   the claim      -> affirmative unsubscribe/auto-delivery phrasing, below
-#   the capability -> any sending platform present anywhere in the repo
-# It AUTO-RELAXES: the hour an ESP is actually wired, ESP_MARKERS matches and these
+#   the capability -> a sending platform WIRED anywhere in the repo (ESP_WIRING)
+# It AUTO-RELAXES: the hour an ESP is actually wired, ESP_WIRING matches and these
 # promises become legal to make. So the rule encodes the open blocker rather than
-# banning the words forever.
+# banning the words forever. The run prints WHERE it relaxed, so a rule that has
+# quietly switched itself off is visible in one line of output.
 #
 # LIMIT, stated rather than implied: it distinguishes "some sending platform exists"
 # from "none at all". It cannot tell whether a configured ESP is wired correctly, and
 # a broken-but-present ESP passes. That is a weaker check than it looks, deliberately -
 # the incident it exists for is the total absence, which is unambiguous.
+# The verb list is not decoration. The first draft matched only "carries an unsubscribe
+# link" - the exact string that happened to ship - so "every email INCLUDES an
+# unsubscribe link" would have re-shipped the identical false promise past a green
+# check. A rule that only catches the wording of the last incident is a rule that
+# catches the last incident.
 SENDING_PROMISES = [
-    r"carries an unsubscribe link",
+    r"(?:carr(?:ies|y)|includes?|has|have|contains?|comes? with) an unsubscribe link",
     r"unsubscribe in one click",
     r"one[- ]click unsubscribe",
     r"click the unsubscribe link",
-    r"unsubscribe (?:anytime|any time|at any time)",
+    r"unsubscribe (?:anytime|any time|at any time|whenever you (?:want|like)|at will)",
+    r"opt out (?:anytime|any time|at any time|whenever you (?:want|like))",
     r"check your inbox",
     r"arrives? in your inbox",
-    r"sent to your inbox",
+    r"(?:sent?|sends|deliver(?:s|ed)?|email(?:ed)?)[^.;!?]{0,40}?\bto your inbox\b",
 ]
 # An affirmative pattern preceded by a negator is our own honest disclosure, not a
 # promise: "there is NO unsubscribe link, because there is no marketing platform".
@@ -102,33 +120,102 @@ SENDING_PROMISES = [
 # So the lookback is cut at the nearest clause break first. Caught by writing the
 # selftest fixture before trusting the rule.
 PROMISE_NEGATORS = r"(?:\bno\b|\bnot\b|\bnever\b|\bwithout\b|\bcannot\b|\bcan'?t\b)"
-CLAUSE_BREAK = r"(?:&mdash;|&ndash;|[.;:,—–]|\s[-]\s)"
+# escaped, not literal: this file declares itself ASCII-only and a literal em/en dash
+# here broke that in the same commit that added the rule.
+CLAUSE_BREAK = (r"(?:&mdash;|&ndash;|[.;:," + chr(0x2014) + chr(0x2013)
+                + r"]|\s[-]\s)")
+
+
+# A promise REPORTED is not a promise MADE. "that page also said every email would
+# carry an unsubscribe link, which was never possible" is this site telling the truth
+# about its own past copy, and a rule that fires on it is a rule somebody switches off -
+# the same trap comment-blanking closed at 13:13, met again in visible prose.
+#
+# Found by running against the real pages, not the fixtures: widening the verb list to
+# close Codex's "includes/has" gap immediately fired on privacy.html's own post-mortem.
+# The narrow fix would have been to drop the infinitive forms, but that loses the real
+# promise "every email WILL CARRY an unsubscribe link". So the vocabulary stays wide
+# and the frame is what decides: reported speech in the same clause excuses the claim.
+REPORTING_VERBS = (r"(?:\bsaid\b|\bsays\b|\btold\b|\bpromised\b|\bclaimed\b|\bstated\b|"
+                   r"\bassured\b|\bused to (?:say|read)\b|\bstood here\b|\buntil \d{4})")
+
+
+def _clause_before(before):
+    """The clause the claim actually sits in - a lookback cut at the nearest break."""
+    return re.split(CLAUSE_BREAK, before)[-1]
 
 
 def _negated(before):
     """True when a negator governs the claim - same clause, not merely nearby."""
-    parts = re.split(CLAUSE_BREAK, before)
-    return bool(re.search(PROMISE_NEGATORS, parts[-1], re.I))
-ESP_MARKERS = [
-    r"mailerlite", r"convertkit", r"buttondown", r"formspree", r"mailchimp",
-    r"sendgrid", r"klaviyo", r"substack", r"listmonk", r"beehiiv",
-    r"netlify\b[^>]*\bform", r"data-netlify", r"<form[^>]*action=[\"']https?://",
+    return bool(re.search(PROMISE_NEGATORS, _clause_before(before), re.I))
+
+
+def _reported(before):
+    """True when the claim is quoted as something once said, not asserted now."""
+    return bool(re.search(REPORTING_VERBS, _clause_before(before), re.I))
+# WIRING, NOT MENTION. The first draft matched a bare vendor name anywhere in any
+# scanned file, which put the OFF SWITCH FOR THE WHOLE RULE inside our own prose: this
+# site's voice is to say plainly what we do not run, so one honest sentence - "we do
+# not use MailerLite or Mailchimp" - or one `<!-- evaluate Buttondown later -->` would
+# have silently disabled rule 5 site-wide, on every page, permanently and invisibly.
+# It also counted ANY external form action, so a search box pointing at DuckDuckGo
+# would have done the same. Not live when found (measured: `sending platform: NONE`),
+# but a guard whose off switch sits in the copy it guards is not a guard.
+#
+# So a vendor counts only where a MACHINE acts on it - a form action, a script or
+# iframe src, a hosted-page link, or a config key - never in body text.
+_ESP_VENDOR = (r"(?:mailerlite|convertkit|buttondown|formspree|mailchimp|list-manage|"
+               r"sendgrid|klaviyo|substack|listmonk|beehiiv|emailoctopus|kit\.com)")
+ESP_WIRING = [
+    r"data-netlify\s*=\s*[\"']?true",                      # a form Netlify processes
+    r"<form[^>]*\bnetlify\b",
+    r"<form[^>]+action\s*=\s*[\"'][^\"']*" + _ESP_VENDOR,  # posts to the vendor
+    r"<(?:script|iframe)[^>]+src\s*=\s*[\"'][^\"']*" + _ESP_VENDOR,   # embedded widget
+    r"href\s*=\s*[\"']https?://[^\"']*" + _ESP_VENDOR,     # hosted signup page
+    _ESP_VENDOR + r"[^\n]{0,40}?(?:api[_-]?key|endpoint|_url\b|token)",   # config, not
+    r"(?:api[_-]?key|endpoint|token)[^\n]{0,40}?" + _ESP_VENDOR,         # prose
 ]
 
 
-def _without_comments(text):
-    """Blank out HTML comments, preserving every offset so line numbers stay true.
+def _external_form_capture(text):
+    """A form that POSTs an email address off-site is a sending platform by any name.
 
-    Rule 5 is about promises made to a READER, and a comment makes none. This is not
-    a loophole: text that does not render cannot promise anything. It is here because
-    the first real run flagged updates/index.html's own post-mortem, which quotes the
-    dead 2026-07-22 copy verbatim ("Check your inbox for a confirmation") in order to
-    warn the next author off reinstating it. A check that fires on the incident report
-    is a check somebody switches off.
+    Scoped to the form element, which is the whole point: an external `action` alone
+    proves nothing (a site search box has one), and an email input alone proves nothing
+    (rule 1 already handles local capture). Together, inside one form, they are a real
+    hosted capture endpoint even from a vendor this file has never heard of.
+
+    LIMIT: an unclosed <form> is not matched.
+    """
+    for m in re.finditer(r"<form\b[^>]*>.*?</form>", text, re.S | re.I):
+        block = m.group(0)
+        if (re.search(r"action\s*=\s*[\"']https?://", block, re.I)
+                and re.search(r"type\s*=\s*[\"']?email", block, re.I)):
+            return True
+    return False
+
+
+def _published_copy(text):
+    """Blank out HTML comments and <style> blocks, preserving offsets so lines stay true.
+
+    Rule 5 is about promises made to a READER, and neither a comment nor a stylesheet
+    makes one. The comment half is not a loophole - it is here because the first real
+    run flagged updates/index.html's own post-mortem, which quotes the dead 2026-07-22
+    copy verbatim ("Check your inbox for a confirmation") to warn the next author off
+    reinstating it. A check that fires on the incident report is a check somebody
+    switches off.
+
+    NAMED PRECISELY, because the previous claim - "rule 5 reads visible copy only" -
+    was overstated and Codex was right to file it. What is still scanned: meta tags,
+    <title>, JSON-LD inside <script>, and attribute values. That is DELIBERATE, not an
+    oversight: a meta description and an FAQ schema are published copy that Google and
+    the AI engines quote back to a reader, so an unsubscribe promise made there is made
+    to a reader just the same. What is not scanned: comments and CSS.
     """
     def blank(m):
         return re.sub(r"[^\n]", " ", m.group(0))
-    return re.sub(r"<!--.*?-->", blank, text, flags=re.S)
+    text = re.sub(r"<!--.*?-->", blank, text, flags=re.S)
+    return re.sub(r"<style\b[^>]*>.*?</style>", blank, text, flags=re.S | re.I)
 
 
 def sending_promises(path, text, esp_present=False):
@@ -136,12 +223,14 @@ def sending_promises(path, text, esp_present=False):
     if esp_present:
         return []
     problems = []
-    text = _without_comments(text)
+    text = _published_copy(text)
     for pat in SENDING_PROMISES:
         for m in re.finditer(pat, text, re.I):
-            before = text[max(0, m.start() - 60):m.start()]
+            before = text[max(0, m.start() - 90):m.start()]
             if _negated(before):
                 continue  # our own disclosure that the mechanism does not exist
+            if _reported(before):
+                continue  # our own post-mortem quoting copy we withdrew
             line = text.count("\n", 0, m.start()) + 1
             problems.append(
                 "%s:%d promises /%s/ but no sending platform exists anywhere in the "
@@ -150,20 +239,30 @@ def sending_promises(path, text, esp_present=False):
 
 
 def esp_configured(root):
-    """True if any sending platform is referenced anywhere in the served site."""
-    for base, dirs, files in os.walk(root):
+    """True if a sending platform is actually WIRED anywhere in the served site.
+
+    Returns (bool, where) so the run can print WHICH file relaxed the rule. Silent
+    relaxation is how a disabled guard stays disabled: `sending platform: present` with
+    no location is unfalsifiable at a glance.
+    """
+    for base, dirs, files in sorted(os.walk(root)):
         dirs[:] = [d for d in dirs if d not in (".git", "node_modules", "tools")]
-        for name in files:
+        for name in sorted(files):
             if not name.endswith((".html", ".js", ".toml", ".yml", ".yaml")):
                 continue
+            full = os.path.join(base, name)
             try:
-                body = open(os.path.join(base, name), encoding="utf-8",
-                            errors="replace").read()
+                body = open(full, encoding="utf-8", errors="replace").read()
             except OSError:
                 continue
-            if find(ESP_MARKERS, body)[0]:
-                return True
-    return False
+            body = _published_copy(body)   # a commented-out vendor is not a platform
+            pat, line = find(ESP_WIRING, body)
+            if pat:
+                return True, "%s:%d" % (os.path.relpath(full, root), line)
+            if name.endswith(".html") and _external_form_capture(body):
+                return True, "%s (external form posting an email field)" % (
+                    os.path.relpath(full, root))
+    return False, None
 
 
 # --- rule 2: "no form" claim vs. an actual form control ----------------------
@@ -267,15 +366,41 @@ SECTION_TERMS = [
 # are visual units, not grammatical ones, so served PDFs get a PAGE-scoped rule below.
 # HTML and served PDFs are now both covered; kdp-stack's own build sources and the
 # brain's listing copy still are not.
+# The shorthand forms are NOT optional extras: the commit that introduced this rule
+# wrote "72.5c/76c" in its own message while the rule could not match it, so the rule
+# was blind to the way we ourselves abbreviate. `c\b` needs the word boundary - it
+# matches "76c" and "76 c" but not "76 cm" or "76 copies". "cents?" is tried first so
+# the longer form still reports the longer match.
+_C = r"(?:\u00a2|cents?\b|c\b)"
 RATE_SOURCES = [
-    (r"72\.5\s*(?:\u00a2|cents?\b)", "72.5c (Jan 1 - Jun 30)", "IRS Notice 2026-10"),
-    (r"\b76\s*(?:\u00a2|cents?\b)", "76c (Jul 1 - Dec 31)", "IRS Announcement 2026-11"),
+    (r"72\.5\s*" + _C, "72.5c (Jan 1 - Jun 30)", "IRS Notice 2026-10"),
+    (r"\b76\s*" + _C, "76c (Jul 1 - Dec 31)", "IRS Announcement 2026-11"),
 ]
 CITE_NOTICE = r"Notice\s*2026-10"
 CITE_ANNOUNCE = r"(?:Announcement|Ann\.)\s*2026-11"  # our own printed copy abbreviates
 # ";" ends a clause on purpose: our own correct copy pairs the two rates across a
 # semicolon, and reading that as one sentence would score it as "names both".
-SENTENCE_END = r"[.;!?]\s"
+#
+# A "." only ends a sentence when what follows is NOT lowercase-or-digit. Without that,
+# "Ann. 2026-11" split at the abbreviation and left "2026-11" stranded in the next
+# fragment, so CITE_ANNOUNCE could never match the abbreviated form the rule claimed to
+# support - and the selftest fixture using "Ann. 2026-11" was passing for the wrong
+# reason. The same guard covers "I.R.B. 2026-29", "Rev. Proc.", "Jun. 30".
+# LIMIT: a genuine sentence that begins with a digit ("...in July. 76 cents applies
+# from then.") is merged with its predecessor. That direction is safe - a merged
+# sentence names both documents and is skipped - and we do not write that way.
+SENTENCE_END = r"[;!?]\s|\.\s(?![a-z0-9])"
+
+# Correct prose that DESCRIBES the mid-year change necessarily quotes the old rate in
+# the same sentence as the new one: "Announcement 2026-11 raised the rate from 72.5
+# cents to 76 cents" is accurate, and the first draft of this rule flagged it. The
+# exemption is directional, which is what makes it safe: it excuses the wrong rate only
+# when it is the FROM value and the cited document's own rate is the TO value. Reverse
+# the documents - "Notice 2026-10 raised the rate from 72.5 to 76 cents" - and the
+# wrong rate is 76c, which is not the FROM value, so it still flags.
+# (The pattern is built per-rate inside _describes_transition, not stored here - a
+# constant computed and never used is the defect Codex filed against build_review_
+# gallery.py's `ledgers`, and one in this file would be the same mistake.)
 
 # inline tags whose text belongs to the surrounding block; block-level tags delimit.
 INLINE_TAGS = r"(?i)</?(?:b|i|em|strong|span|a|small|sup|sub|u|mark|abbr|wbr)\b[^>]*>"
@@ -377,6 +502,17 @@ def sentences(flat):
     return out
 
 
+def _describes_transition(sentence, wrong_pat, own_pat):
+    """True when the wrong rate appears as the FROM value of a change TO the cited
+    document's own rate - i.e. correct prose about the mid-year increase.
+
+    Directional on purpose. Only "from <wrong> ... to <own>" is excused; "from <own>
+    ... to <wrong>" is exactly the mis-attribution the rule exists for and still fires.
+    """
+    return bool(re.search(r"\bfrom\b\s*" + wrong_pat + r"[^.;!?]{0,60}?\bto\b\s*" + own_pat,
+                          sentence, re.I))
+
+
 def mileage_sources(path, text):
     """Rule 4: a sentence citing ONE IRS document must not quote the other's rate."""
     problems = []
@@ -387,10 +523,13 @@ def mileage_sources(path, text):
         if bool(has_notice) == bool(has_announce):
             continue  # names both documents, or neither - nothing to mis-attribute
         cited = "IRS Notice 2026-10" if has_notice else "IRS Announcement 2026-11"
+        own = next(p for p, _, s in RATE_SOURCES if s == cited)
         for rate_pat, rate_label, sets_it in RATE_SOURCES:
             if sets_it == cited:
                 continue  # this document does set this rate
             m = re.search(rate_pat, sentence, re.I)
+            if m and _describes_transition(sentence, rate_pat, own):
+                continue  # "X raised the rate FROM <other> TO <its own>" - accurate
             if m:
                 line = flat[: start + m.start()].count("\n") + 1
                 problems.append(
@@ -526,6 +665,16 @@ RATE_SELFTEST = [
      '<p class="cite">Set by IRS Notice 2026-10</p></div>'
      '<div class="half"><p class="val">76&cent; per mile</p>'
      '<p class="cite">Raised by IRS Announcement 2026-11, 13 July 2026</p></div>'),
+    # --- the four gaps Codex filed against babf160, each proved before it was fixed ---
+    ("shorthand rates: the abbreviation the rule's OWN commit message used", True,
+     '<p>2026 split year: 72.5c to Jun 30, then 76c from Jul 1 '
+     '(IRS Announcement 2026-11).</p>'),
+    ("abbreviated citation: 'Ann. 2026-11' must not hide behind a sentence split", True,
+     '<p>Deduct 72.5 cents a mile for every trip you made in 2026 (Ann. 2026-11).</p>'),
+    ("correct prose describing the increase must NOT flag", False,
+     '<p>IRS Announcement 2026-11 raised the rate from 72.5 cents to 76 cents.</p>'),
+    ("...but the SAME shape with the documents swapped still must flag", True,
+     '<p>IRS Notice 2026-10 raised the rate from 72.5 cents to 76 cents.</p>'),
 ]
 
 
@@ -601,6 +750,62 @@ SENDING_SELFTEST = [
     ("the page's own post-mortem, quoting the dead copy it warns against", False,
      '<!-- The registration form that stood here until 2026-07-22 told them "You are\n'
      '     registered. Check your inbox for a confirmation." Nothing was sent. -->'),
+    # --- the wording gaps Codex filed against 001c78c: the same false promise, said
+    # --- a different way, would have shipped past a green check.
+    ("same promise, different verb: 'includes'", True,
+     '<p>We do not sell or rent it, and every email includes an unsubscribe link.</p>'),
+    ("same promise, different verb: 'has'", True,
+     '<p>Every email has an unsubscribe link at the bottom.</p>'),
+    ("same promise, loose phrasing", True,
+     '<p>You can unsubscribe whenever you want.</p>'),
+    ("auto-delivery promised in a different tense", True,
+     '<p>We will send the checklist straight to your inbox.</p>'),
+    ("a stylesheet is not copy and promises nobody anything", False,
+     '<style>.note:after{content:"unsubscribe anytime"}</style>'),
+    # The REAL privacy.html sentence the widened verb list fired on. Found by running
+    # against the served pages, not by imagining a case: this is the site telling the
+    # truth about copy it withdrew, and a checker that fires on the incident report is
+    # a checker somebody switches off. Kept verbatim so nobody re-breaks it.
+    ("privacy.html's own post-mortem, in visible prose", False,
+     '<p>It had said a registered owner\'s address was kept for <i>one</i> purpose, '
+     'while the registration page promised three uses of it &mdash; and that page also '
+     'said every email would carry an unsubscribe link, which was never possible, '
+     'because there is no sending platform to put one in.</p>'),
+    # ...and the guard that keeps that exemption honest: a reporting verb in some OTHER
+    # clause must not launder a promise the page is making right now.
+    ("a real promise is not excused by a 'said' in a different clause", True,
+     '<p>We said it before and we will say it again: every email carries an '
+     'unsubscribe link.</p>'),
+]
+
+
+# positive control for rule 5's CAPABILITY half - the switch that decides whether the
+# rule runs at all. Codex filed that a bare vendor mention flipped it, which put the
+# off switch for the whole rule inside our own honest prose. Wiring counts; talking
+# does not. Every fixture here is a sentence or snippet we plausibly write.
+ESP_SELFTEST = [
+    ("our own honest denial must NOT count as a platform", False,
+     '<p>We do not use MailerLite, Mailchimp or any other sending platform.</p>'),
+    ("a commented-out vendor must NOT count", False,
+     '<!-- TODO: evaluate Buttondown once the list is worth paying for -->'),
+    ("an unrelated external form (site search) must NOT count", False,
+     '<form action="https://duckduckgo.com/"><input type="text" name="q"></form>'),
+    ("prose naming the category must NOT count", False,
+     '<p>Tools like ConvertKit and Substack charge per subscriber.</p>'),
+    ("a form POSTing to a vendor DOES count", True,
+     '<form action="https://assets.mailerlite.com/jsonp/1/forms/x/subscribe">'
+     '<input type="email" name="fields[email]"></form>'),
+    ("an embedded vendor widget DOES count", True,
+     '<script src="https://f.convertkit.com/ckjs/ck.5.js"></script>'),
+    ("a Netlify-processed form DOES count", True,
+     '<form name="signup" data-netlify="true"><input type="email"></form>'),
+    ("a hosted signup page linked from our copy DOES count", True,
+     '<a href="https://cedarstone.buttondown.email/">Get the notes</a>'),
+    ("an unknown vendor posting an email field off-site DOES count", True,
+     '<form action="https://some-esp-we-never-heard-of.io/f/abc">'
+     '<label>Email</label><input type="email" name="email"></form>'),
+    ("a config key naming a vendor DOES count", True,
+     'const MAILERLITE_API_KEY = process.env.ML_KEY;'),
 ]
 
 
@@ -620,6 +825,19 @@ def selftest():
         print("  [%s] %s (expected %s, got %s)"
               % (status, name, "flag" if should_flag else "clean",
                  "flag" if flagged else "clean"))
+
+    # rule 5's capability half: WIRING counts, MENTION does not. Exercised through the
+    # same two predicates esp_configured() uses, so a fixture passing here means the
+    # walk over real files would agree.
+    for name, should_wire, html in ESP_SELFTEST:
+        body = _published_copy(html)
+        wired = bool(find(ESP_WIRING, body)[0]) or _external_form_capture(body)
+        status = "PASS" if wired == should_wire else "FAIL"
+        if wired != should_wire:
+            ok = False
+        print("  [%s] esp capability: %s (expected %s, got %s)"
+              % (status, name, "wired" if should_wire else "not wired",
+                 "wired" if wired else "not wired"))
 
     # rule 5 must AUTO-RELAX, or it is a permanent ban on words rather than a check on
     # capability. Asserted with the worst fixture: the promise that shipped.
@@ -673,7 +891,7 @@ def main():
             capture_pages[label(path)] = cap
 
     # rule 5's capability half, measured once across the served site
-    esp_present = esp_configured(ROOT)
+    esp_present, esp_where = esp_configured(ROOT)
 
     problems = []
     for path in sorted(targets):
@@ -692,7 +910,8 @@ def main():
             problems.extend(mileage_sources_page(label(path), page_text, i + 1))
 
     print("checked %d html file(s) and %d served pdf(s) [sending platform: %s]"
-          % (len(targets), len(pdfs), "present" if esp_present else "NONE"))
+          % (len(targets), len(pdfs),
+             ("WIRED at %s - rule 5 relaxed" % esp_where) if esp_present else "NONE"))
     if problems:
         print("")
         print("PROMISE CONTRADICTIONS (%d):" % len(problems))
