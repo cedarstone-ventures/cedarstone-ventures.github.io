@@ -1,0 +1,72 @@
+{
+  "book_pages": 94,
+  "builder": "build_review_gallery.py",
+  "built_utc": "2026-07-26T16:12:56Z",
+  "outputs": {
+    "A_read_sample_window.jpg": {
+      "bytes": 291320,
+      "sha256": "b6e008c23d3e3d65b3e47392afaaf18581d092b4368901a0bccb0298d4716735"
+    },
+    "B_interior_pages.jpg": {
+      "bytes": 251809,
+      "sha256": "b41877714635770e8d0ef885d614cd019356c98c81fdad09f77464e9f98659d6"
+    },
+    "C_amazon_images.jpg": {
+      "bytes": 162665,
+      "sha256": "521a61ef14fd7e698ed28db051c14b5373dec8fe36fac0d99a71feffdf896b4b"
+    },
+    "D_free_checklist.jpg": {
+      "bytes": 153249,
+      "sha256": "3de7ce2c51891b3d649fea5c479d5a06f170006494b2772b890885175f70735f"
+    },
+    "E_cover.jpg": {
+      "bytes": 198554,
+      "sha256": "e784342b7a7e1cb86367cc6dba6ee7279eaf468fab97ac7dbd2b422b013b0a07"
+    },
+    "F_print_wrap.jpg": {
+      "bytes": 374041,
+      "sha256": "f6868ecfb07a2edc1331d1bf80fd96e300831148bd5f2cffa6e094420ae0f798"
+    }
+  },
+  "sources": {
+    "amazon/01_map.jpg": {
+      "sha256": "d28a39402232cafc1d2d420794410d1534c069c11070077a4b0441a2f6d54658"
+    },
+    "amazon/02_worked.jpg": {
+      "sha256": "36c1a4cfeda061951d3c8dc9df689c5688fb38e4560a2ef62abeb7547f29871c"
+    },
+    "amazon/03_mileage.jpg": {
+      "sha256": "9c52e71f27c6d628c873a73f6248a0c79d4e576a6c2b5b6b10e5dc10042eccef"
+    },
+    "amazon/04_repairs.jpg": {
+      "sha256": "4d4eff431ac3a9975bc7ee1ce223f13427e974a9db3015a6ee9d6fa62ea44762"
+    },
+    "amazon/05_rent.jpg": {
+      "sha256": "696fd48b89836987a913c7634cd5c7476fb347fb9705234eeca5fe9606a75db7"
+    },
+    "amazon/06_ledger.jpg": {
+      "sha256": "d03346e6515822851bc38cfd169811ff03cfc2136f70e3a80bbffe14744cfc5a"
+    },
+    "book": {
+      "bytes": 232599,
+      "path": "out/Deedwell_Rental_Property_Record_Book.pdf",
+      "sha256": "26349f6ef08de706879205feda22065193395221e2dd00d8c680afbffd162f30"
+    },
+    "checklist": {
+      "bytes": 32565,
+      "path": "out/Deedwell_Landlord_Deduction_Checklist.pdf",
+      "sha256": "464b9fbcb7edf636bc346ebcec2b7aa903803b952302b7481afd7c13fc54986b"
+    },
+    "cover": {
+      "bytes": 7060306,
+      "path": "out/dw_cover_C_hi.png",
+      "sha256": "bb6691d5425c7e4043dea6f000a07f1495a8ee1d61742fec93acd0f2ee32ed8d"
+    },
+    "wrap": {
+      "bytes": 9112124,
+      "path": "out/Deedwell_cover_wrap.png",
+      "sha256": "826ba36354ec2206817b64e1b3d316cf23fc02fa97c6b081418ac76faeba4a6e"
+    }
+  },
+  "tallied_ledger_pages": 30
+}
