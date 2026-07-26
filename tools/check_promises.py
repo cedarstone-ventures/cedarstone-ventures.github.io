@@ -32,6 +32,8 @@ which is worse than no checker, so this deliberately refuses to guess:
      to stay precise against the shared income/expenses/mileage vocabulary that is
      legitimate (and machine-verified) when predicated of the spreadsheets. Run
      `check_promises.py --selftest` to prove it still catches both incidents.
+  4. The IRS document credited NEAREST a 2026 mileage rate must be the document that
+     actually sets that rate. 2026 is a split-rate year with two different sources.
 
 Rule 1 follows one hop of local links on purpose. The first draft of this script only
 looked at the page's own markup, and it reproduced the exact blind spot it was written
@@ -118,6 +120,47 @@ SECTION_TERMS = [
     r"\boccupancy\b",
 ]
 
+# --- rule 4: which IRS document is credited for which 2026 mileage rate -------
+# 2026 is a split-rate year and the two halves have DIFFERENT sources: Notice 2026-10
+# sets 72.5c from Jan 1, and Announcement 2026-11 raises it to 76c from Jul 1.
+#
+# On 2026-07-26 /rental/ printed both rates side by side and closed the block with
+# "Source: IRS Announcement 2026-11" - one document credited for two rates, on the
+# single figure the page exists to be trusted about, on the landing page a printed QR
+# code points at. The same page's FAQ schema and body copy named BOTH documents
+# correctly, so a page-level "does it mention both?" test passes and catches nothing.
+# The book had the identical defect on p7 the same morning; fixing one surface did not
+# fix the other, and unverified-claim is a repeating mistake, so it gets a mechanism.
+#
+# The rule is SENTENCE BINDING: a sentence that names exactly one of the two documents
+# and quotes a rate that document does not set has mis-attributed it. That is decidable
+# with no guessing, and it is the shape all three of the morning's instances took.
+#
+# The first draft of this rule used proximity instead - "the nearest citation to a rate
+# must be that rate's source" - and it fired twice on already-correct prose, because a
+# sentence like "the 72.5c rate is from Notice 2026-10; the increase to 76c was made in
+# Announcement 2026-11" puts the wrong document nearer the second figure while being
+# perfectly clear to a reader. A noisy checker gets ignored, so proximity was dropped.
+#
+# WHAT THIS DOES NOT COVER, stated plainly because the 06:14 lesson was a gate that
+# claimed more than it checked:
+#   - An attribution physically separated from its figure ("Source: X" under a two-
+#     column rate block) is invisible to a sentence rule. On /rental/ that is now
+#     handled structurally instead - each citation sits inside the same card as its
+#     own rate - which is a better fix than a checker anyway.
+#   - This script only walks this repo's HTML. The same defect shipped the same
+#     morning in kdp-stack (the printed book, deedwell_rental_records.py) and in the
+#     brain (the Amazon listing copy). Those surfaces have NO mechanism yet.
+RATE_SOURCES = [
+    (r"72\.5\s*(?:\u00a2|cents?\b)", "72.5c (Jan 1 - Jun 30)", "IRS Notice 2026-10"),
+    (r"\b76\s*(?:\u00a2|cents?\b)", "76c (Jul 1 - Dec 31)", "IRS Announcement 2026-11"),
+]
+CITE_NOTICE = r"Notice\s*2026-10"
+CITE_ANNOUNCE = r"(?:Announcement|Ann\.)\s*2026-11"  # our own printed copy abbreviates
+# ";" ends a clause on purpose: our own correct copy pairs the two rates across a
+# semicolon, and reading that as one sentence would score it as "names both".
+SENTENCE_END = r"[.;!?]\s"
+
 # inline tags whose text belongs to the surrounding block; block-level tags delimit.
 INLINE_TAGS = r"(?i)</?(?:b|i|em|strong|span|a|small|sup|sub|u|mark|abbr|wbr)\b[^>]*>"
 
@@ -188,6 +231,62 @@ def interior_claims(path, text):
     return problems
 
 
+def flatten(text):
+    """Markup-free text the SAME LENGTH as the original, so offsets still map to lines.
+
+    Inline tags and entities become spaces; block tags become spaces ending in a period,
+    because a paragraph break IS a sentence break. Length preservation is the point:
+    an earlier draft rebuilt the string and had to guess at line numbers.
+    """
+    def blank(m):
+        return " " * len(m.group(0))
+
+    def stop(m):
+        return " " * (len(m.group(0)) - 1) + "."
+
+    t = re.sub(INLINE_TAGS, blank, text)
+    t = re.sub(r"&cent;", " cents", t)          # same length, keeps the figure readable
+    t = re.sub(r"&[a-z]+;|&#\d+;", blank, t, flags=re.I)
+    t = re.sub(r"<[^>]+>", stop, t)
+    return t
+
+
+def sentences(flat):
+    """(offset, text) for each sentence, offsets into the flattened == original text."""
+    out, start = [], 0
+    for m in re.finditer(SENTENCE_END, flat):
+        out.append((start, flat[start:m.end()]))
+        start = m.end()
+    out.append((start, flat[start:]))
+    return out
+
+
+def mileage_sources(path, text):
+    """Rule 4: a sentence citing ONE IRS document must not quote the other's rate."""
+    problems = []
+    flat = flatten(text)
+    for start, sentence in sentences(flat):
+        has_notice = re.search(CITE_NOTICE, sentence, re.I)
+        has_announce = re.search(CITE_ANNOUNCE, sentence, re.I)
+        if bool(has_notice) == bool(has_announce):
+            continue  # names both documents, or neither - nothing to mis-attribute
+        cited = "IRS Notice 2026-10" if has_notice else "IRS Announcement 2026-11"
+        for rate_pat, rate_label, sets_it in RATE_SOURCES:
+            if sets_it == cited:
+                continue  # this document does set this rate
+            m = re.search(rate_pat, sentence, re.I)
+            if m:
+                line = flat[: start + m.start()].count("\n") + 1
+                problems.append(
+                    "%s:%d cites %s beside the %s mileage rate, which it does not set "
+                    "- that rate is set by %s. 2026 is a split-rate year and the two "
+                    "halves have different sources; a reader sent to the wrong document "
+                    "will not find the number."
+                    % (path, line, cited, rate_label, sets_it)
+                )
+    return problems
+
+
 def check_file(path, text, capture_pages=None):
     problems = []
     capture_pages = capture_pages or {}
@@ -223,8 +322,42 @@ def check_file(path, text, capture_pages=None):
             )
 
     problems.extend(interior_claims(path, text))
+    problems.extend(mileage_sources(path, text))
 
     return problems
+
+
+# positive control for rule 4. The two flagging fixtures are the real sentences that
+# shipped on 2026-07-26 - one from the printed book's p7, one from the Amazon listing
+# description - and the clean ones are our current correct copy, including the two
+# already-right prose constructions that an earlier proximity draft of this rule
+# falsely flagged. A rule that fires on correct copy gets switched off, so those two
+# stay here permanently as regression guards.
+RATE_SELFTEST = [
+    ("book p7 as it shipped: one document for both halves", True,
+     '<p>2026 is a rare split year: 72.5 cents a mile from January 1 to June 30, then '
+     '76 cents from July 1 to December 31 (IRS Announcement 2026-11).</p>'),
+    ("Amazon listing description as it shipped", True,
+     "<p>A mileage log built for 2026's split rate (72.5 cents through June, 76 cents "
+     "from July, per IRS Announcement 2026-11).</p>"),
+    ("current book footer: each half to its own document", False,
+     '<p>2026: 72.5 cents/mile to Jun 30 (Notice 2026-10); 76 cents from Jul 1 '
+     '(Ann. 2026-11). Standard rate OR actual, not both.</p>'),
+    ("current body copy: one sentence naming both documents", False,
+     '<p>72.5 cents per mile for trips from 1 January through 30 June 2026 (IRS '
+     'Notice&nbsp;2026-10), and 76 cents per mile from 1 July through 31 December '
+     '2026 (IRS Announcement&nbsp;2026-11, Internal Revenue Bulletin 2026-29).</p>'),
+    ("current FAQ schema: two clauses across a semicolon", False,
+     'The business standard mileage rate is 72.5 cents per mile for trips from '
+     'January 1 through June 30, 2026, and 76 cents per mile from July 1 through '
+     'December 31, 2026. The 72.5 cent rate is from IRS Notice 2026-10; the mid-year '
+     'increase to 76 cents was made in IRS Announcement 2026-11.'),
+    ("current rate cards: each citation inside its own card", False,
+     '<div class="half"><p class="val">72.5&cent; per mile</p>'
+     '<p class="cite">Set by IRS Notice 2026-10</p></div>'
+     '<div class="half"><p class="val">76&cent; per mile</p>'
+     '<p class="cite">Raised by IRS Announcement 2026-11, 13 July 2026</p></div>'),
+]
 
 
 # positive control for rule 3: the two claims that rode live, plus the safe copy
@@ -252,8 +385,10 @@ SELFTEST = [
 
 def selftest():
     ok = True
-    for name, should_flag, html in SELFTEST:
-        flagged = bool(interior_claims("selftest", html))
+    cases = ([(n, f, h, interior_claims) for n, f, h in SELFTEST]
+             + [(n, f, h, mileage_sources) for n, f, h in RATE_SELFTEST])
+    for name, should_flag, html, rule in cases:
+        flagged = bool(rule("selftest", html))
         status = "PASS" if flagged == should_flag else "FAIL"
         if flagged != should_flag:
             ok = False
