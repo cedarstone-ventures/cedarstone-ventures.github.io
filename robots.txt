@@ -1,11 +1,12 @@
 # Cedarstone Ventures LLC — crawlers welcome.
 # Our distribution depends on being found and cited by search and AI answer engines,
 # so every well-behaved crawler (incl. GPTBot, ClaudeBot, PerplexityBot, Google-Extended)
-# is allowed full access. No disallow rules by design.
+# is allowed full access, EXCEPT the pre-publish review gallery.
+# Note: a second "User-agent: *" group used to sit below this one. Google merges
+# duplicate groups; RFC 9309 does not require every crawler to. One group only.
 User-agent: *
 Allow: /
+Disallow: /review/
+Disallow: /tools/
 
 Sitemap: https://deedwell.co/sitemap.xml
-
-User-agent: *
-Disallow: /review/

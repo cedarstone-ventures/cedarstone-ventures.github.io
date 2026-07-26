@@ -78,14 +78,9 @@ header{position:sticky;top:0;z-index:20;background:rgba(250,247,240,.97);backdro
 .reg .box{background:#fff;border:1px solid var(--line);border-radius:22px;padding:52px;display:grid;grid-template-columns:1fr .95fr;gap:48px;align-items:start;box-shadow:0 30px 60px -40px rgba(31,61,47,.4)}
 .reg h2{font-size:clamp(1.9rem,3.4vw,2.5rem)}
 .reg .box>div>p{margin-top:14px;color:#514c40;font-size:1.06rem}
-.reg form{display:flex;flex-direction:column;gap:13px}
-.reg label{font-size:.82rem;font-weight:600;color:var(--cedar);letter-spacing:.02em}
-.reg input,.reg select{font-family:var(--sans);font-size:1rem;padding:15px 18px;border:1.5px solid var(--line);border-radius:12px;width:100%;background:#fff;color:var(--ink)}
-.reg input:focus,.reg select:focus{outline:none;border-color:var(--cedar)}
-.reg .fine{font-size:.8rem;color:var(--dim)}
-.reg .ok{display:none;background:var(--cedar);color:var(--cream);padding:22px;border-radius:14px}
-.reg .ok b{display:block;font-family:var(--serif);font-size:1.3rem;font-weight:500;margin-bottom:8px}
-.reg .err{display:none;color:#b4432f;font-size:.85rem;font-weight:600}
+/* .reg form/label/input/ok/err rules deleted 2026-07-26: the form they
+   styled was removed 2026-07-22. One of them set outline:none on :focus,
+   which would silently kill focus rings if inputs were ever re-added. */
 @media(max-width:860px){.reg .box{grid-template-columns:1fr;padding:34px;gap:32px}}
 
 /* subscribe — for people who do not own a file yet */
@@ -105,9 +100,9 @@ header{position:sticky;top:0;z-index:20;background:rgba(250,247,240,.97);backdro
 /* fine print */
 .fineprint{padding:64px 0}
 .fineprint .box{border:1px solid var(--line);border-radius:var(--r);padding:32px;background:#fff}
-.fineprint h4{font-family:var(--sans);font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--cedar);font-weight:700;margin-bottom:10px}
+.fineprint h3{font-family:var(--sans);font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--cedar);font-weight:700;margin-bottom:10px}
 .fineprint p{color:#514c40;font-size:.93rem}
-.fineprint p+h4{margin-top:24px}
+.fineprint p+h3{margin-top:24px}
 
 section{padding:88px 0}
 .sec-head{max-width:660px}
@@ -136,7 +131,7 @@ body{animation:pgfade .55s ease both}
     <a class="brand" href="/"><svg class="logo"><use href="#mk"/></svg><span class="name">Deedwell</span></a>
     <nav class="links">
       <a href="/">Home</a>
-      <a href="/#tools">Tools</a>
+      <a href="/#inside">What&rsquo;s inside</a>
       <a class="btn" href="#register">Register</a>
     </nav>
   </div>
@@ -162,7 +157,7 @@ body{animation:pgfade .55s ease both}
       <div class="perk">
         <span class="n">01</span>
         <h3>The 2027 Edition, free</h3>
-        <p>When the IRS locks next year's figures, the updated workbook and guide land in your inbox. No re-buying, and no hunting for what changed.</p>
+        <p>When the IRS locks next year's figures, we email you a note saying what changed and which page it touches. No re-buying, and no hunting for what changed.</p>
       </div>
       <div class="perk">
         <span class="n">02</span>
@@ -172,7 +167,7 @@ body{animation:pgfade .55s ease both}
       <div class="perk">
         <span class="n">03</span>
         <h3>Priority answers</h3>
-        <p>Product questions answered by email, usually within two business days, by a person.</p>
+        <p>Product questions answered by email, usually within two business days.</p>
       </div>
     </div>
   </div>
@@ -189,7 +184,7 @@ body{animation:pgfade .55s ease both}
       <div>
         <p style="margin-top:0">Registration is by email. Write to us from the address you want next year's
           edition to arrive at, and tell us which file you own &mdash; that is the whole process.</p>
-        <p style="margin-top:18px"><a class="btn" href="mailto:info@cedarstonellc.com?subject=Register%20my%20Cedarstone%20copy&amp;body=Which%20file%20do%20you%20own%3F%20Delete%20the%20lines%20that%20do%20not%20apply%3A%0A%0A-%20Airbnb%20%26%20STR%20Tax%20Bundle%2C%202026%20Edition%0A-%20Schedule%20E%20Bookkeeping%20Bundle%0A-%20Rental%20Income%20%26%20Expense%20Tracker%0A-%20Year-End%20Tax%20Planner%2C%202026%0A%0ASend%20this%20from%20the%20address%20you%20want%20the%202027%20Edition%20to%20arrive%20at.%20Thank%20you.">Email us to register</a></p>
+        <p style="margin-top:18px"><a class="btn" href="mailto:info@cedarstonellc.com?subject=Register%20my%20Deedwell%20copy&amp;body=I%20own%20the%20Rental%20Property%20Record%20Book.%0A%0AWhere%20did%20you%20buy%20it%3F%0A%0ASend%20this%20from%20the%20address%20you%20want%20the%20next%20edition%20note%20to%20arrive%20at.%20Thank%20you.">Email us to register</a></p>
         <p class="fine" style="margin-top:16px">Or write to <b>info@cedarstonellc.com</b> yourself, saying which
           file you own. Your address is recorded against that file and used for one thing: the next tax year's
           edition, and a note if a rule that touches your file changes. We never sell your data.</p>
@@ -228,9 +223,9 @@ body{animation:pgfade .55s ease both}
 <div class="fineprint">
   <div class="wrap">
     <div class="box">
-      <h4>Educational disclaimer</h4>
+      <h3>Educational disclaimer</h3>
       <p>Deedwell files are educational bookkeeping resources, not tax, legal, accounting, or financial advice, and no professional-client relationship is created by buying, using, or registering one. Tax rules change and apply differently to different situations. Confirm every figure and position with a qualified tax professional before filing. Cedarstone Ventures LLC is not a CPA firm.</p>
-      <h4>What we do with your address</h4>
+      <h3>What we do with your address</h3>
       <p>We use it to send you edition updates, alerts about rules that affect the file you own, and answers to questions you send us. That is all. We do not sell or rent it, and every email carries an unsubscribe link. See the <a href="/privacy.html" style="color:var(--cedar);font-weight:600">privacy policy</a>.</p>
     </div>
   </div>
@@ -241,7 +236,7 @@ body{animation:pgfade .55s ease both}
     <div class="top">
       <a class="brand" href="/"><svg class="logo" style="width:34px;height:34px"><use href="#mk"/></svg><span class="name" style="font-family:var(--serif);font-weight:600;font-size:1.3rem">Deedwell</span></a>
       <div class="cols">
-        <div><b>Product</b><a href="/#tools">Tax &amp; bookkeeping</a><a href="/updates/">Register your copy</a><a href="/checklist/">Free checklist</a></div>
+        <div><b>Product</b><a href="/#inside">What&rsquo;s inside</a><a href="/updates/">Register your copy</a><a href="/checklist/">Free checklist</a></div>
         <div><b>Company</b><a href="/#about">About</a><a href="mailto:info@cedarstonellc.com">Contact</a><a href="/privacy.html">Privacy</a></div>
       </div>
     </div>

@@ -1,0 +1,7 @@
+# GitHub Pages serves EVERY file in the repo by default. Without this, deedwell.co
+# served /tools/check_promises.py (13KB of source, naming a retired ASIN and a
+# Gumroad URL) to anyone who asked. Excluded paths are not published at all.
+exclude:
+  - tools
+  - AGENTS.md
+  - README.md
