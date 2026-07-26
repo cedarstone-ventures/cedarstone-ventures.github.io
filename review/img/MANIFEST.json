@@ -1,7 +1,7 @@
 {
   "book_pages": 108,
   "builder": "build_review_gallery.py",
-  "built_utc": "2026-07-26T21:16:14Z",
+  "built_utc": "2026-07-26T23:05:04Z",
   "outputs": {
     "A_read_sample_window.jpg": {
       "bytes": 291320,
@@ -12,8 +12,8 @@
       "sha256": "8e44a16a7bf933de4d3be283a0af3188e3c31d1f41af112db6510a7d3bfb41b5"
     },
     "C_amazon_images.jpg": {
-      "bytes": 162665,
-      "sha256": "521a61ef14fd7e698ed28db051c14b5373dec8fe36fac0d99a71feffdf896b4b"
+      "bytes": 163143,
+      "sha256": "34543c624f9ee00715fb17aae5bdf6eef18b6540eb4f47cbc20d9904331d8a24"
     },
     "D_free_checklist.jpg": {
       "bytes": 153249,
@@ -30,22 +30,34 @@
   },
   "sources": {
     "amazon/01_map.jpg": {
-      "sha256": "d28a39402232cafc1d2d420794410d1534c069c11070077a4b0441a2f6d54658"
+      "bytes": 246810,
+      "path": "out/amazon/01_map.jpg",
+      "sha256": "2d2ddca0fc3a1ec51e518da285e2c12733bf9a9f8e3fb803d08b274a7f07e17c"
     },
     "amazon/02_worked.jpg": {
-      "sha256": "36c1a4cfeda061951d3c8dc9df689c5688fb38e4560a2ef62abeb7547f29871c"
+      "bytes": 220128,
+      "path": "out/amazon/02_worked.jpg",
+      "sha256": "8784bcbb1753561a71286cbf168388060043ac637ed2ce036c427e596b49ea0f"
     },
     "amazon/03_mileage.jpg": {
-      "sha256": "9c52e71f27c6d628c873a73f6248a0c79d4e576a6c2b5b6b10e5dc10042eccef"
+      "bytes": 185547,
+      "path": "out/amazon/03_mileage.jpg",
+      "sha256": "f725d1bd2e7a9f26d03c7fd729a35f03fcffd19253cac2b89911a6c97afb266e"
     },
     "amazon/04_repairs.jpg": {
-      "sha256": "4d4eff431ac3a9975bc7ee1ce223f13427e974a9db3015a6ee9d6fa62ea44762"
+      "bytes": 173447,
+      "path": "out/amazon/04_repairs.jpg",
+      "sha256": "7ea4e52451eb4fdbf329bd9bdc6b2c2a8ad6034851adf801d81c47fc950b7c93"
     },
     "amazon/05_rent.jpg": {
-      "sha256": "696fd48b89836987a913c7634cd5c7476fb347fb9705234eeca5fe9606a75db7"
+      "bytes": 166933,
+      "path": "out/amazon/05_rent.jpg",
+      "sha256": "e7954371a33ee2f27582a30d478f9e968bb3e11012cdd71ca0bfff4e42609a6c"
     },
     "amazon/06_ledger.jpg": {
-      "sha256": "d03346e6515822851bc38cfd169811ff03cfc2136f70e3a80bbffe14744cfc5a"
+      "bytes": 162243,
+      "path": "out/amazon/06_ledger.jpg",
+      "sha256": "5e85e22a191f95359a7d99a9c4f64fedfa2d4fc64d76347fd6bd2011610f2ac7"
     },
     "book": {
       "bytes": 259174,
