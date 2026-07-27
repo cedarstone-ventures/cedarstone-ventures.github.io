@@ -279,7 +279,9 @@ footer .legal{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between
       <a href="#inside">What&rsquo;s inside</a>
       <a href="#pages">See the pages</a>
       <a href="/checklist/">Free checklist</a>
-      <!-- LAUNCH FLIP: when the ASIN is live, point this and #buy at the Amazon URL. -->
+      <!-- SETTLED 2026-07-27, not pending: #buy stays an in-page anchor by choice. The buy
+           section offers the paperback and the printable on our own checkout; sending this
+           straight to Amazon would skip the one of the two we own outright. -->
       <a class="btn" href="#buy">The record book</a>
     </nav>
   </div>
@@ -316,13 +318,9 @@ footer .legal{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between
       <p style="margin-top:20px;color:var(--dim)" class="measure">A plain-English <strong>Schedule&nbsp;E Map</strong> pairs every expense with its exact IRS line, so a year of receipts ends up somewhere the form can actually use. It is page&nbsp;5, the first thing you see, before you have written anything.</p>
       <p style="margin-top:18px;color:var(--dim)" class="measure">And because the 2026 mileage rate changed mid-year, the mileage log carries <strong>both rates</strong> with a year-total band that separates the two halves. We print both 2026 rates, with a year-total band that keeps the two halves apart &mdash; and the log has columns for <strong>date, purpose, odometer start and odometer end</strong>, which is the substantiation an examiner asks for and the reason most handwritten mileage logs fail.</p>
       <div class="cta" style="margin-top:30px">
-        <!-- LAUNCH FLIP DONE 2026-07-27: the printable is live on our own checkout, so this
-             section can finally sell. The paperback was submitted to Amazon the same night
-             and gains its detail-page link when it clears review.
-             Do NOT write a price into this comment. The price below went stale through
-             $9.99 -> $12.99 -> $16.99 while this page still advertised $11.99 for a book
-             we had already published dearer. A number in a comment is a number nobody
-             re-checks; the canonical price lives in the listing note. -->
+        <!-- Both checkouts are live, so this section sells. Do NOT write a price into this
+             comment: a number in a comment is a number nobody re-checks, and the canonical
+             price lives in the listing note. -->
         <a class="btn" href="https://www.amazon.com/dp/B0HBP9DKY4">Buy the paperback, $16.99</a>
         <a class="btn dark" href="https://deedwell.gumroad.com/l/rental-property-record-book">Or the printable PDF, $8.99</a>
       </div>
@@ -494,16 +492,12 @@ footer .legal{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between
   </div>
 </footer>
 
-<!-- The lead-magnet form that stood here until 2026-07-22 wrote each address to the
-     VISITOR'S OWN localStorage and then told them "you're on the list". Every lead was
-     lost and the promise was false. Real capture needs an ESP (the Chairman's click);
-     until then the checklist is simply given away at /checklist/, which needs nobody's
-     permission and is the better top-of-funnel asset anyway. Do not reinstate a form
+<!-- No capture form here by design. Real capture needs an ESP, which is the Chairman's
+     click; until then the checklist is given away outright at /checklist/, which needs
+     nobody's permission and is the better top-of-funnel asset anyway. Do not add a form
      here without a backend that receives it.
 
-     2026-07-25: every commercial link on this page used to point at retired Cedarstone
-     Press SKUs (a $29 Gumroad bundle with 0 lifetime sales, and a Cedarstone Press
-     paperback). Deedwell has exactly one product, the Rental Property Record Book.
-     Search this file for "LAUNCH FLIP" to switch the CTAs to Amazon on publish day. -->
+     Deedwell has exactly one product, the Rental Property Record Book, and every
+     commercial link on this page points at it. -->
 </body>
 </html>
