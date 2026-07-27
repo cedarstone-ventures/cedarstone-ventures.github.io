@@ -1,0 +1,64 @@
+# Tell the search engines the page changed -- without anyone having to remember.
+#
+# Why this exists. On 2026-07-27 06:12 a pulse found that `site:deedwell.co` returned
+# ZERO on the Bing/DuckDuckGo index: nobody had ever told a crawler the domain existed.
+# IndexNow fixed that, and the pulse's own note closed with the honest gap:
+# "STILL NO TRIGGER -- nothing re-runs either check when a page changes." Four hours
+# later that gap bit exactly as written: `5919f5e` shipped a mileage block and a
+# FAQPage schema to /checklist/ -- the AEO play, the one search surface still open to a
+# DR-0 domain -- and nothing announced it. It sat unannounced until a later pulse
+# noticed by hand.
+#
+# This is the trigger. The lesson stops being prose that a session has to recall at the
+# right moment and becomes infrastructure that cannot forget.
+#
+# ORDER MATTERS, and the order is the point. A push is NOT a deploy: GitHub Pages
+# builds asynchronously, and on 2026-07-27 a pulse re-read a page seconds after a
+# successful push and got the OLD bytes back. So this waits until the origin actually
+# serves the committed bytes (tools/wait_for_deploy.py, which hashes served vs
+# committed) and only then announces. Announcing first would invite a crawler to come
+# and read the page we just replaced.
+#
+# No secret is needed. The IndexNow key is public by design -- it is served at the site
+# root, and that public fetch is exactly how the engine verifies we own the domain,
+# like a DNS TXT record. tools/indexnow_submit.py refuses to submit until it has
+# fetched that key file over the public internet and confirmed the bytes.
+#
+# NOT GOOGLE: Google does not participate in IndexNow. This buys Bing and what sits
+# downstream of it (DuckDuckGo, ChatGPT search). Stated here so nobody reads a green
+# check as "we are in Google".
+
+name: announce changed pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '**.html'
+      - 'sitemap.xml'
+      - 'robots.txt'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Never let two announcements race; a later push supersedes an in-flight one.
+concurrency:
+  group: announce-changed-pages
+  cancel-in-progress: false
+
+jobs:
+  announce:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Wait for Pages to serve the committed bytes
+        run: python tools/wait_for_deploy.py --timeout 600 --interval 20
+
+      - name: Announce to IndexNow
+        run: python tools/indexnow_submit.py
