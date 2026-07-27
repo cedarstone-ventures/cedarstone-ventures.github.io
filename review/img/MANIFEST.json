@@ -1,7 +1,7 @@
 {
   "book_pages": 108,
   "builder": "build_review_gallery.py",
-  "built_utc": "2026-07-26T23:05:04Z",
+  "built_utc": "2026-07-27T00:21:57Z",
   "outputs": {
     "A_read_sample_window.jpg": {
       "bytes": 291320,
@@ -62,7 +62,7 @@
     "book": {
       "bytes": 259174,
       "path": "out/Deedwell_Rental_Property_Record_Book.pdf",
-      "sha256": "53873cf2caeb58668889388cd73c1ebd458d858a28b1cc171647ab86878748b4"
+      "sha256": "38984c877839c91670579d8eefe2bd6fceb8e02d9e63d6959a3e0cdc97ea54cc"
     },
     "checklist": {
       "bytes": 32565,
