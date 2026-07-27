@@ -95,6 +95,16 @@ NEVER_CAPTURE_PHRASES = [
 # from "none at all". It cannot tell whether a configured ESP is wired correctly, and
 # a broken-but-present ESP passes. That is a weaker check than it looks, deliberately -
 # the incident it exists for is the total absence, which is unambiguous.
+#
+# 2026-07-27, AND THIS LIMIT IS NOW LIVE RATHER THAN THEORETICAL: Gumroad is wired, so
+# this rule has relaxed and unsubscribe promises are no longer blocked. But nobody has
+# yet confirmed that a Gumroad CREATOR BROADCAST actually carries an unsubscribe link -
+# help.gumroad.com is login-gated, and gumroad.com/privacy only covers Gumroad's own
+# marketing mail. So the guard that would have caught exactly that claim is now off,
+# while the fact behind the claim is still unverified. Today's copy does not make the
+# promise (privacy.html says outright that we will not describe a footer we have not
+# sent). If a future session wants to promise it, VERIFY IT IN A REAL SENT EMAIL first;
+# this rule will no longer stop you.
 # The verb list is not decoration. The first draft matched only "carries an unsubscribe
 # link" - the exact string that happened to ship - so "every email INCLUDES an
 # unsubscribe link" would have re-shipped the identical false promise past a green
@@ -174,6 +184,14 @@ ESP_WIRING = [
     r"href\s*=\s*[\"']https?://[^\"']*" + _ESP_VENDOR,     # hosted signup page
     _ESP_VENDOR + r"[^\n]{0,40}?(?:api[_-]?key|endpoint|_url\b|token)",   # config, not
     r"(?:api[_-]?key|endpoint|token)[^\n]{0,40}?" + _ESP_VENDOR,         # prose
+    # 2026-07-27: Gumroad became our sending platform (hosted signup at
+    # /subscribe, broadcasts from the dashboard). It is deliberately NOT in
+    # _ESP_VENDOR, and that is the whole point of this entry: we link to Gumroad
+    # for CHECKOUT on three pages, and a store link is not a sending platform.
+    # A bare vendor here would let href=".../l/<product>" flip the rule off, which
+    # is the same off-switch-in-our-own-content defect the comment above describes,
+    # just moved from prose into markup. Only the subscribe endpoint is a capability.
+    r"href\s*=\s*[\"']https?://[^\"']*gumroad\.com/(?:subscribe|follow)\b",
 ]
 
 
