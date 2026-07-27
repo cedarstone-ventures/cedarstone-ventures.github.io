@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The 35 Rental Deductions Owners Miss &middot; Free Checklist &middot; Deedwell</title>
-<meta name="description" content="A free, no-email-required checklist of the 35 rental tax deductions owners most often miss, each mapped to the Schedule E line it belongs on. Built from the IRS's own instructions by Deedwell, a Cedarstone Ventures company.">
+<meta name="description" content="A free, no-email-required checklist of the 35 rental tax deductions owners most often miss, each mapped to the Schedule E line it belongs on. Includes both 2026 split mileage rates, by trip date.">
 <link rel="canonical" href="https://deedwell.co/checklist/">
 <meta name="theme-color" content="#1F3D2F">
 <meta property="og:title" content="The 35 rental deductions owners most often miss">
@@ -34,7 +34,7 @@
   "isAccessibleForFree": true,
   "inLanguage": "en-US",
   "datePublished": "2026-07-22",
-  "dateModified": "2026-07-26",
+  "dateModified": "2026-07-27",
   "about": [
     "Short-term rental tax deductions",
     "Schedule E"
@@ -49,6 +49,31 @@
     "name": "Deedwell",
     "parentOrganization": { "@type": "Organization", "name": "Cedarstone Ventures LLC" }
   }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://deedwell.co/checklist/#faq",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the IRS standard mileage rate for 2026?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "2026 is a split year. The business standard mileage rate is 72.5 cents per mile for trips from January 1 through June 30, 2026, and 76 cents per mile from July 1 through December 31, 2026. The 72.5 cent rate is from IRS Notice 2026-10; the mid-year increase to 76 cents was made in IRS Announcement 2026-11. Landlords who drive for their rentals must total each half of the year separately."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which Schedule E line does rental mileage go on?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Rental auto and travel expenses, including mileage claimed at the standard rate, are reported on line 6 of Schedule E (Form 1040). The standard mileage rate and actual vehicle costs are alternatives: you may claim one or the other, not both."
+      }
+    }
+  ]
 }
 </script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='11' fill='%231F3D2F'/%3E%3Cpath fill='%23F4F0E6' d='M12.04 37 L35.96 37 L24 23.48 Z'/%3E%3Cpath fill='%23F4F0E6' d='M14.9 29.2 L33.1 29.2 L24 16.72 Z'/%3E%3Cpath fill='%23F4F0E6' d='M17.5 22.44 L30.5 22.44 L24 11 Z'/%3E%3Crect fill='%23F4F0E6' x='22.83' y='37' width='2.34' height='2.86'/%3E%3C/svg%3E">
@@ -72,6 +97,19 @@ a{color:inherit}
   padding:15px 28px;border-radius:999px;text-decoration:none;border:0;cursor:pointer;transition:transform .18s ease,background .2s ease}
 .btn:hover{background:var(--cedar-deep);transform:translateY(-2px)}
 .eyebrow{font-size:.74rem;letter-spacing:.24em;text-transform:uppercase;font-weight:600;color:var(--cedar)}
+
+/* 2026 split mileage rate — same treatment as /rental/ so the two pages read as one site */
+.rate{background:var(--cedar);color:var(--cream);border-radius:var(--r);padding:34px 30px;margin:0 0 78px}
+.rate .eyebrow{color:var(--stone)}
+.rate h2{font-size:clamp(1.5rem,3.6vw,2rem);margin:12px 0 16px;color:var(--cream)}
+.rate p{color:#dfe6dc;max-width:60ch}
+.split{display:grid;grid-template-columns:1fr;gap:14px;margin:22px 0 6px}
+@media(min-width:600px){.split{grid-template-columns:1fr 1fr}}
+.half{background:rgba(255,255,255,.07);border-radius:12px;padding:18px 20px}
+.half .when{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--stone)}
+.half .val{font-family:var(--serif);font-size:2rem;line-height:1.1;margin-top:6px;font-variant-numeric:tabular-nums}
+.half .cite{font-size:.74rem;color:#b9c4b6;margin-top:10px}
+.rate .src{font-size:.86rem;color:#b9c4b6;margin-top:16px}
 
 /* header */
 header{position:sticky;top:0;z-index:20;background:rgba(250,247,240,.97);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
@@ -286,7 +324,7 @@ footer .legal{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap
     <div class="caveat" style="border-left:4px solid var(--cedar);margin-top:26px">
       <b>Three that people claim and usually should not.</b> These come up constantly on
       landlord forums, and for a passive rental reported on Schedule&nbsp;E they are
-      normally <em>not</em> available. They are here so you recognise them, not so you
+      normally <em>not</em> available. They are here so you recognize them, not so you
       claim them.
       <ul style="margin:12px 0 0 1.1rem">
         <li><b>Home office.</b> Generally needs the rental to rise to a trade or business.
@@ -302,6 +340,30 @@ footer .legal{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap
     <p class="caveat"><b>Read this before you file.</b> Rental-share items (interest, taxes, utilities…) must be split if there&#x27;s any personal use, and you record your own split — nothing here computes it for you. Depreciation items need Form&nbsp;4562 and a look from your preparer. Line numbers follow the 2025 IRS Instructions for Schedule&nbsp;E (Form&nbsp;1040); line&nbsp;4 is royalties and does not apply to rentals. This is a memory aid, not advice.</p>
   </div>
 </section>
+
+<div class="wrap" id="mileage">
+  <div class="rate">
+    <p class="eyebrow">Before you total your miles</p>
+    <h2>2026 is a split year for mileage. Which rate you use depends on the date of the trip.</h2>
+    <p>Line&nbsp;6 is the deduction owners most often get wrong this year. The IRS raised the business
+      standard mileage rate part way through 2026, so the two halves of the year are deducted at
+      different rates and have to be totaled separately.</p>
+    <div class="split">
+      <div class="half">
+        <p class="when">Jan 1 to Jun 30, 2026</p>
+        <p class="val">72.5&cent; <span style="font-size:.9rem;font-family:var(--sans)">per mile</span></p>
+        <p class="cite">Set by <a href="https://www.irs.gov/pub/irs-drop/n-26-10.pdf" rel="noopener">IRS Notice&nbsp;2026-10</a></p>
+      </div>
+      <div class="half">
+        <p class="when">Jul 1 to Dec 31, 2026</p>
+        <p class="val">76&cent; <span style="font-size:.9rem;font-family:var(--sans)">per mile</span></p>
+        <p class="cite">Raised by <a href="https://www.irs.gov/irb/2026-29_irb" rel="noopener">IRS Announcement&nbsp;2026-11</a>, 13&nbsp;July&nbsp;2026</p>
+      </div>
+    </div>
+    <p class="src">The standard rate and actual vehicle costs are alternatives. You may claim one or the
+      other, not both. Whichever you use, the deduction needs your odometer readings as well as the rate.</p>
+  </div>
+</div>
 
 <section class="cta">
   <div class="wrap">
