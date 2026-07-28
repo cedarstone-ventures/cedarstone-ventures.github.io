@@ -138,7 +138,27 @@ header{position:sticky;top:0;z-index:40;background:rgba(250,247,240,.86);backdro
 .links a{text-decoration:none;font-size:.95rem;font-weight:500;color:var(--body)}
 .links a:hover{color:var(--ink)}
 .links a.btn{min-height:44px;padding:0 22px;font-size:.94rem;color:#1B1607}
-@media (max-width:860px){ .links a:not(.btn){display:none} .nav{height:66px} }
+/* On mobile the nav keeps TWO things: the free checklist and the buy button.
+   It used to keep only the button, so a visitor who had scrolled past the hero
+   had a path to pay us and no path to the one thing we give away - on the device
+   most of our traffic arrives on. */
+@media (max-width:860px){
+  .links a:not(.btn):not(.nav-free){display:none}
+  .links{gap:16px}
+  .links a.nav-free{font-size:.86rem;white-space:nowrap}
+  .links a.btn{white-space:nowrap}
+}
+/* Under ~430px the wordmark, the free link and the buy button no longer fit on
+   one line: the button wrapped to three lines and clipped off the right edge.
+   The fir mark carries the brand at this size, so the WORD yields rather than
+   either link - the two links are the only ways to reach the free thing and the
+   paid thing, and both must survive on the device most traffic arrives on. */
+@media (max-width:430px){
+  .brand b{display:none}
+  .links{gap:12px}
+  .links a.nav-free{font-size:.82rem}
+  .links a.btn{padding:0 16px;font-size:.88rem}
+}
 
 /* ---------- hero ---------- */
 .hero{background:var(--cedar-deep);color:var(--cream);position:relative;overflow:hidden}
@@ -281,7 +301,7 @@ footer .legal{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between
     <nav class="links" aria-label="Primary">
       <a href="#inside">What&rsquo;s inside</a>
       <a href="#pages">See the pages</a>
-      <a href="/checklist/">Free checklist</a>
+      <a class="nav-free" href="/checklist/">Free checklist</a>
       <!-- SETTLED 2026-07-27, not pending: #buy stays an in-page anchor by choice. The buy
            section offers the paperback and the printable on our own checkout; sending this
            straight to Amazon would skip the one of the two we own outright. -->
