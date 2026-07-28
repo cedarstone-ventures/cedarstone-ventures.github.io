@@ -48,11 +48,14 @@ which is worse than no checker, so this deliberately refuses to guess:
   6. Every page-count claim on every page - prose, stat tile, or the JSON-LD Book node -
      must equal BOOK_PAGES, the one place the shipped book's length is typed. This is a
      SWEEP and not a reminder for a reason: see the rule 6 block.
+  7. A COMMENT must not deny a capability the repo demonstrably has. Rule 5 blanks
+     comments because they make no promise to a READER; rule 7 reads exactly those
+     comments, because they instruct the next AUTHOR. Both halves computed, so it is
+     silent while the sentence is true and self-disables if the capability goes away.
+     See the rule 7 block for the homepage it cost us.
   8. A page denying analytics or third-party scripts must not itself load an off-domain
      <script src>. Bought the morning analytics shipped to six pages while privacy.html
      kept inviting readers to "check: this site loads no third-party scripts at all".
-     (Rule 7 - a COMMENT denying a capability the repo has - arrives with the homepage
-     capture branch; the numbering is deliberate so the two merge without collision.)
 
 Rule 1 follows one hop of local links on purpose. The first draft of this script only
 looked at the page's own markup, and it reproduced the exact blind spot it was written
@@ -489,6 +492,92 @@ def privacy_denial_vs_scripts(path, text):
             "an off-domain <script src> (line %d). The reader is invited to check and "
             "will find it. Say what actually runs, or mark the sentence retracted."
             % (path, text[: m.start()].count("\n") + off, pat, s_line))
+    return out
+
+
+# --- rule 7: a COMMENT that denies a capability we demonstrably have ------------
+#
+# Rule 5 blanks comments on purpose - a comment makes no promise to a reader - and
+# that blind spot cost us the homepage. Above the footer of index.html sat:
+#
+#     "No capture form here by design. Real capture needs an ESP, which is the
+#      Chairman's click"
+#
+# which was false: deedwell.gumroad.com/subscribe needs no ESP and no account, and
+# /updates/ had been linking it since 2026-07-26. So the homepage went the ENTIRE
+# life of this repo with no way to join the list while four of six live Pinterest
+# pins landed on it. A comment makes no promise to a READER, but it absolutely
+# instructs the next AUTHOR: every session that opened this file to add capture was
+# told the thing was blocked on a man who was not blocking it, and closed the file.
+#
+# Nothing caught it and nothing could. The enforcer already carries two rules naming
+# this exact failure - `verify-the-gate` ("a blocker claim is itself a CLAIM ABOUT
+# THE BLOCKER") and `served-comment-is-public` ("never phrase a comment as a FUTURE
+# INSTRUCTION; a later session finds it and obeys it") - but both fire on Write|Edit
+# and nobody edited that file. A defect that persists UNTOUCHED needs a sweep, not a
+# reminder. That is the whole reason this rule lives here and not in the registry.
+#
+# BOTH HALVES ARE COMPUTED, which is what makes it safe to run on every commit:
+#     the claim      -> a blocked-capability assertion inside an HTML comment
+#     the capability -> esp_configured(), the very predicate rule 5 already uses
+# so it is silent while the sentence is TRUE and speaks only once it goes stale. If
+# Gumroad ever drops hosted signups, esp_present goes False and this rule switches
+# ITSELF off - correct, because the sentence would be accurate again. That is the
+# test this repo settled on for stale-fact guards, recorded 2026-07-28: can the claim
+# become true again on its own? If yes, compute the ground truth. Never pattern-match
+# the wording - a guard that nags on a true sentence is a guard somebody deletes.
+_CAP_THING = (r"(?:capture|sign-?up|subscribe|mailing list|email list|the list|"
+              r"list growth)")
+_IS_BLOCKED = (r"(?:needs? an ESP|requires? an ESP|needs? a sending platform|"
+               r"requires? a sending platform|the Chairman's click|his click|"
+               r"is blocked|blocked on|gated on)")
+BLOCKED_CAPABILITY_CLAIM = [
+    _CAP_THING + r"[\s\S]{0,80}?" + _IS_BLOCKED,
+    _IS_BLOCKED + r"[\s\S]{0,80}?" + _CAP_THING,
+]
+
+
+# A comment that QUOTES the dead claim in order to bury it is the opposite of the
+# defect, and flagging it is how this guard would get deleted. Established precedent in
+# this file: _published_copy blanks comments partly because the first real run flagged
+# updates/index.html's own post-mortem, which quotes dead copy verbatim to warn the next
+# author off reinstating it.
+#
+# This suppressor was NOT in the first draft, and the hand-written negative controls did
+# not catch the omission - all five passed. What caught it was running the rule against
+# the REAL file at both refs: it flagged the defect on main (right) and the FIX on the
+# branch (wrong), because the fix quotes the sentence it is retiring. ▶ A guard is not
+# controlled until it has been run against the actual artifact, at the actual commit.
+# Fixtures test what you thought of; history tests what you did.
+CORRECTION_MARKER = (r"(?:CORRECTED|SUPERSEDED|used to (?:read|say)|was FALSE|"
+                     r"is FALSE|no longer true|do not restore|never restore|"
+                     r"this used to|struck \d{4}-\d{2}-\d{2})")
+
+
+def stale_capability_comments(path, text, esp_present=False):
+    """Rule 7. Silent unless a sending platform IS wired and a comment denies it.
+
+    Works comment-by-comment rather than over a blanked copy of the whole file, so the
+    correction marker is scoped to the SAME comment as the claim. A file-wide check
+    would let one "CORRECTED" anywhere silence a genuine stale comment elsewhere.
+    """
+    if not esp_present:
+        return []
+    out = []
+    for m in re.finditer(r"<!--.*?-->", text, flags=re.S):
+        body = m.group(0)
+        if re.search(CORRECTION_MARKER, body, re.I):
+            continue                      # it is burying the claim, not making it
+        pat, off = find(BLOCKED_CAPABILITY_CLAIM, body)
+        if not pat:
+            continue
+        line = text[: m.start()].count("\n") + off
+        out.append(
+            "%s:%d a COMMENT says capture is blocked (/%s/) while a sending platform "
+            "is wired in this repo. A stale comment makes no promise to a reader but it "
+            "is a standing order to the next AUTHOR: this exact sentence kept capture "
+            "off the homepage for the whole life of the repo. Delete it, or say what is "
+            "now true and mark it CORRECTED." % (path, line, pat))
     return out
 
 
@@ -931,6 +1020,7 @@ def check_file(path, text, capture_pages=None, esp_present=False):
     problems.extend(interior_claims(path, text))
     problems.extend(mileage_sources(path, text))
     problems.extend(sending_promises(path, text, esp_present))
+    problems.extend(stale_capability_comments(path, text, esp_present))
     problems.extend(privacy_denial_vs_scripts(path, text))
 
     return problems
@@ -1114,6 +1204,45 @@ PRIVACY_SELFTEST = [
      "<p>We run <b>no analytics</b>.</p><script>var a=1;</script>"),
 ]
 
+
+# rule 7's corpus. Case 1 is the real payload, copied verbatim out of index.html as it
+# stood at fa93140. The negative cases are the ones that decide whether this guard
+# survives: a comment is where an author is honest about a failure, so a rule that
+# fires on an incident note or on settled reasoning is a rule somebody deletes - the
+# same lesson `served-comment-is-public` and rule 5's comment-blanking already bought.
+STALE_COMMENT_SELFTEST = [
+    ("the VERBATIM comment that kept capture off the homepage", True,
+     "<!-- No capture form here by design. Real capture needs an ESP, which is the\n"
+     "     Chairman's click; until then the checklist is given away outright at\n"
+     "     /checklist/, which needs nobody's permission. -->"),
+    ("the same claim in READER-VISIBLE copy is rule 5's job, not rule 7's", False,
+     "<p>Real capture needs an ESP, which is the Chairman's click.</p>"),
+    # THE CONTROL THAT MATTERED. This is the real replacement comment, verbatim from
+    # the fix - and the first draft of rule 7 flagged it, because burying a false claim
+    # means quoting it. All five hand-written cases passed while this one failed; only
+    # running the rule against the actual file at the actual commit exposed it.
+    ("the REAL correction comment, which quotes the dead claim to bury it", False,
+     "<!-- CORRECTED 2026-07-28. This comment used to read \"No capture form here by\n"
+     "     design. Real capture needs an ESP, which is the Chairman's click.\" That was\n"
+     "     FALSE, and because it sat in the source it told every session that opened\n"
+     "     this file not to build the thing. -->"),
+    ("a bare correction note must stay silent", False,
+     "<!-- CORRECTED 2026-07-28: this used to say capture needed an ESP. It does not:\n"
+     "     the signup is hosted on the Gumroad storefront we already own. -->"),
+    # and the suppressor must be SCOPED: a correction elsewhere in the file must not
+    # silence a genuinely stale comment. Two comments, one corrected, one not.
+    ("a correction in ANOTHER comment must not silence a stale one", True,
+     "<!-- CORRECTED 2026-07-28: the price note was wrong and is now right. -->\n"
+     "<p>hi</p>\n"
+     "<!-- No capture form here by design. Real capture needs an ESP, which is the\n"
+     "     Chairman's click. -->"),
+    ("ordinary settled reasoning in a comment must stay silent", False,
+     "<!-- SETTLED 2026-07-27: #buy stays an in-page anchor by choice. Sending this\n"
+     "     straight to Amazon would skip the checkout we own outright. -->"),
+    ("an unrelated blocker comment must stay silent", False,
+     "<!-- The trademark filing is blocked on the Chairman; Brand Registry needs it. -->"),
+]
+
 ESP_SELFTEST = [
     ("our own honest denial must NOT count as a platform", False,
      '<p>We do not use MailerLite, Mailchimp or any other sending platform.</p>'),
@@ -1198,6 +1327,26 @@ def selftest():
         print("  [%s] rule 9: %s (expected %s, got %s)"
               % (status, name, "flag" if should_flag else "clean",
                  "flag" if flagged else "clean"))
+
+    # rule 7. The positive control is the VERBATIM comment that sat above the footer of
+    # index.html for the whole life of this repo and kept capture off the homepage.
+    for name, should_flag, html in STALE_COMMENT_SELFTEST:
+        flagged = bool(stale_capability_comments("selftest", html, esp_present=True))
+        status = "PASS" if flagged == should_flag else "FAIL"
+        if flagged != should_flag:
+            ok = False
+        print("  [%s] rule 7: %s (expected %s, got %s)"
+              % (status, name, "flag" if should_flag else "clean",
+                 "flag" if flagged else "clean"))
+
+    # rule 7 must SELF-DISABLE when the capability really is absent, or it becomes the
+    # exact thing this repo refuses to ship: a guard nagging on a true sentence.
+    silent = not stale_capability_comments(
+        "selftest", STALE_COMMENT_SELFTEST[0][2], esp_present=False)
+    print("  [%s] rule 7 goes silent when no sending platform is wired "
+          "(the sentence would be TRUE)" % ("PASS" if silent else "FAIL"))
+    if not silent:
+        ok = False
 
     # why the page rule exists, asserted rather than described
     blind = not mileage_sources("selftest", SENTENCE_RULE_IS_BLIND_TO)
