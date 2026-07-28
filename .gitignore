@@ -1,3 +1,9 @@
 node_modules/
 .DS_Store
 __pycache__/
+
+# Internal QA renders from tools/render_*.py. This repo IS the served site - anything
+# committed here is public at deedwell.co/<path>. On 2026-07-28 six of these were swept
+# into a commit by a blanket `git add` and went live, including a full-page render of an
+# UNRELEASED homepage the Chairman had not yet been shown. Proof shots stay local.
+proof/
