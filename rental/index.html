@@ -312,5 +312,12 @@ footer a{color:var(--stone-soft)}
   </div>
 </footer>
 
+
+<!-- Cloudflare Web Analytics. Privacy-first: no cookies, no cross-site
+     tracking, so no consent banner is required. The token is PUBLIC by
+     design - it labels which site a hit belongs to and grants nothing.
+     Installed by build/build_site_analytics.py; --check refuses when any
+     page is missing it, so a new page cannot ship unmeasured. -->
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "478e11c5d4574ad4b70f275d35088b7d"}'></script>
 </body>
 </html>
