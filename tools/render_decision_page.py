@@ -537,8 +537,15 @@ def hashes(paths):
 
 def check():
     mf = OUT / "MANIFEST.json"
+    if not OUT.exists():
+        # No decision is pending. This is the NORMAL state and it must be silent: this
+        # runs at every session boot, and a guard that reports a problem when there is
+        # none is one somebody switches off - which is how the real firing gets missed.
+        print("decision page: none pending (review/decide/ does not exist)")
+        return 0
     if not mf.exists():
-        print(f"decision page: NOT BUILT ({mf} missing)")
+        print(f"decision page: PUBLISHED WITHOUT A MANIFEST ({mf} missing)")
+        print("  nothing binds those pictures to anything - rebuild or delete the directory")
         print("  fix: python tools/render_decision_page.py")
         return 1
     m = json.loads(mf.read_text(encoding="utf-8"))
