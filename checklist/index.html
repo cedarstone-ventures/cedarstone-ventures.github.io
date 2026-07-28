@@ -162,6 +162,11 @@ td.n{width:52px;color:var(--dim);font-variant-numeric:tabular-nums;font-weight:6
 td.d{font-weight:500}
 td.c{width:34%;color:var(--dim);font-size:.9rem}
 .box{width:15px;height:15px;border:1.5px solid var(--stone);border-radius:3px;display:inline-block;margin-right:12px;vertical-align:-2px}
+/* group headers inside the list. The `td` background is what paints, so this beats the
+   `tr:nth-child(even)` zebra above without needing !important or a source-order trick. */
+table.dl tr.grp td{background:var(--cedar);color:var(--stone-soft);font-family:var(--serif);
+  font-size:.86rem;letter-spacing:.05em;padding:10px 14px;border-bottom:0}
+table.dl tr.grp td .q{color:var(--stone);font-family:var(--sans);font-size:.78rem;letter-spacing:.02em}
 @media(max-width:720px){
   table.dl,table.dl tbody,table.dl tr,table.dl td{display:block;width:100%}
   table.dl thead{display:none}
@@ -170,6 +175,10 @@ td.c{width:34%;color:var(--dim);font-size:.9rem}
   /* needs the table.dl prefix: bare `td.n` (0,0,1,1) loses to `table.dl td` (0,0,1,2)
      above, so the row numbers were still rendering on mobile. */
   table.dl td.n{display:none}
+  /* `table.dl td` above zeroes the padding, which would jam the group label against the
+     screen edge. Restore it for the group rows only. */
+  table.dl tr.grp{padding:0}
+  table.dl tr.grp td{padding:10px 14px}
   td.c{width:100%}
   td.c:before{content:"Log it under \2192 ";color:var(--stone)}
 }
@@ -232,6 +241,9 @@ footer .legal{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap
   .list{padding:14px 0 0}
   table.dl{font-size:.8rem}
   table.dl tbody tr:nth-child(even){background:#f2f2f2}
+  /* a solid cedar band costs a lot of toner on a page whose whole point is being printed */
+  table.dl tr.grp td{background:#fff;color:#000;border-top:2px solid #000;border-bottom:1px solid #000}
+  table.dl tr.grp td .q{color:#333}
   .caveat{background:#f2f2f2}
 }
 </style>
@@ -255,9 +267,10 @@ footer .legal{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap
   <div class="wrap">
     <div class="eyebrow">Free &middot; no email required &middot; 2026 edition</div>
     <h1>The 35 rental deductions owners most often miss.</h1>
-    <p class="lead">Every one of these is an ordinary short-term-rental expense, and every one of them is easy to leave
-      on the table because it never got written down. Each line below names the deduction and the expense category that
-      captures it, so a year of receipts ends up somewhere Schedule&nbsp;E can actually use.</p>
+    <p class="lead">Every one of these is an ordinary rental expense, and every one of them is easy to leave on the
+      table because it never got written down. Most apply to any rental you own, whether you let it by the year or by
+      the night; the short-stay ones are grouped on their own below. Each line names the deduction and the expense
+      category that captures it, so a year of receipts ends up somewhere Schedule&nbsp;E can actually use.</p>
     <p style="margin-top:26px">
       <a class="btn" href="/files/Deedwell-Schedule-E-Deduction-Checklist.pdf" download>Download the printable PDF</a>
     </p>
@@ -266,7 +279,7 @@ footer .legal{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap
     <p class="micro">No form, no download gate, no email to read it. The whole checklist is on this page. Print it and tick it, or work down it on screen.</p>
     <div class="stats">
       <div><b>35</b><span>Deductions</span></div>
-      <div><b>14</b><span>Schedule&nbsp;E lines</span></div>
+      <div><b>15</b><span>Every Schedule&nbsp;E expense line</span></div>
       <div><b>Schedule&nbsp;E</b><span>Where they land</span></div>
     </div>
   </div>
@@ -284,41 +297,43 @@ footer .legal{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap
     <table class="dl">
       <thead><tr><th>#</th><th>Deduction</th><th>Log it under</th></tr></thead>
       <tbody>
-      <tr><td class="n">1</td><td class="d"><span class="box"></span>Platform service / host fees</td><td class="c">8 &middot; Commissions</td></tr>
-      <tr><td class="n">2</td><td class="d"><span class="box"></span>Cleaning &amp; turnover service</td><td class="c">7 &middot; Cleaning &amp; maintenance</td></tr>
-      <tr><td class="n">3</td><td class="d"><span class="box"></span>Cleaning supplies &amp; restock (paper, soap, coffee)</td><td class="c">15 &middot; Supplies</td></tr>
-      <tr><td class="n">4</td><td class="d"><span class="box"></span>Linens, towels &amp; replacements</td><td class="c">15 &middot; Supplies</td></tr>
-      <tr><td class="n">5</td><td class="d"><span class="box"></span>Furniture &amp; décor (small: De Minimis / large: depreciate)</td><td class="c">15 &middot; Supplies, or 18 if it lasts</td></tr>
-      <tr><td class="n">6</td><td class="d"><span class="box"></span>Small appliances &amp; electronics</td><td class="c">15 &middot; Supplies, or 18 if it lasts</td></tr>
-      <tr><td class="n">7</td><td class="d"><span class="box"></span>Wi-Fi &amp; streaming subscriptions</td><td class="c">17 &middot; Utilities</td></tr>
-      <tr><td class="n">8</td><td class="d"><span class="box"></span>Utilities (electric, gas, water, trash)</td><td class="c">17 &middot; Utilities</td></tr>
-      <tr><td class="n">9</td><td class="d"><span class="box"></span>Property &amp; liability insurance</td><td class="c">9 &middot; Insurance</td></tr>
-      <tr><td class="n">10</td><td class="d"><span class="box"></span>Mortgage interest (rental share)</td><td class="c">12 &middot; Mortgage interest</td></tr>
-      <tr><td class="n">11</td><td class="d"><span class="box"></span>Property taxes (rental share)</td><td class="c">16 &middot; Taxes</td></tr>
-      <tr><td class="n">12</td><td class="d"><span class="box"></span>HOA / condo fees</td><td class="c">19 &middot; Other</td></tr>
-      <tr><td class="n">13</td><td class="d"><span class="box"></span>Repairs &amp; maintenance</td><td class="c">14 &middot; Repairs</td></tr>
-      <tr><td class="n">14</td><td class="d"><span class="box"></span>Pest control &amp; landscaping</td><td class="c">7 &middot; Cleaning &amp; maintenance</td></tr>
-      <tr><td class="n">15</td><td class="d"><span class="box"></span>Smart locks / security / cameras</td><td class="c">15 &middot; Supplies, or 18 if it lasts</td></tr>
-      <tr><td class="n">16</td><td class="d"><span class="box"></span>Dynamic pricing / PMS software</td><td class="c">19 &middot; Other</td></tr>
-      <tr><td class="n">17</td><td class="d"><span class="box"></span>Channel manager &amp; booking tools</td><td class="c">19 &middot; Other</td></tr>
-      <tr><td class="n">18</td><td class="d"><span class="box"></span>Accounting / bookkeeping software</td><td class="c">19 &middot; Other</td></tr>
-      <tr><td class="n">19</td><td class="d"><span class="box"></span>Professional photography</td><td class="c">5 &middot; Advertising</td></tr>
-      <tr><td class="n">20</td><td class="d"><span class="box"></span>Guidebooks, welcome gifts, toiletries</td><td class="c">15 &middot; Supplies</td></tr>
-      <tr><td class="n">21</td><td class="d"><span class="box"></span>Business mileage (site visits, supply runs)</td><td class="c">6 &middot; Auto &amp; travel</td></tr>
-      <tr><td class="n">22</td><td class="d"><span class="box"></span>Legal &amp; professional fees</td><td class="c">10 &middot; Legal &amp; professional</td></tr>
-      <tr><td class="n">23</td><td class="d"><span class="box"></span>Business license &amp; STR permit fees</td><td class="c">16 &middot; Taxes</td></tr>
-      <tr><td class="n">24</td><td class="d"><span class="box"></span>Occupancy / lodging taxes you remitted</td><td class="c">16 &middot; Taxes</td></tr>
-      <tr><td class="n">25</td><td class="d"><span class="box"></span>Bank &amp; merchant / processing fees</td><td class="c">19 &middot; Other</td></tr>
-      <tr><td class="n">26</td><td class="d"><span class="box"></span>Advertising &amp; listing promotion</td><td class="c">5 &middot; Advertising</td></tr>
-      <tr><td class="n">27</td><td class="d"><span class="box"></span>Website &amp; domain costs</td><td class="c">5 &middot; Advertising</td></tr>
-      <tr><td class="n">28</td><td class="d"><span class="box"></span>Phone (business-use % — never the first home line&#x27;s base rate)</td><td class="c">17 &middot; Utilities</td></tr>
-      <tr><td class="n">29</td><td class="d"><span class="box"></span>Guest refunds &amp; chargebacks</td><td class="c">3 &middot; Rents received &mdash; reduces gross</td></tr>
-      <tr><td class="n">30</td><td class="d"><span class="box"></span>Snow removal / seasonal services</td><td class="c">7 &middot; Cleaning &amp; maintenance</td></tr>
-      <tr><td class="n">31</td><td class="d"><span class="box"></span>Depreciation of the building</td><td class="c">18 &middot; Depreciation</td></tr>
-      <tr><td class="n">32</td><td class="d"><span class="box"></span>Depreciation of improvements</td><td class="c">18 &middot; Depreciation</td></tr>
-      <tr><td class="n">33</td><td class="d"><span class="box"></span>Education &amp; courses (hosting)</td><td class="c">19 &middot; Other</td></tr>
-      <tr><td class="n">34</td><td class="d"><span class="box"></span>Association / membership dues</td><td class="c">19 &middot; Other</td></tr>
-      <tr><td class="n">35</td><td class="d"><span class="box"></span>Travel to manage the property</td><td class="c">6 &middot; Auto &amp; travel</td></tr>
+      <tr class="grp"><td colspan="3">Any rental you own <span class="q">&middot; whether you let it by the year or by the night</span></td></tr>
+      <tr><td class="n">1</td><td class="d"><span class="box"></span>Mortgage interest (rental share)</td><td class="c">12 &middot; Mortgage interest</td></tr>
+      <tr><td class="n">2</td><td class="d"><span class="box"></span>Other interest (private or seller-financed loans, no Form 1098)</td><td class="c">13 &middot; Other interest</td></tr>
+      <tr><td class="n">3</td><td class="d"><span class="box"></span>Property taxes (rental share)</td><td class="c">16 &middot; Taxes</td></tr>
+      <tr><td class="n">4</td><td class="d"><span class="box"></span>Property &amp; liability insurance</td><td class="c">9 &middot; Insurance</td></tr>
+      <tr><td class="n">5</td><td class="d"><span class="box"></span>Depreciation of the building</td><td class="c">18 &middot; Depreciation</td></tr>
+      <tr><td class="n">6</td><td class="d"><span class="box"></span>Depreciation of improvements</td><td class="c">18 &middot; Depreciation</td></tr>
+      <tr><td class="n">7</td><td class="d"><span class="box"></span>Repairs &amp; maintenance</td><td class="c">14 &middot; Repairs</td></tr>
+      <tr><td class="n">8</td><td class="d"><span class="box"></span>Property management &amp; leasing fees</td><td class="c">11 &middot; Management fees</td></tr>
+      <tr><td class="n">9</td><td class="d"><span class="box"></span>Utilities (electric, gas, water, trash)</td><td class="c">17 &middot; Utilities</td></tr>
+      <tr><td class="n">10</td><td class="d"><span class="box"></span>HOA / condo fees</td><td class="c">19 &middot; Other</td></tr>
+      <tr><td class="n">11</td><td class="d"><span class="box"></span>Pest control &amp; landscaping</td><td class="c">7 &middot; Cleaning &amp; maintenance</td></tr>
+      <tr><td class="n">12</td><td class="d"><span class="box"></span>Snow removal / seasonal services</td><td class="c">7 &middot; Cleaning &amp; maintenance</td></tr>
+      <tr><td class="n">13</td><td class="d"><span class="box"></span>Legal &amp; professional fees</td><td class="c">10 &middot; Legal &amp; professional</td></tr>
+      <tr><td class="n">14</td><td class="d"><span class="box"></span>Accounting / bookkeeping software</td><td class="c">19 &middot; Other</td></tr>
+      <tr><td class="n">15</td><td class="d"><span class="box"></span>Business mileage (site visits, supply runs)</td><td class="c">6 &middot; Auto &amp; travel</td></tr>
+      <tr><td class="n">16</td><td class="d"><span class="box"></span>Travel to manage the property</td><td class="c">6 &middot; Auto &amp; travel</td></tr>
+      <tr><td class="n">17</td><td class="d"><span class="box"></span>Advertising, listing promotion &amp; website costs</td><td class="c">5 &middot; Advertising</td></tr>
+      <tr><td class="n">18</td><td class="d"><span class="box"></span>Professional photography</td><td class="c">5 &middot; Advertising</td></tr>
+      <tr><td class="n">19</td><td class="d"><span class="box"></span>Business license &amp; rental permit fees</td><td class="c">16 &middot; Taxes</td></tr>
+      <tr><td class="n">20</td><td class="d"><span class="box"></span>Bank &amp; merchant / processing fees</td><td class="c">19 &middot; Other</td></tr>
+      <tr><td class="n">21</td><td class="d"><span class="box"></span>Phone (business-use % — never the first home line&#x27;s base rate)</td><td class="c">17 &middot; Utilities</td></tr>
+      <tr><td class="n">22</td><td class="d"><span class="box"></span>Association / membership dues</td><td class="c">19 &middot; Other</td></tr>
+      <tr><td class="n">23</td><td class="d"><span class="box"></span>Education &amp; courses (rental business)</td><td class="c">19 &middot; Other</td></tr>
+      <tr><td class="n">24</td><td class="d"><span class="box"></span>Smart locks / security / cameras</td><td class="c">15 &middot; Supplies, or 18 if it lasts</td></tr>
+      <tr><td class="n">25</td><td class="d"><span class="box"></span>Furniture &amp; décor (small: De Minimis / large: depreciate)</td><td class="c">15 &middot; Supplies, or 18 if it lasts</td></tr>
+      <tr><td class="n">26</td><td class="d"><span class="box"></span>Small appliances &amp; electronics</td><td class="c">15 &middot; Supplies, or 18 if it lasts</td></tr>
+      <tr class="grp"><td colspan="3">Short-stay lets only <span class="q">&middot; skip these nine if your tenant has a lease</span></td></tr>
+      <tr><td class="n">27</td><td class="d"><span class="box"></span>Platform service / host fees</td><td class="c">8 &middot; Commissions</td></tr>
+      <tr><td class="n">28</td><td class="d"><span class="box"></span>Cleaning &amp; turnover service</td><td class="c">7 &middot; Cleaning &amp; maintenance</td></tr>
+      <tr><td class="n">29</td><td class="d"><span class="box"></span>Cleaning supplies &amp; restock (paper, soap, coffee)</td><td class="c">15 &middot; Supplies</td></tr>
+      <tr><td class="n">30</td><td class="d"><span class="box"></span>Linens, towels &amp; replacements</td><td class="c">15 &middot; Supplies</td></tr>
+      <tr><td class="n">31</td><td class="d"><span class="box"></span>Wi-Fi &amp; streaming the guest uses</td><td class="c">17 &middot; Utilities</td></tr>
+      <tr><td class="n">32</td><td class="d"><span class="box"></span>Booking &amp; pricing software (channel manager, PMS)</td><td class="c">19 &middot; Other</td></tr>
+      <tr><td class="n">33</td><td class="d"><span class="box"></span>Guidebooks, welcome gifts, toiletries</td><td class="c">15 &middot; Supplies</td></tr>
+      <tr><td class="n">34</td><td class="d"><span class="box"></span>Occupancy / lodging taxes you remitted</td><td class="c">16 &middot; Taxes</td></tr>
+      <tr><td class="n">35</td><td class="d"><span class="box"></span>Guest refunds &amp; chargebacks</td><td class="c">3 &middot; Rents received &mdash; reduces gross</td></tr>
       </tbody>
     </table>
 
