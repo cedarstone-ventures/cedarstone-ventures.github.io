@@ -48,6 +48,11 @@ which is worse than no checker, so this deliberately refuses to guess:
   6. Every page-count claim on every page - prose, stat tile, or the JSON-LD Book node -
      must equal BOOK_PAGES, the one place the shipped book's length is typed. This is a
      SWEEP and not a reminder for a reason: see the rule 6 block.
+  8. A page denying analytics or third-party scripts must not itself load an off-domain
+     <script src>. Bought the morning analytics shipped to six pages while privacy.html
+     kept inviting readers to "check: this site loads no third-party scripts at all".
+     (Rule 7 - a COMMENT denying a capability the repo has - arrives with the homepage
+     capture branch; the numbering is deliberate so the two merge without collision.)
 
 Rule 1 follows one hop of local links on purpose. The first draft of this script only
 looked at the page's own markup, and it reproduced the exact blind spot it was written
@@ -427,6 +432,66 @@ SENTENCE_END = r"[;!?]\s|\.\s(?![a-z0-9])"
 INLINE_TAGS = r"(?i)</?(?:b|i|em|strong|span|a|small|sup|sub|u|mark|abbr|wbr)\b[^>]*>"
 
 
+# --- rule 8: a privacy denial the page's own <head> falsifies --------------------
+#
+# 2026-07-28. Cloudflare Web Analytics was wired into all six pages one morning and
+# the prose describing it was not touched, so privacy.html said "We run no analytics"
+# and, worse, invited the reader to "check: this site loads no third-party scripts at
+# all" - on a page that was at that moment loading static.cloudflareinsights.com. A
+# reader who accepted the invitation would have caught us lying on the one page whose
+# entire job is to be believed. That is the same shape as the incident that created
+# this whole file (a CAPABILITY added, COPY elsewhere silently falsified), which is
+# why it belongs here and not in a note.
+#
+# Both halves are mechanically detectable, this file's bar for a rule:
+#   the claim      -> a denial of analytics / third-party scripts in published copy
+#   the capability -> a <script src> pointing off-domain, in the same file
+#
+# Scoped per BLOCK and skipping blocks that carry a retraction marker, for the reason
+# rule 7 had to learn the hard way: retracting a false sentence means quoting it, and
+# the corrected privacy.html quotes both denials verbatim. A guard that fires on the
+# incident report is a guard somebody deletes.
+#
+# Google Fonts is deliberately NOT counted as the trigger, though it is a third-party
+# REQUEST: it is a stylesheet, not a script, and folding it in would make the rule
+# argue a judgement call instead of a fact. The honest disclosure of it is a copy
+# decision, made on the page; this rule polices only the mechanical contradiction.
+ANALYTICS_DENIAL = [
+    r"we run\s*(?:<[^>]+>\s*)?no analytics",
+    r"no analytics (?:has ever been|is|are)\s+(?:installed|running|used)",
+    r"loads? no third-party scripts",
+    r"no third-party scripts at all",
+    r"we (?:run|use) no (?:tracking|tracker)",
+]
+THIRD_PARTY_SCRIPT = [
+    r"<script[^>]+\bsrc\s*=\s*[\"']https?://(?!deedwell\.co\b)[^\"']+",
+]
+RETRACTION_MARKER = (r"(?:Until \d{4}-\d{2}-\d{2}|was wrong|were wrong|CORRECTED|"
+                     r"Corrected|corrected|no longer (?:true|says)|used to (?:say|read)|"
+                     r"this policy (?:described|said)|an earlier version)")
+
+
+def privacy_denial_vs_scripts(path, text):
+    """Rule 8. A denial of analytics on a page that loads an off-domain script."""
+    script, s_line = find(THIRD_PARTY_SCRIPT, text)
+    if not script:
+        return []
+    out = []
+    for m in re.finditer(r"<p\b[^>]*>.*?</p>", text, flags=re.S | re.I):
+        block = m.group(0)
+        if re.search(RETRACTION_MARKER, block):
+            continue                       # it is retracting the claim, not making it
+        pat, off = find(ANALYTICS_DENIAL, block)
+        if not pat:
+            continue
+        out.append(
+            "%s:%d denies analytics/third-party scripts (/%s/) while this page loads "
+            "an off-domain <script src> (line %d). The reader is invited to check and "
+            "will find it. Say what actually runs, or mark the sentence retracted."
+            % (path, text[: m.start()].count("\n") + off, pat, s_line))
+    return out
+
+
 def find(patterns, text):
     """Return (pattern, 1-indexed line) for the first match of any pattern."""
     for p in patterns:
@@ -790,6 +855,7 @@ def check_file(path, text, capture_pages=None, esp_present=False):
     problems.extend(interior_claims(path, text))
     problems.extend(mileage_sources(path, text))
     problems.extend(sending_promises(path, text, esp_present))
+    problems.extend(privacy_denial_vs_scripts(path, text))
 
     return problems
 
@@ -942,6 +1008,36 @@ SENDING_SELFTEST = [
 # rule runs at all. Codex filed that a bare vendor mention flipped it, which put the
 # off switch for the whole rule inside our own honest prose. Wiring counts; talking
 # does not. Every fixture here is a sentence or snippet we plausibly write.
+# The real beacon tag, as the analytics commit wrote it into all six pages. Named once
+# because it appears in four fixtures, and because a tag full of double quotes inlined
+# four times is how the first draft of this block shipped a SyntaxError into the
+# pre-commit gate. No literal newlines in these fixtures either: HTML does not need
+# them. A fixture should exercise the rule, not the quoting.
+_BEACON = ('<script defer src="https://static.cloudflareinsights.com/beacon.min.js">'
+           '</script>')
+
+PRIVACY_SELFTEST = [
+    ("the VERBATIM live contradiction: denial + the beacon that shipped", True,
+     "<p>We run <b>no analytics</b>. You can check: this site loads no third-party "
+     "scripts at all.</p>" + _BEACON),
+    ("the denial alone, with no off-domain script, is TRUE and must stay silent", False,
+     "<p>We run <b>no analytics</b>. You can check: this site loads no third-party "
+     "scripts at all.</p>"),
+    ("the REAL retraction, which quotes both denials to bury them", False,
+     "<p>Then on 2026-07-28 it was wrong in the other direction. For a few hours this "
+     "page still said 'we run no analytics' and invited you to 'check: this site loads "
+     "no third-party scripts at all' - while the page you were reading loaded one. "
+     "Corrected the same day.</p>" + _BEACON),
+    ("honest disclosure naming the tool must stay silent", False,
+     "<p>Since 2026-07-28 we run one analytics tool: Cloudflare Web Analytics. It uses "
+     "no cookies and does not fingerprint you.</p>" + _BEACON),
+    ("a retraction elsewhere must not silence a LIVE denial", True,
+     "<p>An earlier version of this policy was wrong about the checklist.</p>"
+     "<p>We run no analytics.</p>" + _BEACON),
+    ("an inline (non-src) script must not count as third-party", False,
+     "<p>We run <b>no analytics</b>.</p><script>var a=1;</script>"),
+]
+
 ESP_SELFTEST = [
     ("our own honest denial must NOT count as a platform", False,
      '<p>We do not use MailerLite, Mailchimp or any other sending platform.</p>'),
@@ -1008,6 +1104,15 @@ def selftest():
           % ("PASS" if relaxes else "FAIL"))
     if not relaxes:
         ok = False
+
+    for name, should_flag, html in PRIVACY_SELFTEST:
+        flagged = bool(privacy_denial_vs_scripts("selftest", html))
+        status = "PASS" if flagged == should_flag else "FAIL"
+        if flagged != should_flag:
+            ok = False
+        print("  [%s] rule 8: %s (expected %s, got %s)"
+              % (status, name, "flag" if should_flag else "clean",
+                 "flag" if flagged else "clean"))
 
     # why the page rule exists, asserted rather than described
     blind = not mileage_sources("selftest", SENTENCE_RULE_IS_BLIND_TO)
