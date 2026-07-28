@@ -45,6 +45,9 @@ which is worse than no checker, so this deliberately refuses to guess:
      variant, because a print callout is a visual unit and not a grammatical one.)
   5. An unsubscribe / auto-delivery promise must not be made while no sending platform
      is wired anywhere in the repo. Auto-relaxes the hour an ESP exists.
+  6. Every page-count claim on every page - prose, stat tile, or the JSON-LD Book node -
+     must equal BOOK_PAGES, the one place the shipped book's length is typed. This is a
+     SWEEP and not a reminder for a reason: see the rule 6 block.
 
 Rule 1 follows one hop of local links on purpose. The first draft of this script only
 looked at the page's own markup, and it reproduced the exact blind spot it was written
@@ -612,6 +615,144 @@ def pdf_pages(path):
     return [(p.extract_text() or "") for p in PdfReader(path).pages]
 
 
+# --- rule 6: every page-count claim must name the same book -------------------
+#
+# 2026-07-28 01:0x. The homepage said "108 pages" in the hero and in the buy
+# section, rendered a cover image reading "108 PAGES - 8.5 x 11 IN", and then two
+# sections down said 94 in the "Inside the book" heading, 94 in the closing stat
+# tile, and '"numberOfPages": 94' in the JSON-LD Book node that crawlers and
+# answer engines read. /rental/, /checklist/ and /updates/ all said 108. One page
+# contradicted itself about what the buyer receives, on the landing page four of
+# our six live Pinterest pins point at.
+#
+# The rule that should have stopped this ALREADY EXISTED. cedarstone-ops' enforcer
+# carries `derive-dont-restate`, and its cost field names "the site" among the
+# surfaces the 26 July 94->108 repagination left false. It fires on Write|Edit.
+# Nobody was editing the homepage - the false number simply sat there - so a
+# defect that needs NO ACTION to persist was unreachable by a trigger that needs
+# one. That asymmetry is the whole reason this is a sweep and not another rule:
+# an at-the-moment-of-action reminder cannot catch a claim that is already wrong
+# and untouched. Everything the enforcer covers still stands; this covers the
+# half it structurally cannot see.
+#
+# Deliberately a CONSISTENCY check against one declared constant, not a live read
+# of Amazon: a gate that needs the network is a gate that gets disabled, and this
+# one runs in .githooks/pre-commit. BOOK_PAGES is the single place a repagination
+# is typed, so the next one cannot half-land across the site the way this one did.
+#
+# Known and intended: the DIGITAL pdf is 109 pages (108 record pages plus a front
+# page). If a page ever claims 109 this rule fires, and that is correct - it
+# forces the copy to say "record pages" rather than leaving a buyer to reconcile
+# two numbers. Markdown logs (this incident is written up in several) are
+# structurally out of reach: main() walks *.html only, and skips tools/.
+BOOK_PAGES = 108     # measured from the shipped print interior
+                     # out/Deedwell_Rental_Property_Record_Book.pdf on 2026-07-28:
+                     # 108 /Type/Page objects, /Count 108. Corroborated by Amazon's
+                     # detail page ("Print length 108 pages") and four "108" on the
+                     # live Etsy listing. Change this ONLY together with the
+                     # artifact, then run --selftest.
+
+# A page count is a claim about THE BOOK only in forms that cannot mean anything
+# else. This rule's first real firing was a false positive, on true copy: the
+# review page says "All 42 expense ledger pages ... the twelve monthly rent rolls
+# close the same way - 54 pages that add themselves up, in all" (42 + 12 = 54, a
+# SUBSET of the book, arithmetically right). A bare "NN pages" in running prose is
+# therefore NOT a length claim, and that fixture is now a permanent control below.
+# The four qualifying forms, each justified by a real string in our own copy:
+#   attributive  "108-page, 8.5 x 11 record book"       (/checklist/)
+#   house phrase "the same 108 record pages as a PDF"   (home, /rental/)
+#   spec pair    "94 pages, 8.5 x 11"                   (the stat tile that shipped)
+#   heading      "<h2>94 pages, in the order the year happens.</h2>"  (ditto)
+# plus the JSON-LD key, which is unambiguous wherever it appears.
+PAGE_CLAIM = re.compile(r"(?<![\d.])(\d{2,4})(\s*-\s*|\s+)(record\s+)?pages?\b", re.I)
+JSON_PAGE_CLAIM = re.compile(r'"numberOfPages"\s*:\s*(\d{2,4})')
+TRIM_SIZE = re.compile(r"8\.5\s*(?:x\s*)?11\b", re.I)
+HEADING = re.compile(r"<h[1-6][^>]*>.*?</h[1-6]>", re.I | re.S)
+
+
+def page_count_claims(text):
+    """(line, value, snippet) for every claim about the BOOK'S LENGTH in one file.
+
+    Tags and entities are blanked to spaces of EQUAL LENGTH - the same discipline
+    flatten() uses - so a claim split across markup ("<b>94</b><span>pages") reads
+    as one phrase while offsets still map to real line numbers.
+    """
+    def blank(m):
+        return " " * len(m.group(0))
+
+    flat = re.sub(r"<[^>]+>", blank, text)
+    flat = re.sub(r"&[a-z]+;|&#\d+;", blank, flat, flags=re.I)
+
+    # headings do not nest, so a non-greedy span is safe here
+    heads = [(m.start(), m.end()) for m in HEADING.finditer(text)]
+
+    hits = {}
+    for m in JSON_PAGE_CLAIM.finditer(flat):
+        hits[m.start()] = int(m.group(1))
+    for m in PAGE_CLAIM.finditer(flat):
+        attributive = "-" in m.group(2)
+        house_phrase = m.group(3) is not None
+        spec_pair = bool(TRIM_SIZE.search(flat, m.end(), m.end() + 40))
+        in_heading = any(a <= m.start() < b for a, b in heads)
+        if attributive or house_phrase or spec_pair or in_heading:
+            hits[m.start()] = int(m.group(1))
+
+    return [(flat.count("\n", 0, k) + 1, v,
+             " ".join(flat[max(0, k - 45):k + 45].split()))
+            for k, v in sorted(hits.items())]
+
+
+def page_counts_agree(texts_by_label):
+    problems = []
+    for label in sorted(texts_by_label):
+        for line, value, snippet in page_count_claims(texts_by_label[label]):
+            if value != BOOK_PAGES:
+                problems.append(
+                    "%s:%d page-count claim says %d, the shipped book is %d "
+                    "(...%s...)" % (label, line, value, BOOK_PAGES, snippet))
+    return problems
+
+
+PAGECOUNT_SELFTEST = [
+    # the three that actually shipped, verbatim from index.html before the fix
+    ("the section heading that shipped", True,
+     '<p class="fine">108 pages, 8.5 &times; 11.</p>'
+     '<h2><span class="num">94</span> pages, in the order the year happens.</h2>'),
+    ("the closing stat tile that shipped", True,
+     '<div class="stat"><b>94</b><span>pages, 8.5&nbsp;&times;&nbsp;11</span></div>'),
+    ("the JSON-LD Book node crawlers and answer engines read", True,
+     '<script type="application/ld+json">'
+     '{"@type":"Book","numberOfPages": 94,"inLanguage":"en-US"}</script>'),
+    # the correct forms already live on the other pages must stay silent
+    ("108-page hyphenated, as /checklist/ writes it", False,
+     'the <b>Rental Property Record&nbsp;Book</b> is the 108-page, '
+     '8.5&nbsp;&times;&nbsp;11 record book the list came from'),
+    ("108 record pages, as /rental/ writes it", False,
+     '<p class="meta">108 record pages &middot; 8.5 x 11 inches &middot; published</p>'),
+    # negative controls: a gate that nags on ordinary work is a gate somebody
+    # switches off, and every one of these sits on the real pages today
+    ("trim size and mapped lines are not page counts", False,
+     '<div class="stat"><b>16</b><span>Schedule&nbsp;E lines mapped</span></div>'
+     '<div class="stat"><b>2</b><span>2026 mileage rates, split by date</span></div>'
+     '<p>Nothing decorative. Every page exists because a landlord has to record.</p>'),
+    ("css that merely contains the digits", False,
+     '<style>.links a.btn{font-size:.94rem} .sig{padding-top:44px;font-size:.94rem}'
+     '</style>'),
+    ("a caption naming a page NUMBER, not a count", False,
+     '<p>Page 5 &mdash; Your Schedule E Map. Lines per the 2025 IRS instructions '
+     'for Schedule E (Form 1040).</p>'),
+    # THIS RULE'S OWN FIRST REAL FIRING WAS A FALSE POSITIVE, on true copy, and it
+    # is kept verbatim from review/index.html so no future tightening can lose it.
+    # A SUBSET count in running prose is not a claim about the book's length.
+    ("a subset count in prose: 42 ledgers + 12 rent rolls = 54 self-totalling", False,
+     '<p class="note">All 42 expense ledger pages (p.33 and p.74 here) end in a '
+     '15-box strip that totals the page by Schedule E line. The twelve monthly '
+     'rent rolls close the same way, though totalled by property onto Schedule E '
+     'line 3 rather than by line &mdash; 54 pages that add themselves up, in all.'
+     '</p>'),
+]
+
+
 def check_file(path, text, capture_pages=None, esp_present=False):
     problems = []
     capture_pages = capture_pages or {}
@@ -834,7 +975,9 @@ def selftest():
              + [(n, f, h, lambda p, t: mileage_sources_page(p, t, 1))
                 for n, f, h in PDF_SELFTEST]
              + [(n, f, h, lambda p, t: sending_promises(p, t, esp_present=False))
-                for n, f, h in SENDING_SELFTEST])
+                for n, f, h in SENDING_SELFTEST]
+             + [(n, f, h, lambda p, t: page_counts_agree({p: t}))
+                for n, f, h in PAGECOUNT_SELFTEST])
     for name, should_flag, html, rule in cases:
         flagged = bool(rule("selftest", html))
         status = "PASS" if flagged == should_flag else "FAIL"
@@ -916,6 +1059,11 @@ def main():
         problems.extend(
             check_file(label(path), texts[path], capture_pages, esp_present))
 
+    # rule 6 is cross-file on purpose: the defect it exists for was one page
+    # disagreeing with four others, which no per-file check can see.
+    problems.extend(
+        page_counts_agree({label(p): texts[p] for p in sorted(targets)}))
+
     # Served PDFs are public copy too. files/ is what deedwell.co actually hands the
     # reader - and the QR printed inside the book points at a page offering it.
     pdfs = []
@@ -927,9 +1075,13 @@ def main():
         for i, page_text in enumerate(pdf_pages(path)):
             problems.extend(mileage_sources_page(label(path), page_text, i + 1))
 
-    print("checked %d html file(s) and %d served pdf(s) [sending platform: %s]"
+    # the book length is printed on every run, green or not: a pass that does not
+    # say WHAT it agreed with is how a stale constant survives a green checker.
+    print("checked %d html file(s) and %d served pdf(s) "
+          "[sending platform: %s] [book: %d pages]"
           % (len(targets), len(pdfs),
-             ("WIRED at %s - rule 5 relaxed" % esp_where) if esp_present else "NONE"))
+             ("WIRED at %s - rule 5 relaxed" % esp_where) if esp_present else "NONE",
+             BOOK_PAGES))
     if problems:
         print("")
         print("PROMISE CONTRADICTIONS (%d):" % len(problems))
