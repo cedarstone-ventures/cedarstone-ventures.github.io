@@ -818,9 +818,85 @@ PAGECOUNT_SELFTEST = [
 ]
 
 
+# --- rule 9: the free checklist's line coverage, and its externally-pinned count ---
+#
+# Bought 2026-07-28. The free checklist is our entire top of funnel, and it had been
+# addressed to short-term-rental hosts since b063222 (22 July) - three days BEFORE the
+# Deedwell pivot moved the product to the long-term landlord. Twelve commits touched
+# the file afterwards and none re-read who it was talking to, because a rebrand sweep
+# looks for old brand NAMES and this defect never mentioned one.
+#
+# "Who is this addressed to" is not mechanically checkable. The fingerprint it leaves
+# is: the list covered 13 of Schedule E's 15 expense lines, and the two it had never
+# had were line 11 (Management fees) and line 13 (Other interest) - exactly the two an
+# Airbnb host never pays and a landlord almost always does. A missing line IS checkable.
+#
+# Second half, and the reason the count is frozen rather than merely stated: "The 35
+# rental deductions" is rendered INSIDE a live Pinterest pin image, and a published
+# pin's image cannot be edited. Adding or dropping a row here silently breaks a promise
+# on a surface we cannot reach. So the count must track the headline, both directions.
+#
+# A SWEEP and not an enforcer rule, on this vault's own test: the defect persisted six
+# days while nobody performed it, and a Write-triggered reminder is structurally blind
+# to a page nobody is editing.
+SCHEDULE_E_EXPENSE_LINES = set(range(5, 20))  # 5..19. Line 3 is income, 4 is royalties.
+
+
+def checklist_line_coverage(path, text):
+    problems = []
+    rows = re.findall(r'<td class="n">(\d+)</td>', text)
+    if not rows:
+        # Not a checklist page. Verified against the real site 2026-07-28: five of our
+        # six served pages have zero such rows, so this returns silently on all of them.
+        return problems
+
+    covered = {int(n) for n in re.findall(r'<td class="c">\s*(\d+)', text)}
+    missing = sorted(SCHEDULE_E_EXPENSE_LINES - covered)
+    if missing:
+        problems.append(
+            "%s: the deduction list reaches %d of Schedule E's 15 expense lines - "
+            "nothing maps to line%s %s. A line with no row is a deduction the reader "
+            "is never prompted to take."
+            % (path, 15 - len(missing), "" if len(missing) == 1 else "s",
+               ", ".join(str(m) for m in missing)))
+
+    stated = re.search(r"The (\d+) rental deductions", text)
+    if stated and int(stated.group(1)) != len(rows):
+        problems.append(
+            "%s: the headline promises %s deductions and the table lists %d. That "
+            "number is rendered inside a LIVE Pinterest pin image, which cannot be "
+            "edited after publishing - so the list must move to the pin, not the "
+            "other way round." % (path, stated.group(1), len(rows)))
+    return problems
+
+
+# name, should_flag, html
+CHECKLIST_SELFTEST = [
+    ("a page with no deduction table at all (every other page we serve)", False,
+     '<h1>Deedwell</h1><p>The rental property record book.</p>'),
+    ("all 15 expense lines present and the count matches the headline", False,
+     '<h1>The 35 rental deductions owners most often miss.</h1>'
+     + "".join('<tr><td class="n">%d</td><td class="c">%d &middot; x</td></tr>'
+               % (i + 1, ln)
+               for i, ln in enumerate(list(range(5, 20)) + [19] * 20))),
+    ("line 11 Management fees missing - the shape the STR framing actually left", True,
+     '<h1>The 35 rental deductions owners most often miss.</h1>'
+     + "".join('<tr><td class="n">%d</td><td class="c">%d &middot; x</td></tr>'
+               % (i + 1, ln)
+               for i, ln in enumerate([n for n in range(5, 20) if n != 11]
+                                      + [19] * 21))),
+    ("a row added, so the table outruns the count printed on a live pin", True,
+     '<h1>The 35 rental deductions owners most often miss.</h1>'
+     + "".join('<tr><td class="n">%d</td><td class="c">%d &middot; x</td></tr>'
+               % (i + 1, ln)
+               for i, ln in enumerate(list(range(5, 20)) + [19] * 21))),
+]
+
+
 def check_file(path, text, capture_pages=None, esp_present=False):
     problems = []
     capture_pages = capture_pages or {}
+    problems.extend(checklist_line_coverage(path, text))
 
     cap, cap_line = find(CAPTURE_MARKERS, text)
     via = None
@@ -1111,6 +1187,15 @@ def selftest():
         if flagged != should_flag:
             ok = False
         print("  [%s] rule 8: %s (expected %s, got %s)"
+              % (status, name, "flag" if should_flag else "clean",
+                 "flag" if flagged else "clean"))
+
+    for name, should_flag, html in CHECKLIST_SELFTEST:
+        flagged = bool(checklist_line_coverage("selftest", html))
+        status = "PASS" if flagged == should_flag else "FAIL"
+        if flagged != should_flag:
+            ok = False
+        print("  [%s] rule 9: %s (expected %s, got %s)"
               % (status, name, "flag" if should_flag else "clean",
                  "flag" if flagged else "clean"))
 
