@@ -59,6 +59,15 @@ AFTER_REF = "feat/top-of-funnel"
 PDF_REL = "files/Deedwell-Schedule-E-Deduction-Checklist.pdf"
 SUBSCRIBE = "https://deedwell.gumroad.com/subscribe"
 
+# The three things this page pictures. Freshness is bound to THESE BLOBS, not to the
+# two branch tips, and that distinction is not pedantry - it was a live defect. The
+# first version compared `main`'s sha to the one recorded at render time, so the very
+# commit that PUBLISHED this page moved main and made the page declare itself stale
+# while every picture on it was still exactly right. Bind to what the picture is a
+# picture OF: if index.html, /checklist/ and the PDF are byte-identical on both refs to
+# what was rendered, the page is true no matter how many commits have landed around it.
+PICTURED = ["index.html", "checklist/index.html", PDF_REL]
+
 # Cloudflare Web Analytics. Every page under the site root carries it - the analytics
 # organ walks the tree, so a new page that omits it fails `build_site_analytics.py
 # --check`. Copied verbatim from the served pages; the token is public by design.
@@ -87,6 +96,12 @@ def sha_of(ref):
         return git("rev-parse", ref)
     except subprocess.CalledProcessError:
         return None
+
+
+def blob_ids(ref):
+    """git's own content hash for each pictured file at a ref. Cheap, exact, and it
+    cannot be fooled by a commit that touched something else."""
+    return {p: git("rev-parse", f"{ref}:{p}") for p in PICTURED}
 
 
 def export(ref, dest):
@@ -469,7 +484,8 @@ a{{color:var(--cedar)}}
        after the merge.</p>
     <p class="stamp">BEFORE = main @ {before_sha[:7]} &nbsp;&middot;&nbsp; AFTER = feat/top-of-funnel @ {after_sha[:7]}
       &nbsp;&middot;&nbsp; rendered {built}<br>
-      If either branch has moved since, this page is stale and says so:
+      Bound to the three files it pictures, not to the branch tips: if any of them has changed
+      since, this page says so rather than quietly lying.
       <code>python tools/render_decision_page.py --check</code></p>
   </div>
 </header>
@@ -527,16 +543,24 @@ def check():
         return 1
     m = json.loads(mf.read_text(encoding="utf-8"))
     problems = []
+    moved = []
 
     for key, ref in (("before", m["before_ref"]), ("after", m["after_ref"])):
-        now = sha_of(ref)
-        was = m[f"{key}_sha"]
-        if now is None:
-            problems.append(f"{ref} no longer exists (was {was[:7]}) - the decision it "
-                            f"pictured is over; delete review/decide/")
-        elif now != was:
-            problems.append(f"{ref} moved {was[:7]} -> {now[:7]}; the {key.upper()} side of "
-                            f"every picture on that page is now a lie")
+        if sha_of(ref) is None:
+            problems.append(f"{ref} no longer exists - the decision this page pictured "
+                            f"is over; delete review/decide/")
+            continue
+        if sha_of(ref) != m[f"{key}_sha"]:
+            moved.append(f"{ref} has moved since the render")
+        for path, was in m["pictured"][key].items():
+            try:
+                now = git("rev-parse", f"{ref}:{path}")
+            except subprocess.CalledProcessError:
+                problems.append(f"{path} no longer exists on {ref}")
+                continue
+            if now != was:
+                problems.append(f"{path} CHANGED on {ref}; the {key.upper()} side of "
+                                f"the pictures showing it is now a lie")
 
     for name, rec in m["images"].items():
         p = IMG / name
@@ -555,6 +579,10 @@ def check():
         return 1
     print(f"decision page: fresh - {m['before_ref']}@{m['before_sha'][:7]} vs "
           f"{m['after_ref']}@{m['after_sha'][:7]}, {len(m['images'])} images")
+    for x in moved:
+        # Not a failure. Commits land around this page all day; only a change to a file
+        # it actually pictures can make it lie.
+        print(f"  (note) {x}, but every pictured file is byte-identical - still true)")
     return 0
 
 
@@ -619,6 +647,7 @@ def build():
         "builder": "tools/render_decision_page.py",
         "before_ref": BEFORE_REF, "before_sha": before_sha,
         "after_ref": AFTER_REF, "after_sha": after_sha,
+        "pictured": {"before": blob_ids(BEFORE_REF), "after": blob_ids(AFTER_REF)},
         "images": hashes(IMG.glob("*.jpg")),
     }, indent=2, sort_keys=True), encoding="utf-8")
 

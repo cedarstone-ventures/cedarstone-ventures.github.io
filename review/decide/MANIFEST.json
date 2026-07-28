@@ -2,9 +2,9 @@
   "after_ref": "feat/top-of-funnel",
   "after_sha": "fa186750646680dc3f0183b06720216491c36515",
   "before_ref": "main",
-  "before_sha": "dd4caebb0f4777560aff4733ea20c474d473e9f2",
+  "before_sha": "90b5345c20769ef6d32dd14441315d4720f94f08",
   "builder": "tools/render_decision_page.py",
-  "built_utc": "2026-07-28 15:16 UTC",
+  "built_utc": "2026-07-28 15:21 UTC",
   "images": {
     "01_home_band.jpg": {
       "bytes": 125287,
@@ -25,6 +25,18 @@
     "05_pdf_capture.jpg": {
       "bytes": 243343,
       "sha256": "2e60050f1fb80370b967073e624edbf0bfc2ac555c1850d7e6f92b433a6c6720"
+    }
+  },
+  "pictured": {
+    "after": {
+      "checklist/index.html": "4aa553438236003984fa7ea94ee69743b26b976a",
+      "files/Deedwell-Schedule-E-Deduction-Checklist.pdf": "6b557911c5421445614132457e2bf3d93c8d9b6d",
+      "index.html": "d6e11a2c79e5177116ee603a9619648b4b10afbb"
+    },
+    "before": {
+      "checklist/index.html": "c10571a8372b388fc7b584f2ed3523732c17fda1",
+      "files/Deedwell-Schedule-E-Deduction-Checklist.pdf": "5a7c25e3077aadb6ac32bbbf10766a3eb1fe5ca6",
+      "index.html": "4f79dd1b058063c31e66342d9badf3963c33df84"
     }
   }
 }
