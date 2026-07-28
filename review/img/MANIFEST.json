@@ -1,7 +1,7 @@
 {
   "book_pages": 108,
   "builder": "build_review_gallery.py",
-  "built_utc": "2026-07-27T00:21:57Z",
+  "built_utc": "2026-07-28T06:11:13Z",
   "outputs": {
     "A_read_sample_window.jpg": {
       "bytes": 291320,
@@ -16,8 +16,8 @@
       "sha256": "34543c624f9ee00715fb17aae5bdf6eef18b6540eb4f47cbc20d9904331d8a24"
     },
     "D_free_checklist.jpg": {
-      "bytes": 153249,
-      "sha256": "3de7ce2c51891b3d649fea5c479d5a06f170006494b2772b890885175f70735f"
+      "bytes": 153304,
+      "sha256": "eca60b8d47d6773394f319c77e35f2eab4e01dbfc373c99566bae15209464e99"
     },
     "E_cover.jpg": {
       "bytes": 211521,
@@ -67,7 +67,7 @@
     "checklist": {
       "bytes": 32565,
       "path": "out/Deedwell_Landlord_Deduction_Checklist.pdf",
-      "sha256": "464b9fbcb7edf636bc346ebcec2b7aa903803b952302b7481afd7c13fc54986b"
+      "sha256": "17c4ec360e31bc1042f7fa7a24ac49a81d60d3cd7fa3c9d7cd62bb8403276d88"
     },
     "cover": {
       "bytes": 7100520,
