@@ -209,6 +209,9 @@ section{padding:clamp(64px,7vw,116px) 0}
 }
 
 /* ---------- gallery of interior pages ---------- */
+.pagevid{max-width:460px;margin:0 auto 26px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
+.pagevid video{display:block;width:100%;height:auto}
+.pagevid figcaption{font-size:.8rem;color:var(--dim);padding:11px 14px;border-top:1px solid var(--line)}
 .pages{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
 .pages figure{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
 .pages figcaption{font-size:.8rem;color:var(--dim);padding:11px 14px;border-top:1px solid var(--line)}
@@ -368,6 +371,12 @@ footer .legal{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between
       <h2>The inside, shown.</h2>
       <p>Every book on this shelf asks you to trust a cover. Here are the actual pages, at full size.</p>
     </div>
+    <figure class="pagevid">
+      <video src="/assets/inside.mp4?v=1" poster="/assets/inside-poster.jpg?v=1"
+             width="1080" height="1080" autoplay muted loop playsinline
+             preload="metadata" aria-label="Fifteen seconds of the book, page by page."></video>
+      <figcaption>Fifteen seconds, five real pages: the Schedule&nbsp;E map, a filled-in month, a rent roll, an expense ledger and the mileage log. No sound.</figcaption>
+    </figure>
     <div class="pages">
       <figure>
         <img src="/assets/worked.jpg?v=4" width="1600" height="1293" loading="lazy" decoding="async"
@@ -499,5 +508,18 @@ footer .legal{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between
 
      Deedwell has exactly one product, the Rental Property Record Book, and every
      commercial link on this page points at it. -->
+
+<!-- The page-flip loop autoplays because it is silent, 14.5s and 1.06 MB, which is
+     the standard pattern for a product loop. But autoplay must not override an
+     accessibility PREFERENCE: a visitor who has asked their OS to reduce motion gets
+     the poster frame and a control instead. Three lines, no library. -->
+<script>
+(function(){
+  var v = document.querySelector('.pagevid video'); if (!v) return;
+  var q = window.matchMedia('(prefers-reduced-motion: reduce)');
+  function apply(){ if (q.matches){ v.autoplay=false; v.loop=false; v.controls=true; v.pause(); } }
+  apply(); q.addEventListener ? q.addEventListener('change', apply) : q.addListener(apply);
+})();
+</script>
 </body>
 </html>
