@@ -82,7 +82,13 @@
   --wrap:1120px; --r:16px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
+/* The header is sticky, so every in-page jump landed its target UNDERNEATH it.
+   Measured on the served page before fixing, not assumed: header 73px, and after a
+   jump the hidden slice was #mileage 73px (the whole eyebrow and part of the heading
+   of the cedar rate panel, reached from the NAV), #checklist 25px, #follow 29px.
+   88px = header + ~15px clearance for the worst case, which is #mileage because it is
+   the one target with no internal top padding of its own. */
+html{scroll-behavior:smooth;scroll-padding-top:88px}
 body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 .wrap{max-width:var(--wrap);margin:0 auto;padding:0 26px}
 h1,h2,h3{font-family:var(--serif);font-weight:500;line-height:1.1;letter-spacing:-.014em}
@@ -149,6 +155,21 @@ ul.ticks li::before{content:"";flex:none;width:9px;height:9px;margin-top:.5em;bo
 .half .cite a{color:#D5C9A8;text-decoration:none;border-bottom:1px solid rgba(213,201,168,.4)}
 .src{font-size:.82rem;color:#b9c4b6;margin-top:14px}
 
+/* rule-change notes. Placed directly after the mileage block because that block IS
+   the argument for it: the reader has just been shown a figure that moved mid-year.
+   Deliberately WHITE between two cedar panels - .rate, .rate, .book, .rate would read
+   as one long dark slab and the ask would disappear into the panel above it.
+   Same markup and copy pattern as /checklist/'s .follow, on purpose: one house
+   pattern for capture, not a second invention that drifts from it. */
+.follow{padding:44px 0 4px}
+.follow .fbox{background:#fff;border:1px solid var(--line);border-radius:22px;
+  padding:40px 42px;display:grid;grid-template-columns:1.3fr .7fr;gap:40px;align-items:center}
+.follow h2{font-size:clamp(1.45rem,2.4vw,1.9rem);margin-top:10px}
+.follow p{margin-top:14px;color:#514c40;font-size:1rem}
+.follow .fine{margin-top:14px;font-size:.82rem;color:var(--dim)}
+.follow .fine a{color:var(--cedar);font-weight:500}
+@media(max-width:860px){.follow .fbox{grid-template-columns:1fr;padding:30px;gap:24px}}
+
 section{padding:46px 0}
 h2.sec{font-size:clamp(1.6rem,4vw,2.3rem);margin-bottom:14px}
 .lead{color:var(--dim);max-width:60ch;margin-bottom:6px}
@@ -190,8 +211,14 @@ footer a{color:var(--stone-soft)}
     </div>
     <!-- /rental/ is the QR destination printed inside the record book, so this page
          serves two audiences at once: a cold visitor and a book owner. This line is
-         ordered for the cold visitor first, book owner second. -->
-    <p class="fromqr">Nothing is asked for it, and nothing is held back. Came from the QR code in the record book? This is the sheet it points to, and you can <a href="/updates/">register your copy for the figures that change each tax year</a>.</p>
+         ordered for the cold visitor first, book owner second.
+         2026-07-28: the cold-visitor half said "nothing is asked for it" and then gave
+         that visitor nowhere to go, which was the whole line's stated job. The served
+         lead-magnet PDF carries exactly ONE url and it is this page, so a landlord who
+         arrives from the association mail, downloads, and closes the tab was inside a
+         closed loop with no exit into anything we own. The anchor is an in-page jump to
+         the one ask below, not a second competing CTA. -->
+    <p class="fromqr">Nothing is asked for it, and nothing is held back. The figures on it do move: 2026 split the mileage rate in half on 1 July. You can <a href="#follow">have us email you when one changes</a>. Came from the QR code in the record book? This is the sheet it points to, and you can <a href="/updates/">register your copy for the figures that change each tax year</a>.</p>
   </div>
 
   <div class="wrap grid2" id="checklist">
@@ -237,6 +264,28 @@ footer a{color:var(--stone-soft)}
       <p class="src">The standard rate and actual vehicle costs are alternatives. You may claim one or the other, not both.</p>
     </div>
   </div>
+
+  <section class="follow" id="follow">
+    <div class="wrap">
+      <div class="fbox">
+        <div>
+          <p class="eyebrow">Optional</p>
+          <h2>When one of these numbers changes, we&rsquo;ll tell you.</h2>
+          <p>The mileage rate above moved on 1&nbsp;July, part way through the tax year. The figures behind this
+            checklist come from the IRS&rsquo;s own instructions, and several of them move, sometimes mid-year like
+            that one. When one does, a short note goes up saying what changed and which Schedule&nbsp;E line it
+            touches. A few a year, and nothing else.</p>
+        </div>
+        <div>
+          <a class="btn" href="https://deedwell.gumroad.com/subscribe">Email me when a figure changes</a>
+          <p class="fine">Optional, and it changes nothing about the checklist above, which stays free and ungated
+            with no signup either way. Every note is posted openly at <a href="/updates/">deedwell.co/updates</a>,
+            no email required and nothing you <i>have</i> to subscribe to. The signup is hosted by Gumroad rather
+            than sitting on this page, so we never put a form in front of you.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <section class="book">
     <div class="wrap">
