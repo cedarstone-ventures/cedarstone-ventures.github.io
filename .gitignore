@@ -1,3 +1,9 @@
 node_modules/
 .DS_Store
 __pycache__/
+
+# Internal QA renders from tools/render_*.py. This repo IS the served site - anything
+# committed here is public at deedwell.co/<path>. Proof shots are for our eyes and the
+# Chairman's review, not for the open web, so they stay local and get regenerated on
+# demand rather than published.
+proof/
