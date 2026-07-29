@@ -253,6 +253,25 @@ section{padding:clamp(64px,7vw,116px) 0}
 .magnet p{color:#DCD7C6;margin-top:16px;max-width:60ch}
 .magnet .fine{font-size:.86rem;color:#A9B3A5;margin-top:14px}
 
+/* ---------- rate-change signup ----------
+   Deliberately the quietest band on the page: one column, centred, narrower than
+   the measure, and a CEDAR button rather than a gold one. Gold is reserved for the
+   two actions that matter (buy the book, take the free checklist); this ask must
+   never out-shout either of them. */
+.signup{max-width:660px;margin-inline:auto;text-align:center}
+.signup h2{font-size:clamp(1.35rem,2.4vw,1.9rem);font-weight:500;margin-top:13px;line-height:1.16}
+.signup p{margin-top:17px;color:var(--dim)}
+.signup .btn{margin-top:28px}
+.signup .fine{font-size:.86rem;color:var(--dim);margin-top:20px;line-height:1.6}
+.signup .fine a,.signup p a{color:var(--cedar);text-underline-offset:3px}
+/* Centred text stops being comfortable past about three lines, and on a phone this
+   copy runs to nine. The eyebrow, the heading and the button stay centred - they are
+   short and carry the composition - while the two long blocks go left-aligned at the
+   width where they actually get long. Judged from the render, not from the markup. */
+@media (max-width:720px){
+  .signup p,.signup .fine{text-align:left}
+}
+
 /* ---------- trust ---------- */
 .stats{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));margin-top:44px}
 .stat{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:26px 22px;text-align:center}
@@ -474,6 +493,42 @@ footer .legal{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between
   </div>
 </section>
 
+<!-- The ONE email ask on this page, and by design the quietest thing on it.
+
+     It sits AFTER the free checklist, never before: the checklist is given away
+     outright, so this is the optional follow-on to a gift and not a toll gate in
+     front of one. Nothing here may imply the checklist needs an address - it does
+     not, and "no email" is one of the strongest sentences we own. The hero still
+     says so, the magnet above still says so, and the fine print below repeats it.
+
+     There is NO form and NO backend, because there is no ESP and none is needed:
+     the signup is hosted by Gumroad, our storefront, at deedwell.gumroad.com/subscribe.
+     Same destination and same button wording as /checklist/ and /updates/ - three
+     surfaces, one list, one promise. Documented in /privacy.html.
+
+     Two things not to do here. (1) Do NOT promise an unsubscribe link: we have never
+     sent one of these, so we do not know what Gumroad puts at the bottom, and
+     privacy.html says exactly that rather than guessing. (2) Do NOT add this to the
+     nav. Under 430px the wordmark already had to yield to fit two links; a third
+     would clip the buy button off the right edge again. The footer carries it instead.
+
+     The rates below are verified against the IRS primary source (Notice 2026-10 for
+     72.5c; the mid-year revision to 76c effective 1 July 2026, IRB 2026-29) and match
+     what the book itself prints. They are stated WITH their year because they are
+     historical for 2026 and will need re-verifying in January like every other
+     annual figure on this site. -->
+<section class="proof" id="alerts">
+  <div class="shell">
+    <div class="signup">
+      <p class="eyebrow">Optional &middot; nothing is gated</p>
+      <h2>The numbers on your Schedule&nbsp;E move. One of them moved halfway through 2026.</h2>
+      <p>The IRS standard mileage rate ran at <strong class="num">72.5&cent;</strong> a mile through 30&nbsp;June 2026, then <strong class="num">76&cent;</strong> from 1&nbsp;July &mdash; a split year, which is unusual and easy to file wrong. When a figure moves, we will tell you what changed and which Schedule&nbsp;E line it touches.</p>
+      <a class="btn dark" href="https://deedwell.gumroad.com/subscribe">Email me when a figure changes</a>
+      <p class="fine">The free checklist stays free either way &mdash; this is not a gate, and nothing on this site sits behind it. A few notes a year, and nothing else. Every one goes up openly at <a href="/updates/">deedwell.co/updates</a> with no email required. The signup is hosted by Gumroad rather than sitting on this page, so we never put a form in front of you; what happens to your address is on <a href="/privacy.html">the privacy page</a>.</p>
+    </div>
+  </div>
+</section>
+
 <section id="about">
   <div class="shell">
     <div class="sec-head center">
@@ -508,6 +563,7 @@ footer .legal{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between
           <a href="/checklist/">Free checklist</a>
           <a href="/rental/">The record book</a>
           <a href="/updates/">Register your copy</a>
+          <a href="https://deedwell.gumroad.com/subscribe">Rate-change alerts</a>
         </div>
         <div>
           <b>Company</b>
@@ -525,10 +581,18 @@ footer .legal{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between
   </div>
 </footer>
 
-<!-- No capture form here by design. Real capture needs an ESP, which is the Chairman's
-     click; until then the checklist is given away outright at /checklist/, which needs
-     nobody's permission and is the better top-of-funnel asset anyway. Do not add a form
-     here without a backend that receives it.
+<!-- CORRECTED 2026-07-28. This comment used to read "No capture form here by design.
+     Real capture needs an ESP, which is the Chairman's click." That was FALSE, and
+     because it sat in the source it told every session that opened this file not to
+     build the thing - which is why the homepage went the entire life of this repo
+     without a single way to join the list, while /updates/ (since 2026-07-26) and
+     /checklist/ (since 2026-07-28) both had one. Four of our six live Pinterest pins
+     land HERE. The same false claim was struck from the vault map this morning; it
+     survived here because a correction was made in one place and not swept.
+
+     The truth: capture needs no ESP and no account. deedwell.gumroad.com/subscribe is
+     hosted on the Gumroad storefront we already own. There is still NO form and NO
+     backend on this site, which remains correct and deliberate - see #alerts above.
 
      Deedwell has exactly one product, the Rental Property Record Book, and every
      commercial link on this page points at it. -->
