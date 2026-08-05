@@ -26,6 +26,7 @@ Usage:  python tools/build_sitemap.py [--check]
         --check exits 1 if the sitemap on disk differs from what this would write.
 """
 
+import os
 import re
 import subprocess
 import sys
@@ -70,9 +71,15 @@ def url_for(path: Path) -> str:
 
 def lastmod(path: Path) -> str:
     """The file's last commit date. Uncommitted edits fall back to today's tree."""
+    # A pre-commit hook exports GIT_DIR/GIT_INDEX_FILE for its own repo context; when
+    # that context is a linked worktree, this subprocess inherits it and resolves the
+    # WORKTREE while being handed this checkout's paths -- every date comes back wrong
+    # or empty and --check reports a drift that does not exist. Scrub git's env so the
+    # query always reads the repo this script names via cwd.
+    env = {k: v for k, v in os.environ.items() if not k.startswith("GIT_")}
     r = subprocess.run(
         ["git", "log", "-1", "--format=%ad", "--date=short", "--", str(path)],
-        cwd=ROOT, capture_output=True, text=True,
+        cwd=ROOT, capture_output=True, text=True, env=env,
     )
     date = r.stdout.strip()
     if not date:
