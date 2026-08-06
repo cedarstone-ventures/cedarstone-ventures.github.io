@@ -982,6 +982,112 @@ CHECKLIST_SELFTEST = [
 ]
 
 
+# --- rule 10: an asset built to be FORWARDED must carry a path back to us -------
+#
+# 2026-08-06. The free checklist PDF is the deliverable of the association channel:
+# the outreach mail offers it to landlord associations AS A HAND-OUT, so its whole
+# job is to travel - a mail attachment, a member newsletter, a print-out. A reader
+# it reaches that way never saw deedwell.co and has no address bar. The ONLY route
+# from that reader back to us is a URL printed inside the artifact itself. Today
+# page 2 carries deedwell.co/updates; until this rule, nothing enforced that.
+#
+# The failure shape is one this repo has already measured, twice: the artifact is
+# built elsewhere (kdp-stack's deedwell_lead_magnet.py), copied into files/, and
+# REBUILT on content fixes - the 07-28 mileage-citation rebuild replaced these
+# exact bytes. A rebuild that drops or rewords the capture line ships a dead-end
+# PDF past every rule above, because they all police what copy SAYS and an omission
+# says nothing. A defect that persists untouched needs a sweep (rules 6 and 7
+# bought that lesson); this is the sweep.
+#
+# SCOPED BY A TYPED REGISTRY, not by "every served PDF": the queue item that
+# ordered this mechanism records that the blanket rule is FALSE for an excerpt -
+# an excerpt's job is to BE the pages it samples, and whether stamping a capture
+# URL onto one falsifies the sample is a judgment no regex can make. So the
+# judgment gets TYPED here, per file, with its reason - and an UNREGISTERED served
+# PDF fails the run, which forces the classification into the same commit that
+# adds the file. Same contract as check-artifacts-fresh's registry.
+PATH_BACK = r"deedwell\.co"   # any URL of ours counts - /updates/, /checklist/, the
+                              # home page. The rule asserts that A path back exists,
+                              # not WHICH one: the destination is copy judgment, and
+                              # a checker that argues judgment gets switched off.
+FORWARDED_ASSETS = {
+    # repo-relative path (forward slashes) -> (class, the reason typed where the
+    # next author reads it). class "forwarded" = must carry a deedwell.co URL in
+    # extracted text; class "exempt" = deliberately carries none, reason required.
+    "files/Deedwell-Schedule-E-Deduction-Checklist.pdf": (
+        "forwarded",
+        "the association-channel deliverable, offered outright as a member "
+        "hand-out - it travels without its origin page"),
+}
+
+
+def forwarded_path_back(pdf_texts, registry=None):
+    """Rule 10. Every served PDF is classified; a forwarded one carries a path back.
+
+    Takes {repo-relative path: [page texts]} so the selftest runs on fixtures, not
+    the filesystem. Three failure shapes, each with its own sentence:
+      unregistered -> a served PDF nobody classified (classification is forced)
+      no path back -> a forwarded asset with no deedwell.co URL on any page
+      dead entry   -> a registry line whose artifact is gone (a stale judgment)
+    """
+    registry = FORWARDED_ASSETS if registry is None else registry
+    problems = []
+    for path in sorted(pdf_texts):
+        entry = registry.get(path)
+        if entry is None:
+            problems.append(
+                "%s is served but not classified in FORWARDED_ASSETS. Type the "
+                "judgment in the same commit that adds the file: 'forwarded' (must "
+                "carry a deedwell.co URL) or 'exempt' (say why)." % path)
+            continue
+        cls, _reason = entry
+        if cls != "forwarded":
+            continue
+        if not any(re.search(PATH_BACK, page, re.I) for page in pdf_texts[path]):
+            problems.append(
+                "%s is built to be FORWARDED but no page of it carries a path back "
+                "to us - no deedwell.co URL anywhere in the extracted text. Detached "
+                "from the site (a mail attachment, a print-out) it is a dead end: "
+                "the reader it exists to reach has no route to the list or the book."
+                % path)
+    for path in sorted(registry):
+        if path not in pdf_texts:
+            problems.append(
+                "FORWARDED_ASSETS names %s but no such file is served out of "
+                "files/. A registry entry that outlives its artifact is a stale "
+                "judgment - delete the entry or restore the file." % path)
+    return problems
+
+
+# rule 10's corpus. The clean forwarded fixture mirrors the REAL checklist's shape
+# (capture line on the last page, nowhere else); the flagging one is that same PDF
+# after the rebuild this rule exists to catch. The exempt fixture is the exact case
+# the queue item scoped out - typed judgment, no URL, silent.
+FORWARDED_SELFTEST = [
+    ("the real shape: forwarded, capture line on the last page only", False,
+     {"files/x.pdf": ["The rental deductions owners most often miss.",
+                      "Prices change. deedwell.co/updates - one mail when a "
+                      "figure moves."]},
+     {"files/x.pdf": ("forwarded", "test")}),
+    ("a rebuild dropped the capture line from a forwarded asset", True,
+     {"files/x.pdf": ["The rental deductions owners most often miss.",
+                      "Line numbers per the current IRS instructions."]},
+     {"files/x.pdf": ("forwarded", "test")}),
+    ("an excerpt with no URL is exempt by TYPED judgment, and stays silent", False,
+     {"files/sample.pdf": ["p.33 of the record book, verbatim."]},
+     {"files/sample.pdf": ("exempt", "an excerpt IS the pages it samples")}),
+    ("a served PDF nobody classified", True,
+     {"files/new.pdf": ["anything at all"]},
+     {}),
+    ("a registry entry whose artifact is gone", True,
+     {},
+     {"files/gone.pdf": ("forwarded", "test")}),
+    ("case must not matter: the URL as a print designer might set it", False,
+     {"files/x.pdf": ["DEEDWELL.CO/UPDATES - one mail when a figure moves."]},
+     {"files/x.pdf": ("forwarded", "test")}),
+]
+
+
 def check_file(path, text, capture_pages=None, esp_present=False):
     problems = []
     capture_pages = capture_pages or {}
@@ -1328,6 +1434,15 @@ def selftest():
               % (status, name, "flag" if should_flag else "clean",
                  "flag" if flagged else "clean"))
 
+    for name, should_flag, pdf_texts, registry in FORWARDED_SELFTEST:
+        flagged = bool(forwarded_path_back(pdf_texts, registry))
+        status = "PASS" if flagged == should_flag else "FAIL"
+        if flagged != should_flag:
+            ok = False
+        print("  [%s] rule 10: %s (expected %s, got %s)"
+              % (status, name, "flag" if should_flag else "clean",
+                 "flag" if flagged else "clean"))
+
     # rule 7. The positive control is the VERBATIM comment that sat above the footer of
     # index.html for the whole life of this repo and kept capture off the homepage.
     for name, should_flag, html in STALE_COMMENT_SELFTEST:
@@ -1410,9 +1525,12 @@ def main():
         for f in sorted(files):
             if f.lower().endswith(".pdf"):
                 pdfs.append(os.path.join(base, f))
-    for path in sorted(pdfs):
-        for i, page_text in enumerate(pdf_pages(path)):
-            problems.extend(mileage_sources_page(label(path), page_text, i + 1))
+    pdf_texts = {label(path): pdf_pages(path) for path in sorted(pdfs)}
+    for path, pages in sorted(pdf_texts.items()):
+        for i, page_text in enumerate(pages):
+            problems.extend(mileage_sources_page(path, page_text, i + 1))
+    # rule 10 reads the same extracted text: what a forwarded copy OMITS.
+    problems.extend(forwarded_path_back(pdf_texts))
 
     # the book length is printed on every run, green or not: a pass that does not
     # say WHAT it agreed with is how a stale constant survives a green checker.
