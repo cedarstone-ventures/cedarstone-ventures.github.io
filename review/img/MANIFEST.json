@@ -1,7 +1,7 @@
 {
   "book_pages": 108,
   "builder": "build_review_gallery.py",
-  "built_utc": "2026-07-28T10:13:45Z",
+  "built_utc": "2026-08-06T08:21:28Z",
   "outputs": {
     "A_read_sample_window.jpg": {
       "bytes": 291320,
@@ -67,7 +67,7 @@
     "checklist": {
       "bytes": 32734,
       "path": "out/Deedwell_Landlord_Deduction_Checklist.pdf",
-      "sha256": "9e4d344e17b57b1c7d99794c833a0da30a93eda861e738f98e74aaca32fc7721"
+      "sha256": "b9229f17798e87748ad0aea6f36978c007e0926452a94c721025a7748da94851"
     },
     "cover": {
       "bytes": 7100520,
