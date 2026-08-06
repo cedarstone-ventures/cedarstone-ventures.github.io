@@ -10,10 +10,19 @@ the NAVIGATION was cached while the probe was not. Both cost diagnosis time, and
 are the same missing thing -- nobody could ask "has it actually landed yet?" and get an
 answer from evidence.
 
-This is that answer. For every published page it compares the sha256 of the local file
-against the sha256 of what the origin actually returns, and polls until they agree or
-the timeout expires. It is the machine form of this vault's own rule: claim success
-only from the served artifact, never from the confirmation that the push succeeded.
+This is that answer. For every published page it compares the sha256 of the file's
+HEAD (committed) content against the sha256 of what the origin actually returns, and
+polls until they agree or the timeout expires. It is the machine form of this vault's
+own rule: claim success only from the served artifact, never from the confirmation
+that the push succeeded.
+
+THE BASELINE IS HEAD, NOT THE WORKING TREE, and that is also measured. On 2026-07-28
+this tool read `want` with `path.read_bytes()`, so a peer session's uncommitted
+homepage edit made it poll for 420s and then accuse GitHub Pages of serving "older
+bytes than HEAD" -- HEAD was untouched; only the working tree differed. Pages can
+only ever serve a commit, so the working tree is the wrong side of the comparison,
+and a tool that cries wolf gets ignored on the day it is right. An uncommitted
+difference now prints a one-line note instead of a false alarm.
 
 NEWLINES ARE NORMALISED BEFORE HASHING, and that is not a shortcut. This repo is
 checked out on Windows with `core.autocrlf` behaviour that stores LF and hands the
@@ -38,6 +47,7 @@ prints exactly which pages are still stale rather than a bare failure.
 import argparse
 import hashlib
 import re
+import subprocess
 import sys
 import time
 import urllib.error
@@ -88,6 +98,14 @@ def pairs(only: list) -> list:
     return out
 
 
+def head_bytes(rel: str):
+    """Committed bytes for a repo-relative path, read from HEAD -- never the working
+    tree. `git show` emits the stored blob (LF), which is what Pages serves; norm()
+    covers the rest. Returns None when the path is not in HEAD."""
+    r = subprocess.run(["git", "-C", str(ROOT), "show", f"HEAD:{rel}"], capture_output=True)
+    return r.stdout if r.returncode == 0 else None
+
+
 def fetch(url: str) -> bytes:
     # Cache-bust: a plain fetch can be answered from an intermediate cache, which is
     # exactly how a stale page gets "verified" as fresh.
@@ -111,6 +129,28 @@ def main() -> int:
     if not targets:
         sys.exit("ABORT: no published pages matched -- refusing to report success on nothing.")
 
+    want_by_rel, missing = {}, []
+    for rel, path, _ in targets:
+        committed = head_bytes(rel)
+        if committed is None:
+            missing.append(rel)
+            continue
+        want_by_rel[rel] = norm(committed)
+        if norm(path.read_bytes()) != want_by_rel[rel]:
+            print(f"  note: {rel} differs in your working tree; comparing against HEAD (what a push deploys)")
+    if missing:
+        sys.exit("ABORT: not in HEAD (never committed?): " + ", ".join(missing)
+                 + " -- a page that was never committed can never deploy.")
+    try:
+        head = subprocess.run(["git", "-C", str(ROOT), "rev-parse", "HEAD"],
+                              capture_output=True, text=True).stdout.strip()
+        up = subprocess.run(["git", "-C", str(ROOT), "rev-parse", "@{upstream}"],
+                            capture_output=True, text=True)
+        if up.returncode == 0 and up.stdout.strip() != head:
+            print("  note: HEAD != @{upstream} -- if HEAD was never pushed, its bytes will never arrive")
+    except OSError:
+        pass
+
     print(f"Waiting for {len(targets)} page(s) to serve their committed bytes:")
     for rel, _, url in targets:
         print(f"  {rel:<28} -> {url}")
@@ -120,7 +160,7 @@ def main() -> int:
     while True:
         still = []
         for rel, path, url in pending:
-            want = norm(path.read_bytes())
+            want = want_by_rel[rel]
             try:
                 got = norm(fetch(url))
             except urllib.error.HTTPError as e:
