@@ -8,6 +8,7 @@
 <meta name="theme-color" content="#16301F">
 <meta name="color-scheme" content="light">
 <link rel="canonical" href="https://deedwell.co/">
+<link rel="preload" as="image" type="image/webp" href="/assets/hero-warm-bg-1600.webp" imagesrcset="/assets/hero-warm-bg-1600.webp 1600w, /assets/hero-warm-bg-2400.webp 2400w" imagesizes="100vw" fetchpriority="high">
 <!-- Pinterest domain claim. Public verification token, not a secret: it only proves we
      control this document. Claiming gets Deedwell attribution on every Pin that links
      here and unlocks per-pin analytics. Do not remove: Pinterest re-checks the tag and
@@ -292,7 +293,10 @@ footer .legal{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between
 <main id="main">
 
 <section class="hero">
-  <img class="bg" src="/assets/hero-warm-bg.jpg" alt="" aria-hidden="true">
+  <picture>
+    <source type="image/webp" srcset="/assets/hero-warm-bg-1600.webp 1600w, /assets/hero-warm-bg-2400.webp 2400w" sizes="100vw">
+    <img class="bg" src="/assets/hero-warm-bg-1600.jpg" srcset="/assets/hero-warm-bg-1600.jpg 1600w, /assets/hero-warm-bg-2400.jpg 2400w" sizes="100vw" width="2752" height="1536" fetchpriority="high" decoding="async" alt="" aria-hidden="true">
+  </picture>
   <div class="shell hero-grid">
     <div class="hero-copy">
       <p class="eyebrow">Deedwell &middot; Record-keeping tools for landlords</p>
@@ -305,7 +309,10 @@ footer .legal{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between
       <p class="micro">Built for the landlord with one to a few rentals. <b class="num">108 pages</b>, 8.5&nbsp;&times;&nbsp;11. <b class="num">$16.99</b> paperback, <b class="num">$8.99</b> printable. No app, no login. You write in it.</p>
     </div>
     <div class="hero-shot">
-      <img src="/assets/cover.jpg?v=4" width="1000" height="1304" fetchpriority="high" alt="Cover of the Deedwell Rental Property Record Book: a lit craftsman cottage at dusk above a deep green band with the title in gold.">
+      <picture>
+        <source type="image/webp" srcset="/assets/cover-800.webp 800w" sizes="390px">
+        <img src="/assets/cover-800.jpg" srcset="/assets/cover-800.jpg 800w" sizes="390px" width="1000" height="1304" fetchpriority="high" decoding="async" alt="Cover of the Deedwell Rental Property Record Book: a lit craftsman cottage at dusk above a deep green band with the title in gold.">
+      </picture>
     </div>
   </div>
 </section>
