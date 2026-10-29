@@ -178,7 +178,7 @@ section{padding:clamp(64px,8vw,124px) 0}
 /* NUMERALS */
 .pains{background:var(--paper)}
 .pains .sec-head{max-width:34ch}
-.prow{display:grid;grid-template-columns:auto 1fr;gap:clamp(24px,4vw,64px);align-items:baseline;padding:clamp(26px,3.4vw,42px) 0;border-top:1px solid var(--line-strong)}
+.prow{display:grid;grid-template-columns:clamp(64px,7vw,112px) 1fr;gap:clamp(24px,4vw,64px);align-items:baseline;padding:clamp(26px,3.4vw,42px) 0;border-top:1px solid var(--line-strong)}
 .prow:last-child{border-bottom:1px solid var(--line-strong)}
 .pn{font-family:var(--serif);font-variant-numeric:tabular-nums;font-size:clamp(2.6rem,5.4vw,4.6rem);color:var(--gold);line-height:.9;letter-spacing:-.02em}
 .pc h3{font-size:clamp(1.3rem,2.2vw,1.9rem);font-weight:500;color:var(--ink);letter-spacing:-.015em}
@@ -216,6 +216,17 @@ section{padding:clamp(64px,8vw,124px) 0}
 @media(max-width:460px){.specrow{grid-template-columns:1fr}.spec{padding-right:0}}
 .specnote{margin-top:34px;font-size:.95rem;color:var(--stone);max-width:70ch}
 .specnote a{color:var(--gold-soft);text-underline-offset:3px}
+/* desktop: heading beside its content, so neither section leaves a blank right half */
+@media(min-width:980px){
+.specs .shell{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:clamp(48px,6vw,96px);align-items:end}
+.specs .sec-head{max-width:none;margin-bottom:0}
+.specs h2{max-width:16ch}
+.specs .specnote{grid-row:1;grid-column:2;margin-top:0;font-size:1.02rem;line-height:1.6}
+.specs .specrow{grid-column:1/-1}
+.pains .shell{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);column-gap:clamp(48px,6vw,96px);align-items:start}
+.pains .sec-head{position:sticky;top:120px;max-width:none;margin-bottom:0}
+.pains h2{max-width:13ch}
+}
 
 /* THE KIT (product-family system, dark cedar) */
 .kit{background:var(--cedar);color:#DCD7C6;border-block:1px solid var(--cedar-line)}
