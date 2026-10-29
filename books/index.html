@@ -12,7 +12,9 @@
 <meta property="og:url" content="https://deedwell.co/books/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&display=swap"></noscript>
 <style>
 :root{--cedar:#1F3D2F;--paper:#FAF7F0;--ink:#1A1A1A;--dim:#6f6a5c;--line:#e4dcc9;--gold:#8F7620;
  --serif:'Fraunces',Georgia,serif;--sans:'Inter',system-ui,sans-serif}
@@ -30,7 +32,7 @@ h2{font-family:var(--serif);font-weight:600;font-size:1.25rem;margin:8px 0 18px}
 .book{background:#fff;border:1px solid var(--line);padding:18px;display:flex;flex-direction:column}
 .book img{width:100%;height:auto;max-height:300px;object-fit:contain;background:var(--paper);margin-bottom:14px}
 .book h3{font-family:var(--serif);font-weight:600;font-size:1.08rem;line-height:1.25;margin-bottom:4px}
-.meta{font-size:.78rem;color:var(--gold);letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px}
+.meta{font-size:.78rem;color:#7A6021;letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px}
 .book p{color:var(--dim);font-size:.92rem;margin-bottom:14px;flex:1}
 .btn{display:inline-block;text-align:center;background:var(--cedar);color:#F4F0E6;text-decoration:none;
  font-weight:500;padding:12px 16px;min-height:44px;touch-action:manipulation}
@@ -58,22 +60,22 @@ footer a{color:var(--cedar)}
       <img src="/assets/books/record-book.jpg" width="420" height="548" alt="Rental Property Record Book cover" loading="lazy">
       <h3>Rental Property Record Book</h3>
       <div class="meta">Paperback &middot; 8.5 &times; 11 in</div>
-      <p>Rent, expenses, mileage and repairs for your rentals, kept in one book and organized around the tax form the records end up on.</p>
-      <a class="btn" href="https://www.amazon.com/dp/B0HBP9DKY4">See it on Amazon</a>
+      <p>Rent, expenses, mileage and repairs for your rentals in one book, with a page that maps each expense category to its Schedule E line.</p>
+      <a class="btn" href="https://www.amazon.com/dp/B0HBP9DKY4?maas=maas_adg_9E1DA2B3804415A150593C7F4A15EFE4_afap_abs&amp;ref_=aa_maas&amp;tag=maas">See it on Amazon</a>
     </article>
     <article class="book">
       <img src="/assets/books/organizer-2027.jpg" width="420" height="548" alt="2027 Landlord Monthly Organizer cover" loading="lazy">
       <h3>2027 Landlord Monthly Organizer</h3>
       <div class="meta">Paperback &middot; 8.5 &times; 11 in &middot; 110 pages</div>
       <p>A month-by-month organizer for 2027, with year-end pages for repairs, assets and per-property summaries.</p>
-      <a class="btn" href="https://www.amazon.com/dp/B0HPGGNK4R">See it on Amazon</a>
+      <a class="btn" href="https://www.amazon.com/dp/B0HPGGNK4R?maas=maas_adg_9E1DA2B3804415A150593C7F4A15EFE4_afap_abs&amp;ref_=aa_maas&amp;tag=maas">See it on Amazon</a>
     </article>
     <article class="book">
       <img src="/assets/books/landlord-playbook.jpg" width="420" height="672" alt="The Small Landlord Operations Playbook cover" loading="lazy">
       <h3>The Small Landlord Operations Playbook</h3>
       <div class="meta">Kindle eBook</div>
       <p>Weekly systems and 30 worked templates for owners of one to ten rentals.</p>
-      <a class="btn" href="https://www.amazon.com/dp/B0HPHK354B">See it on Amazon</a>
+      <a class="btn" href="https://www.amazon.com/dp/B0HPHK354B?maas=maas_adg_9E1DA2B3804415A150593C7F4A15EFE4_afap_abs&amp;ref_=aa_maas&amp;tag=maas">See it on Amazon</a>
     </article>
   </div>
 
@@ -84,26 +86,27 @@ footer a{color:var(--cedar)}
       <h3>Cabin Guest Book</h3>
       <div class="meta">Paperback &middot; 8.5 &times; 8.5 in &middot; 110 pages</div>
       <p>A guest sign-in book for a cabin or vacation rental, with host pages for house information and local favorites.</p>
-      <a class="btn" href="https://www.amazon.com/dp/B0HPH7N2VN">See it on Amazon</a>
+      <a class="btn" href="https://www.amazon.com/dp/B0HPH7N2VN?maas=maas_adg_9E1DA2B3804415A150593C7F4A15EFE4_afap_abs&amp;ref_=aa_maas&amp;tag=maas">See it on Amazon</a>
     </article>
     <article class="book">
       <img src="/assets/books/str-playbook.jpg" width="420" height="672" alt="The Short-Term Rental Operations Playbook cover" loading="lazy">
       <h3>The Short-Term Rental Operations Playbook</h3>
       <div class="meta">Kindle eBook</div>
       <p>A Kindle guide to running a short-term rental.</p>
-      <a class="btn" href="https://www.amazon.com/dp/B0HPJ2QS25">See it on Amazon</a>
+      <a class="btn" href="https://www.amazon.com/dp/B0HPJ2QS25?maas=maas_adg_9E1DA2B3804415A150593C7F4A15EFE4_afap_abs&amp;ref_=aa_maas&amp;tag=maas">See it on Amazon</a>
     </article>
     <article class="book">
       <h3>Camping &amp; RV Trip Logbook</h3>
       <div class="meta">Paperback</div>
       <p>A guided journal for campground notes, campsite ratings, trip planning, packing checklists, memories and an RV maintenance log.</p>
-      <a class="btn" href="https://www.amazon.com/dp/B0HDVJQB23">See it on Amazon</a>
+      <a class="btn" href="https://www.amazon.com/dp/B0HDVJQB23?maas=maas_adg_9E1DA2B3804415A150593C7F4A15EFE4_afap_abs&amp;ref_=aa_maas&amp;tag=maas">See it on Amazon</a>
     </article>
   </div>
 
   <section class="free">
     <h2>Free for landlords</h2>
-    <p><a href="/checklist/">The 35 rental deductions owners most often miss</a> &middot; <a href="/rental/">The landlord's Schedule E deduction checklist</a></p>
+    <p><a href="/checklist/">35 rental expense categories to review</a> &middot; <a href="/rental/">A landlord's Schedule E recordkeeping checklist</a></p>
+    <p style="color:var(--dim);font-size:.85rem;margin-top:8px">General information only, not tax advice. What you can deduct and how you report it depends on your circumstances.</p>
   </section>
 </main>
 
