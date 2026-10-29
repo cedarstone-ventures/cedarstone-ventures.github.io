@@ -69,7 +69,9 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='11' fill='%231F3D2F'/%3E%3Cpath fill='%23F4F0E6' d='M12.04 37 L35.96 37 L24 23.48 Z'/%3E%3Cpath fill='%23F4F0E6' d='M14.9 29.2 L33.1 29.2 L24 16.72 Z'/%3E%3Cpath fill='%23F4F0E6' d='M17.5 22.44 L30.5 22.44 L24 11 Z'/%3E%3Crect fill='%23F4F0E6' x='22.83' y='37' width='2.34' height='2.86'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap"></noscript>
 <style>
 :root{
   /* ---- brand tokens (locked v1) ---- */
@@ -271,6 +273,10 @@ footer a:hover{color:var(--cream);text-decoration:underline;text-underline-offse
 footer .legal{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;padding-top:26px;font-size:.84rem}
 .skip{position:absolute;left:-9999px}
 .skip:focus{left:16px;top:12px;z-index:99;background:var(--cream);color:var(--ink);padding:10px 16px;border-radius:8px;position:fixed}
+.more-books{background:var(--cedar);color:var(--stone-soft);padding:18px 0}
+.more-books .shell{display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center;justify-content:space-between}
+.more-books p{margin:0;font-size:.95rem}
+.more-books a{color:var(--gold-soft);font-weight:600;text-decoration:underline;text-underline-offset:3px;min-height:44px;display:inline-flex;align-items:center}
 </style>
 </head>
 <body>
@@ -280,10 +286,11 @@ footer .legal{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between
 
 <header>
   <div class="shell nav">
-    <a class="brand" href="/"><svg aria-hidden="true"><use href="#mk"/></svg><b>Deedwell</b></a>
+    <a class="brand" href="/" aria-label="Deedwell home"><svg aria-hidden="true"><use href="#mk"/></svg><b>Deedwell</b></a>
     <nav class="links" aria-label="Primary">
       <a href="#kit">The kit</a>
       <a href="#inside">What&rsquo;s inside</a>
+      <a href="/books/">All books</a>
       <a class="nav-free" href="/checklist/">Free checklist</a>
       <a class="btn" href="#buy">The record book</a>
     </nav>
@@ -317,6 +324,13 @@ footer .legal{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between
   </div>
 </section>
 
+<section class="more-books" aria-label="Other Deedwell books">
+  <div class="shell">
+    <p>Not a landlord? Deedwell also makes guest books for cabins and vacation rentals, and a camping &amp; RV trip logbook.</p>
+    <a href="/books/">See all Deedwell books &rarr;</a>
+  </div>
+</section>
+
 <section class="proof" id="buy">
   <div class="shell proof-grid">
     <div class="reveal">
@@ -325,12 +339,12 @@ footer .legal{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between
       <p class="body measure">A plain-English <strong>Schedule&nbsp;E Map</strong> pairs every expense with its exact IRS line, so a year of receipts ends up somewhere the form can actually use. It is page&nbsp;5, the first thing you see, before you have written anything.</p>
       <p class="body measure">And because the 2026 mileage rate changed mid-year, the mileage log carries <strong>both rates</strong>, split by trip date, with columns for date, purpose, and odometer start and end. That is the substantiation an examiner asks for, and the reason most handwritten logs fail.</p>
       <div class="buys">
-        <a class="btn" href="https://www.amazon.com/dp/B0HBP9DKY4">Buy the paperback, $16.99</a>
+        <a class="btn" href="https://www.amazon.com/dp/B0HBP9DKY4?maas=maas_adg_9E1DA2B3804415A150593C7F4A15EFE4_afap_abs&amp;ref_=aa_maas&amp;tag=maas">Buy the paperback, $16.99</a>
       </div>
       <p class="fine measure">Printed and bound on Amazon. <a href="/checklist/" style="color:var(--cedar)">The free checklist</a> is the same thinking on one page, and it stays free.</p>
     </div>
     <figure class="reveal">
-      <img src="/assets/map.jpg?v=4" width="1600" height="1293" loading="lazy" decoding="async" alt="Page 5, Your Schedule E Map: a table pairing IRS Schedule E lines 3 and 5 through 19 with plain-English descriptions of what belongs on each line.">
+      <picture><source type="image/webp" srcset="/assets/map-800.webp 800w, /assets/map.webp 1600w" sizes="(max-width: 860px) 100vw, 860px"><img src="/assets/map.jpg?v=4" width="1600" height="1293" loading="lazy" decoding="async" alt="Page 5, Your Schedule E Map: a table pairing IRS Schedule E lines 3 and 5 through 19 with plain-English descriptions of what belongs on each line."></picture>
       <figcaption><b>Page&nbsp;5 &middot; Your Schedule&nbsp;E Map</b><span class="pill">The first page you see</span></figcaption>
     </figure>
   </div>
@@ -379,10 +393,10 @@ footer .legal{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between
       <figcaption>Fifteen seconds, five real pages: the Schedule&nbsp;E map, a filled-in month, a rent roll, an expense ledger and the mileage log. No sound.</figcaption>
     </figure>
     <div class="gal">
-      <figure class="reveal"><img src="/assets/worked.jpg?v=4" loading="lazy" decoding="async" alt="A fully worked example month, filled in."><figcaption>A worked example month, filled in, so you see the finished result first.</figcaption></figure>
-      <figure class="reveal"><img src="/assets/mileage.jpg?v=4" loading="lazy" decoding="async" alt="The mileage log with both 2026 rates."><figcaption>The mileage log, both 2026 rates split by trip date.</figcaption></figure>
-      <figure class="reveal"><img src="/assets/repairs.jpg?v=4" loading="lazy" decoding="async" alt="The repairs versus improvements tracker."><figcaption>Repairs vs. improvements: the call that most often goes wrong.</figcaption></figure>
-      <figure class="reveal"><img src="/assets/ledger.jpg?v=4" loading="lazy" decoding="async" alt="The full-year expense ledger."><figcaption>The full-year expense ledger. Every entry carries its Schedule&nbsp;E line, and each page ends in a tally strip.</figcaption></figure>
+      <figure class="reveal"><img src="/assets/worked.jpg?v=4" width="1600" height="1293" loading="lazy" decoding="async" alt="A fully worked example month, filled in."><figcaption>A worked example month, filled in, so you see the finished result first.</figcaption></figure>
+      <figure class="reveal"><img src="/assets/mileage.jpg?v=4" width="1600" height="1293" loading="lazy" decoding="async" alt="The mileage log with both 2026 rates."><figcaption>The mileage log, both 2026 rates split by trip date.</figcaption></figure>
+      <figure class="reveal"><img src="/assets/repairs.jpg?v=4" width="1600" height="1293" loading="lazy" decoding="async" alt="The repairs versus improvements tracker."><figcaption>Repairs vs. improvements: the call that most often goes wrong.</figcaption></figure>
+      <figure class="reveal"><img src="/assets/ledger.jpg?v=4" width="1600" height="1293" loading="lazy" decoding="async" alt="The full-year expense ledger."><figcaption>The full-year expense ledger. Every entry carries its Schedule&nbsp;E line, and each page ends in a tally strip.</figcaption></figure>
     </div>
   </div>
 </section>
@@ -476,7 +490,7 @@ footer .legal{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between
 <footer>
   <div class="shell">
     <div class="top">
-      <a class="brand" href="/" style="color:var(--stone)"><svg style="width:34px;height:34px" aria-hidden="true"><use href="#mk"/></svg><b style="font-family:var(--serif);font-weight:600;font-size:1.3rem">Deedwell</b></a>
+      <a class="brand" href="/" aria-label="Deedwell home" style="color:var(--stone)"><svg style="width:34px;height:34px" aria-hidden="true"><use href="#mk"/></svg><b style="font-family:var(--serif);font-weight:600;font-size:1.3rem">Deedwell</b></a>
       <div class="cols">
         <div>
           <b>The kit</b>
@@ -484,6 +498,7 @@ footer .legal{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between
           <a href="#pages">See the pages</a>
           <a href="/checklist/">Free checklist</a>
           <a href="/rental/">The record book</a>
+          <a href="/books/">All Deedwell books</a>
           <a href="/updates/">Register your copy</a>
         </div>
         <div>
