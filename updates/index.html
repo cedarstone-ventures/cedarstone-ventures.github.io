@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Register your copy · Deedwell updates</title>
-<meta name="description" content="Registered owners of a Deedwell rental workbook get the next tax-year edition free, plain-English alerts when a rule that touches the file changes, and priority answers by email.">
+<meta name="description" content="Owners of a Deedwell record book can register by email for next tax-year edition news and selected law-change notes. Published change notes appear on this page, no email needed to read them.">
 <!-- deedwell.co is the live origin and the one printed in the book. The corporate site has no
      /updates/ page; this canonical is final, not provisional. -->
 <link rel="canonical" href="https://deedwell.co/updates/">
 <meta name="theme-color" content="#1F3D2F">
 <meta property="og:title" content="Register your Deedwell copy">
-<meta property="og:description" content="Next year's edition free, law-change alerts in plain English, and priority answers. Takes about 60 seconds.">
+<meta property="og:description" content="Next tax-year edition news and selected law-change notes by email, a few a year. Published change notes are on this page.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://deedwell.co/updates/">
 <meta property="og:site_name" content="Deedwell">
@@ -42,7 +42,9 @@ a{color:inherit}
 .btn{display:inline-block;background:var(--cedar);color:var(--cream);font-weight:600;font-size:1rem;
   padding:15px 28px;border-radius:999px;text-decoration:none;border:0;cursor:pointer;transition:transform .18s ease,background .2s ease}
 .btn:hover{background:var(--cedar-deep);transform:translateY(-2px)}
+.btn.ghost{background:transparent;color:var(--cedar);box-shadow:inset 0 0 0 1.5px var(--cedar)}
 .eyebrow{font-size:.74rem;letter-spacing:.24em;text-transform:uppercase;font-weight:600;color:var(--cedar)}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid #9A7A21;outline-offset:3px;border-radius:4px}
 
 /* header */
 header{position:sticky;top:0;z-index:20;background:rgba(250,247,240,.97);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
@@ -87,9 +89,22 @@ header{position:sticky;top:0;z-index:20;background:rgba(250,247,240,.97);backdro
 .reg .box{background:#fff;border:1px solid var(--line);border-radius:22px;padding:52px;display:grid;grid-template-columns:1fr .95fr;gap:48px;align-items:start;box-shadow:0 30px 60px -40px rgba(31,61,47,.4)}
 .reg h2{font-size:clamp(1.9rem,3.4vw,2.5rem)}
 .reg .box>div>p{margin-top:14px;color:#514c40;font-size:1.06rem}
-/* .reg form/label/input/ok/err rules deleted 2026-07-26: the form they
-   styled was removed 2026-07-22. One of them set outline:none on :focus,
-   which would silently kill focus rings if inputs were ever re-added. */
+/* 2026-10-30: a real form is back, posting to MailerLite (double opt-in). The
+   rules deleted on 2026-07-26 included outline:none on :focus; these do not -
+   focus rings come from the :focus-visible rule near the top. */
+.signup label{display:block;font-weight:600;font-size:.95rem;margin-bottom:8px}
+.signup .row{display:flex;flex-wrap:wrap;gap:10px}
+/* 16px minimum: anything smaller makes iOS Safari zoom the page on focus */
+.signup input[type=email]{flex:1 1 220px;min-width:0;font:inherit;font-size:16px;color:var(--ink);background:#fff;
+  border:1.5px solid #b9ae97;border-radius:12px;padding:13px 14px;min-height:48px}
+.signup input[type=email][aria-invalid=true]{border-color:#9B2C1F}
+.signup button{min-height:48px;font-family:var(--sans);touch-action:manipulation}
+.signup button[disabled]{opacity:.75;cursor:progress;transform:none}
+.signup .err{color:#9B2C1F;font-size:.92rem;font-weight:500;margin-top:8px;min-height:1.4em}
+.signup .note{font-size:.84rem;color:var(--dim);margin-top:4px}
+.signup .note a{color:var(--cedar);font-weight:500}
+.reg .alt{margin-top:22px;padding-top:18px;border-top:1px solid var(--line);font-size:.95rem;color:#514c40}
+.reg .alt .btn{margin-top:12px;font-size:.92rem;padding:12px 22px}
 @media(max-width:860px){.reg .box{grid-template-columns:1fr;padding:34px;gap:32px}}
 
 /* public notes for people who do not own a file yet */
@@ -150,8 +165,8 @@ body{animation:pgfade .55s ease both}
   <div class="wrap">
     <div class="eyebrow">For owners of a Deedwell file</div>
     <h1>Register your copy.</h1>
-    <p class="lead">Your purchase includes registration. It takes about 60 seconds, and it is how next year's edition reaches you.</p>
-    <p class="micro">Email only. A handful of tax-relevant notes a year. Reply &ldquo;stop&rdquo; to any of them and we delete your address.</p>
+    <p class="lead">Registering means signing up with your email address. We&rsquo;ll tell you when the next tax-year edition is out, and send selected notes when a rule that touches your book changes.</p>
+    <p class="micro">We aim for a few emails a year. Every email has an unsubscribe link.</p>
   </div>
 </section>
 
@@ -160,23 +175,23 @@ body{animation:pgfade .55s ease both}
     <div class="sec-head">
       <div class="eyebrow">What registration gets you</div>
       <h2>Three things, at no extra charge.</h2>
-      <p>Nothing else. We do not run a daily newsletter and we do not sell your address.</p>
+      <p>We do not run a daily newsletter, and we never sell your address.</p>
     </div>
     <div class="g">
       <div class="perk">
         <span class="n">01</span>
-        <h3>The 2027 Edition, free</h3>
-        <p>When the IRS locks next year's figures, we email you a note saying what changed and which page it touches. No re-buying, and no hunting for what changed.</p>
+        <h3>Next tax-year edition news</h3>
+        <p>When a new tax-year edition of your book is out, we email you a short note saying so and what changed.</p>
       </div>
       <div class="perk">
         <span class="n">02</span>
-        <h3>Law-change alerts, in plain English</h3>
-        <p>When a rule that touches your file moves mid-year, like the July 1, 2026 mileage revision, you get one short note saying exactly what to change and where.</p>
+        <h3>Selected law-change notes</h3>
+        <p>Short notes on selected rule changes relevant to your book, like the July 1, 2026 mileage revision. Not exhaustive: always check current federal, state and local rules.</p>
       </div>
       <div class="perk">
         <span class="n">03</span>
-        <h3>Priority answers</h3>
-        <p>Product questions answered by email, usually within two business days.</p>
+        <h3>Questions by email</h3>
+        <p>Write to info@cedarstonellc.com with a question about your book. Response times vary.</p>
       </div>
     </div>
   </div>
@@ -186,18 +201,27 @@ body{animation:pgfade .55s ease both}
   <div class="wrap">
     <div class="box">
       <div>
-        <div class="eyebrow">60 seconds</div>
-        <h2>Register your file.</h2>
-        <p>Tell us which file you own so we send you the right edition. If you own more than one, register once and list them in the same email.</p>
+        <div class="eyebrow">Owner emails</div>
+        <h2>Sign up for owner emails.</h2>
+        <p>One field: your email address. We use it for next tax-year edition news, selected law-change notes
+          relevant to your book, and replies when you write to us.</p>
       </div>
       <div>
-        <p style="margin-top:0">Registration is by email. Write to us from the address you want next year's
-          edition to arrive at, and tell us which file you own &mdash; that is the whole process.</p>
-        <p style="margin-top:18px"><a class="btn" href="mailto:info@cedarstonellc.com?subject=Register%20my%20Deedwell%20copy&amp;body=I%20own%20the%20Rental%20Property%20Record%20Book.%0A%0AWhere%20did%20you%20buy%20it%3F%0A%0ASend%20this%20from%20the%20address%20you%20want%20the%20next%20edition%20note%20to%20arrive%20at.%20Thank%20you.">Email us to register</a></p>
-        <p class="fine" style="margin-top:16px">Or write to <b>info@cedarstonellc.com</b> yourself, saying which
-          file you own. Your address is recorded against that file and used for three things and nothing else:
-          the next tax year's edition, a note if a rule that touches your file changes, and a reply when you
-          write to us. We never sell your data.</p>
+        <form class="signup" action="https://assets.mailerlite.com/jsonp/2755930/forms/202766766823179792/subscribe" method="post" data-thanks="/updates/thanks/">
+          <label for="owner-email">Email address</label>
+          <div class="row">
+            <input id="owner-email" type="email" name="fields[email]" required autocomplete="email" inputmode="email" spellcheck="false" autocapitalize="off" aria-describedby="owner-email-err owner-email-note">
+            <button class="btn" type="submit">Register</button>
+          </div>
+          <p class="err" id="owner-email-err" aria-live="polite"></p>
+          <input type="hidden" name="ml-submit" value="1">
+          <input type="hidden" name="anticsrf" value="true">
+          <p class="note" id="owner-email-note">We&rsquo;ll email you a confirmation link first. A few emails a year at most; every one has an unsubscribe link. We never sell your address. Privacy: <a href="/privacy.html">privacy policy</a>.</p>
+        </form>
+        <div class="alt">
+          <p>Prefer email? Write to <b>info@cedarstonellc.com</b> and say which book you own.</p>
+          <a class="btn ghost" href="mailto:info@cedarstonellc.com?subject=Register%20my%20Deedwell%20copy&amp;body=I%20own%20the%20Rental%20Property%20Record%20Book.%0A%0AWhere%20did%20you%20buy%20it%3F%0A%0ASend%20this%20from%20the%20address%20you%20want%20the%20next%20edition%20note%20to%20arrive%20at.%20Thank%20you.">Email us instead</a>
+        </div>
       </div>
     </div>
   </div>
@@ -208,14 +232,13 @@ body{animation:pgfade .55s ease both}
     <div class="nbox">
       <div>
         <div class="eyebrow">Don&rsquo;t own a Deedwell book yet?</div>
-        <h3>The change notes are public anyway.</h3>
-        <p>Registration above is for owners &mdash; it is how the next edition finds you. If you have not bought
-          anything, you lose nothing: every note is posted openly on this page, with no email required.</p>
+        <h3>The change notes are on this page anyway.</h3>
+        <p>Registration above is for owners. If you have not bought anything, you lose nothing: published
+          change notes appear on this page, with no email needed to read them.</p>
       </div>
       <div>
         <a class="btn" href="/checklist/">Take the free checklist</a>
-        <p class="fine">The same thinking as the book, on one page, free and ungated. Registration remains the
-          only thing that gets you the next edition automatically.</p>
+        <p class="fine">The same thinking as the book, on one page, free and ungated.</p>
       </div>
     </div>
   </div>
@@ -227,7 +250,7 @@ body{animation:pgfade .55s ease both}
     <div class="sec-head">
       <div class="eyebrow">Change notes</div>
       <h2>What has changed, and which page it touches.</h2>
-      <p>Posted here as it happens. No email needed to read any of it.</p>
+      <p>Published change notes appear on this page. No email needed to read them.</p>
     </div>
 
     <article style="margin-top:40px;border-left:3px solid var(--cedar);padding-left:26px;max-width:78ch">
@@ -254,8 +277,8 @@ body{animation:pgfade .55s ease both}
     </article>
 
     <p class="fine" style="margin-top:34px;color:var(--dim);font-size:.86rem;max-width:70ch">
-      This is the first note. When another figure moves, it appears here with its source and its date, and
-      registered owners get it by email as well.</p>
+      This is the first note. When we publish another, it appears here with its source and its date.
+      Selected notes also go to registered owners by email.</p>
   </div>
 </section>
 
@@ -273,7 +296,7 @@ body{animation:pgfade .55s ease both}
       <h3>Educational disclaimer</h3>
       <p>Deedwell files are educational bookkeeping resources, not tax, legal, accounting, or financial advice, and no professional-client relationship is created by buying, using, or registering one. Tax rules change and apply differently to different situations. Confirm every figure and position with a qualified tax professional before filing. Cedarstone Ventures LLC is not a CPA firm.</p>
       <h3>What we do with your address</h3>
-      <p>We use it to send you edition updates, alerts about rules that affect the file you own, and answers to questions you send us. That is all. We do not sell or rent it. There is no unsubscribe link, because there is no marketing platform behind this &mdash; the notes are written and sent from an ordinary mailbox. Reply &ldquo;stop&rdquo; to any of them, or write to us, and we delete the address. See the <a href="/privacy.html" style="color:var(--cedar);font-weight:600">privacy policy</a>.</p>
+      <p>We use it for next tax-year edition news, selected law-change notes relevant to your book, and replies to questions you send us. We aim for a few emails a year. The list is kept by MailerLite, our email service, and we never sell your address. New subscribers get a confirmation email first; already-subscribed addresses may not get another. Every email has an unsubscribe link. Use the unsubscribe link to stop emails; to have your address deleted, write to info@cedarstonellc.com (we may keep a minimal record to honour the opt-out). See the <a href="/privacy.html" style="color:var(--cedar);font-weight:600">privacy policy</a>.</p>
     </div>
   </div>
 </div>
@@ -297,10 +320,47 @@ body{animation:pgfade .55s ease both}
 </div>
 </footer>
 
-<!-- Registration is plain email to info@cedarstonellc.com, a real inbox we own and watch,
-     so the promise this page makes is one we can keep. Do not add a form here without a
-     backend that receives it. -->
+<!-- CORRECTED 2026-10-30. This comment used to say registration was plain email only and
+     that a form needed a backend that receives it before it went here. That backend now exists:
+     the form above posts to MailerLite (account 2755930, double opt-in on), and the mailto
+     stays as the alternative for anyone who would rather write. If the MailerLite form is
+     ever removed, remove the unsubscribe/confirmation copy with it - check_promises.py
+     rule 5 will refuse that copy once no sending platform is wired. -->
 
+
+<!-- Sign-up, progressive enhancement. Without JS the form still POSTs natively to
+     MailerLite (double opt-in is on, so nothing is subscribed until the reader clicks
+     the confirmation link); the reply is raw JSON, ugly but it works. With JS: inline
+     validation, a "Sending..." state, and the thanks page only on {"success": true}.
+     Hand-written on purpose instead of MailerLite's embed script: no third-party JS. -->
+<script>
+(function(){
+  var MSG='That didn\u2019t go through. Check the address, or email info@cedarstonellc.com.';
+  var forms=document.querySelectorAll('form.signup');
+  Array.prototype.forEach.call(forms,function(form){
+    var input=form.querySelector('input[type=email]'),btn=form.querySelector('button'),
+        err=form.querySelector('.err'),label=btn.textContent;
+    form.noValidate=true; // our inline message replaces the browser bubble
+    function fail(text){
+      err.textContent=text;input.setAttribute('aria-invalid','true');
+      btn.disabled=false;btn.removeAttribute('aria-busy');btn.textContent=label;input.focus();
+    }
+    input.addEventListener('input',function(){
+      if(err.textContent){err.textContent='';input.removeAttribute('aria-invalid');}
+    });
+    form.addEventListener('submit',function(e){
+      e.preventDefault();
+      input.value=input.value.trim();
+      if(!input.checkValidity()){fail('Enter a full email address, like name@example.com.');return;}
+      btn.disabled=true;btn.setAttribute('aria-busy','true');btn.textContent='Sending\u2026';
+      fetch(form.action,{method:'POST',body:new FormData(form)})
+        .then(function(r){return r.json();})
+        .then(function(j){if(j&&j.success){location.href=form.getAttribute('data-thanks');}else{fail(MSG);}})
+        .catch(function(){fail(MSG);});
+    });
+  });
+})();
+</script>
 
 <!-- Cloudflare Web Analytics. Privacy-first: no cookies, no cross-site
      tracking, so no consent banner is required. The token is PUBLIC by

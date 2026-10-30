@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Almost done: check your inbox | Deedwell</title>
+<meta name="description" content="Confirm your Deedwell owner email sign-up.">
+<!-- Reached only after a sign-up on /updates/. Kept out of search and out of the
+     sitemap (tools/build_sitemap.py skips any page that says noindex). -->
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#1F3D2F">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='11' fill='%231F3D2F'/%3E%3Cpath fill='%23F4F0E6' d='M12.04 37 L35.96 37 L24 23.48 Z'/%3E%3Cpath fill='%23F4F0E6' d='M14.9 29.2 L33.1 29.2 L24 16.72 Z'/%3E%3Cpath fill='%23F4F0E6' d='M17.5 22.44 L30.5 22.44 L24 11 Z'/%3E%3Crect fill='%23F4F0E6' x='22.83' y='37' width='2.34' height='2.86'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cedar:#1F3D2F; --cedar-deep:#16301F; --stone:#C9BCA3; --stone-soft:#E7DFCE;
+  --ink:#1A1A1A; --paper:#FAF7F0; --cream:#F4F0E6; --dim:#6f6a5c; --line:#e4dcc9;
+  --gold:#9A7A21;
+  --serif:'Fraunces',Georgia,serif; --sans:'Inter',system-ui,-apple-system,sans-serif;
+  --wrap:1120px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:rgba(31,61,47,.15);
+  min-height:100vh;display:flex;flex-direction:column}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 26px}
+h1{font-family:var(--serif);font-weight:500;line-height:1.1;letter-spacing:-.014em}
+a{color:inherit}
+a:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:4px}
+.btn{display:inline-block;background:var(--cedar);color:var(--cream);font-weight:600;font-size:1rem;
+  padding:15px 28px;border-radius:999px;text-decoration:none;touch-action:manipulation;transition:background .2s ease}
+.btn:hover{background:var(--cedar-deep)}
+.eyebrow{font-size:.74rem;letter-spacing:.24em;text-transform:uppercase;font-weight:600;color:var(--cedar)}
+
+header{border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;height:72px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.brand .logo{width:38px;height:38px;border-radius:10px;display:block;flex:none}
+.brand .name{font-family:var(--serif);font-weight:600;font-size:1.4rem;color:var(--cedar);letter-spacing:-.01em}
+
+main{flex:1;padding:64px 0 56px}
+main h1{font-size:clamp(2.1rem,6vw,3.2rem);margin:14px 0 18px;max-width:18ch}
+main p{color:#514c40;font-size:1.08rem;max-width:58ch}
+main p+p{margin-top:14px}
+.get{margin-top:30px}
+.small{font-size:.94rem;color:var(--dim)}
+.small a{color:var(--cedar);font-weight:500}
+
+footer{background:var(--cedar);color:var(--stone-soft);padding:36px 0;font-size:.9rem}
+footer a{color:var(--stone-soft)}
+.fnote{color:#a9b5a6;font-size:.82rem}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="/" aria-label="Deedwell home">
+      <svg class="logo" viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="11" fill="#1F3D2F"/><path fill="#F4F0E6" d="M12.04 37 L35.96 37 L24 23.48 Z"/><path fill="#F4F0E6" d="M14.9 29.2 L33.1 29.2 L24 16.72 Z"/><path fill="#F4F0E6" d="M17.5 22.44 L30.5 22.44 L24 11 Z"/><rect fill="#F4F0E6" x="22.83" y="37" width="2.34" height="2.86"/></svg>
+      <span class="name" translate="no">Deedwell</span>
+    </a>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <p class="eyebrow">Owner email sign-up</p>
+    <h1>Almost done. Check your inbox.</h1>
+    <p>New subscribers: click the confirmation link we just sent and you&rsquo;re on the list. Already subscribed? You may not get another confirmation.</p>
+    <p class="get"><a class="btn" href="/updates/#notes">Read the change notes</a></p>
+    <p class="small" style="margin-top:26px">Nothing arrived? Check spam or promotions, or write to <a href="mailto:info@cedarstonellc.com">info@cedarstonellc.com</a>.</p>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="fnote">A brand of Cedarstone Ventures LLC &middot; <a href="/">Home</a> &middot; <a href="/privacy.html">Privacy</a> &middot; <a href="mailto:info@cedarstonellc.com">info@cedarstonellc.com</a></p>
+  </div>
+</footer>
+
+<!-- Cloudflare Web Analytics. Privacy-first: no cookies, no cross-site
+     tracking, so no consent banner is required. The token is PUBLIC by
+     design - it labels which site a hit belongs to and grants nothing.
+     Installed by build/build_site_analytics.py; --check refuses when any
+     page is missing it, so a new page cannot ship unmeasured. -->
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "478e11c5d4574ad4b70f275d35088b7d"}'></script>
+</body>
+</html>

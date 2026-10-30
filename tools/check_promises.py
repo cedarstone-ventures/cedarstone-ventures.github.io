@@ -1018,6 +1018,10 @@ FORWARDED_ASSETS = {
         "forwarded",
         "the association-channel deliverable, offered outright as a member "
         "hand-out - it travels without its origin page"),
+    "files/Deedwell-STR-Turnover-Restock-Checklist.pdf": (
+        "forwarded",
+        "the /host/ download, made to be printed and handed to cleaners and "
+        "co-hosts - every page footer carries deedwell.co/host"),
 }
 
 
