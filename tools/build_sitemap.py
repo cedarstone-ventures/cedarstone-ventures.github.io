@@ -17,6 +17,9 @@ Three bindings, so the file cannot drift again:
      common SEO defect. /review/ (the Chairman's pre-publish gallery) and /tools/ are
      excluded by exactly this route, not by a second hand-kept list that could
      disagree with robots.txt.
+  4. A PAGE THAT SAYS noindex IS NOT ADVERTISED. The sign-up thanks pages
+     (/host/thanks/, /updates/thanks/) carry <meta name="robots" content="noindex">;
+     listing them would ask a crawler to index a page that tells it not to.
 
 An unknown page ABORTS rather than getting a silent default priority. A new page is
 something a human should weigh, and this vault's own lesson is to prefer tooling that
@@ -42,6 +45,8 @@ WEIGHTS = {
     "/checklist/":    ("weekly",  "0.9"),
     "/rental/":       ("weekly",  "0.9"),
     "/updates/":      ("monthly", "0.6"),
+    "/books/":        ("monthly", "0.8"),    # hand-added 2026-10-29; weighted here 10-30
+    "/host/":         ("weekly",  "0.8"),
     "/privacy.html":  ("yearly",  "0.3"),
 }
 
@@ -58,6 +63,13 @@ def disallowed_prefixes():
         if m:
             out.append(m.group(1))
     return out
+
+
+NOINDEX = re.compile(r'<meta\s+name=["\']robots["\']\s+content=["\'][^"\']*\bnoindex', re.I)
+
+
+def says_noindex(path: Path) -> bool:
+    return bool(NOINDEX.search(path.read_text(encoding="utf-8", errors="replace")))
 
 
 def url_for(path: Path) -> str:
@@ -91,11 +103,14 @@ def build() -> str:
     blocked = disallowed_prefixes()
     pages = sorted(p for p in ROOT.rglob("*.html") if ".git" not in p.parts)
 
-    entries, skipped = [], []
+    entries, skipped, noindexed = [], [], []
     for p in pages:
         u = url_for(p)
         if any(u.startswith(b) for b in blocked):
             skipped.append(u)
+            continue
+        if says_noindex(p):
+            noindexed.append(u)
             continue
         if u not in WEIGHTS:
             sys.exit(
@@ -122,6 +137,8 @@ def build() -> str:
 
     for u in skipped:
         print(f"  excluded by robots.txt: {u}")
+    for u in noindexed:
+        print(f"  excluded by its own noindex: {u}")
     return "\n".join(lines) + "\n"
 
 

@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free Short-Term Rental Turnover Checklist (PDF) | Deedwell</title>
+<meta name="description" content="A free, printable two-page checklist for short-term rental hosts: a room-by-room turnover checklist and a restock and damage log. Direct download, no email needed.">
+<link rel="canonical" href="https://deedwell.co/host/">
+<meta name="theme-color" content="#1F3D2F">
+<meta property="og:title" content="A printable checklist for every short-term rental changeover">
+<meta property="og:description" content="Two printable pages: a room-by-room turnover checklist and a restock and damage log. Free, no email needed.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://deedwell.co/host/">
+<meta property="og:site_name" content="Deedwell">
+<!-- Share card: page 1 of the checklist itself, rendered from the served PDF by
+     tools/build_host_checklist.py, so the card shows exactly what downloads.
+     Portrait (800x1036); 1.91:1 unfurlers will crop it, same caveat as rental/. -->
+<meta property="og:image" content="https://deedwell.co/assets/host-checklist-p1.jpg">
+<meta property="og:image:width" content="800">
+<meta property="og:image:height" content="1036">
+<meta property="og:image:alt" content="Page 1 of the Deedwell Short-Term Rental Turnover and Restock Checklist: seven numbered sections of tick boxes.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://deedwell.co/assets/host-checklist-p1.jpg">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='11' fill='%231F3D2F'/%3E%3Cpath fill='%23F4F0E6' d='M12.04 37 L35.96 37 L24 23.48 Z'/%3E%3Cpath fill='%23F4F0E6' d='M14.9 29.2 L33.1 29.2 L24 16.72 Z'/%3E%3Cpath fill='%23F4F0E6' d='M17.5 22.44 L30.5 22.44 L24 11 Z'/%3E%3Crect fill='%23F4F0E6' x='22.83' y='37' width='2.34' height='2.86'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cedar:#1F3D2F; --cedar-deep:#16301F; --stone:#C9BCA3; --stone-soft:#E7DFCE;
+  --ink:#1A1A1A; --paper:#FAF7F0; --cream:#F4F0E6; --dim:#6f6a5c; --line:#e4dcc9;
+  --gold:#9A7A21; --err:#9B2C1F;
+  --serif:'Fraunces',Georgia,serif; --sans:'Inter',system-ui,-apple-system,sans-serif;
+  --wrap:1120px; --r:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:88px}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;-webkit-tap-highlight-color:rgba(31,61,47,.15)}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 26px}
+h1,h2,h3{font-family:var(--serif);font-weight:500;line-height:1.1;letter-spacing:-.014em}
+a{color:inherit}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:4px}
+.btn{display:inline-block;background:var(--cedar);color:var(--cream);font-weight:600;font-size:1rem;font-family:var(--sans);
+  padding:15px 28px;border-radius:999px;text-decoration:none;border:0;cursor:pointer;touch-action:manipulation;
+  transition:transform .18s ease,background .2s ease}
+.btn:hover{background:var(--cedar-deep);transform:translateY(-2px)}
+.btn.big{font-size:1.08rem;padding:18px 32px}
+.btn.ghost{background:transparent;color:var(--cedar);box-shadow:inset 0 0 0 1.5px var(--cedar)}
+@media(prefers-reduced-motion:reduce){.btn,.btn:hover{transition:none;transform:none}}
+.eyebrow{font-size:.74rem;letter-spacing:.24em;text-transform:uppercase;font-weight:600;color:var(--cedar)}
+
+header{position:sticky;top:0;z-index:20;background:rgba(250,247,240,.97);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+@supports not (backdrop-filter:blur(2px)){header{background:var(--paper)}}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:14px;height:72px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;min-width:0}
+.brand .logo{width:38px;height:38px;border-radius:10px;display:block;flex:none}
+.brand .name{font-family:var(--serif);font-weight:600;font-size:1.4rem;color:var(--cedar);letter-spacing:-.01em;white-space:nowrap}
+.nav .links{display:flex;align-items:center;gap:22px;flex:none}
+.nav .links a{text-decoration:none;font-weight:500;font-size:.95rem;color:var(--ink)}
+.nav .links a.btn{color:var(--cream)} /* .btn alone loses on specificity to .nav .links a */
+@media(max-width:720px){.nav .links a:not(.btn){display:none}}
+@media(max-width:560px){.nav{height:64px}.brand .logo{width:32px;height:32px}.brand .name{font-size:1.06rem}
+  .nav .links a.btn{font-size:.8rem;padding:10px 15px}}
+
+/* hero: the download is the whole offer, so it sits above the fold with the page picture */
+.hero{display:grid;grid-template-columns:1fr;gap:40px;align-items:center;padding:60px 26px 40px}
+@media(min-width:860px){.hero{grid-template-columns:1.15fr .85fr;gap:56px}}
+.hero h1{font-size:clamp(2.1rem,5.4vw,3.3rem);margin:14px 0 18px;max-width:18ch;text-wrap:balance}
+.hero .sub{font-size:clamp(1.02rem,2.3vw,1.18rem);color:var(--dim);max-width:52ch;margin-bottom:28px}
+.getrow{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+.nofee{font-size:.9rem;color:var(--dim)}
+.nofee b{color:var(--cedar)}
+.sheet{background:#fff;border:1px solid var(--line);border-radius:6px;box-shadow:0 30px 60px -38px rgba(31,61,47,.45);
+  max-width:380px;margin:0 auto;overflow:hidden}
+.sheet img{display:block;width:100%;height:auto}
+
+section{padding:46px 0}
+h2.sec{font-size:clamp(1.6rem,4vw,2.3rem);margin:12px 0 14px}
+.lead{color:var(--dim);max-width:60ch}
+ul.ticks{list-style:none;display:grid;gap:12px;margin-top:22px;max-width:62ch}
+ul.ticks li{display:flex;gap:12px;align-items:flex-start;font-size:1.02rem}
+ul.ticks li::before{content:"";flex:none;width:9px;height:9px;margin-top:.55em;border-radius:2px;background:var(--stone)}
+
+/* optional email box. Deliberately AFTER the download and visibly separate from it:
+   the checklist is not behind this form and the copy must never imply it is. */
+.optin{padding:20px 0 46px}
+.optin .obox{background:#fff;border:1px solid var(--line);border-radius:22px;padding:40px 42px;
+  display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+.optin h2{font-size:clamp(1.35rem,2.3vw,1.75rem);margin-top:10px}
+.optin .obox>div>p{margin-top:14px;color:#514c40;font-size:1rem}
+@media(max-width:860px){.optin .obox{grid-template-columns:1fr;padding:30px 24px;gap:22px}}
+.signup label{display:block;font-weight:600;font-size:.95rem;margin-bottom:8px}
+.signup .row{display:flex;flex-wrap:wrap;gap:10px}
+/* 16px minimum: anything smaller makes iOS Safari zoom the page on focus */
+.signup input[type=email]{flex:1 1 220px;min-width:0;font:inherit;font-size:16px;color:var(--ink);background:#fff;
+  border:1.5px solid #b9ae97;border-radius:12px;padding:13px 14px;min-height:48px}
+.signup input[type=email][aria-invalid=true]{border-color:var(--err)}
+.signup button{min-height:48px}
+.signup button[disabled]{opacity:.75;cursor:progress;transform:none}
+.signup .err{color:var(--err);font-size:.92rem;font-weight:500;margin-top:8px;min-height:1.4em}
+.signup .note{font-size:.84rem;color:var(--dim);margin-top:4px}
+.signup .note a{color:var(--cedar);font-weight:500}
+
+.maker{background:var(--cream);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.maker .mrow{display:flex;flex-wrap:wrap;gap:20px 34px;align-items:center;justify-content:space-between}
+.maker .mrow>div{flex:1 1 420px;min-width:0}
+.maker h2{font-size:clamp(1.3rem,2.6vw,1.7rem);margin-top:10px}
+.maker p{color:var(--dim);margin-top:10px;max-width:56ch}
+
+.disc{font-size:.86rem;color:var(--dim);max-width:66ch;padding:30px 0 0}
+footer{background:var(--cedar);color:var(--stone-soft);padding:44px 0;margin-top:46px;font-size:.9rem}
+footer a{color:var(--stone-soft)}
+.fnote{color:#a9b5a6;font-size:.82rem;margin-top:10px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="/" aria-label="Deedwell home">
+      <svg class="logo" viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="11" fill="#1F3D2F"/><path fill="#F4F0E6" d="M12.04 37 L35.96 37 L24 23.48 Z"/><path fill="#F4F0E6" d="M14.9 29.2 L33.1 29.2 L24 16.72 Z"/><path fill="#F4F0E6" d="M17.5 22.44 L30.5 22.44 L24 11 Z"/><rect fill="#F4F0E6" x="22.83" y="37" width="2.34" height="2.86"/></svg>
+      <span class="name" translate="no">Deedwell</span>
+    </a>
+    <nav class="links">
+      <a href="#inside">What&rsquo;s inside</a>
+      <a href="#email">Email updates</a>
+      <a class="btn" href="/files/Deedwell-STR-Turnover-Restock-Checklist.pdf" download>Get the PDF</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <div class="wrap hero">
+    <div>
+      <p class="eyebrow">Free for short-term rental hosts</p>
+      <h1>A printable checklist for every short-term rental changeover.</h1>
+      <p class="sub">Two printable pages: a room-by-room turnover checklist, and a restock and damage log. Free, and no email needed.</p>
+      <div class="getrow">
+        <a class="btn big" href="/files/Deedwell-STR-Turnover-Restock-Checklist.pdf" download>Download the checklist (PDF)</a>
+        <span class="nofee"><b>No email needed.</b> It downloads straight away.</span>
+      </div>
+    </div>
+    <figure class="sheet">
+      <img src="/assets/host-checklist-p1.jpg" width="800" height="1036" alt="Page 1 of the checklist: date, unit, check-out, next check-in and cleaner fields, then seven numbered sections of tick boxes from walk-through to close-out." fetchpriority="high">
+    </figure>
+  </div>
+
+  <section id="inside">
+    <div class="wrap">
+      <p class="eyebrow">What&rsquo;s inside</p>
+      <h2 class="sec">Print one for each turnover.</h2>
+      <p class="lead">US Letter, black and grey, made to print on any home printer.</p>
+      <ul class="ticks">
+        <li><span>A seven-step changeover list, from the first walk-through to close-out</span></li>
+        <li><span>A safety check to initial every turnover</span></li>
+        <li><span>A restock tracker with par levels</span></li>
+        <li><span>A damage and left-behind log with a &ldquo;photo taken?&rdquo; column</span></li>
+      </ul>
+      <p style="margin-top:26px"><a class="btn ghost" href="/files/Deedwell-STR-Turnover-Restock-Checklist.pdf" download>Download the checklist (PDF)</a></p>
+    </div>
+  </section>
+
+  <section class="optin" id="email">
+    <div class="wrap">
+      <div class="obox">
+        <div>
+          <p class="eyebrow">Separate from the download</p>
+          <h2>Optional: get new host resources and Deedwell book news by email.</h2>
+          <p>Separate from the checklist, which is yours either way. We aim for a few emails a year.</p>
+        </div>
+        <form class="signup" action="https://assets.mailerlite.com/jsonp/2755930/forms/202765597201663306/subscribe" method="post" data-thanks="/host/thanks/">
+          <label for="host-email">Email address</label>
+          <div class="row">
+            <input id="host-email" type="email" name="fields[email]" required autocomplete="email" inputmode="email" spellcheck="false" autocapitalize="off" aria-describedby="host-email-err host-email-note">
+            <button class="btn" type="submit">Sign up</button>
+          </div>
+          <p class="err" id="host-email-err" aria-live="polite"></p>
+          <input type="hidden" name="ml-submit" value="1">
+          <input type="hidden" name="anticsrf" value="true">
+          <p class="note" id="host-email-note">New subscribers receive a confirmation email first. We aim for a few marketing emails a year. Every marketing email includes an unsubscribe link. We never sell your address. See our <a href="/privacy.html">privacy policy</a>.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="maker">
+    <div class="wrap mrow">
+      <div>
+        <p class="eyebrow">From the same publisher</p>
+        <h2>Prefer to keep your records in one book?</h2>
+        <p>Our short-term rental host log book, published under our Cedarstone Press imprint, is sold on Amazon. The checklist above stays free either way.</p>
+      </div>
+      <a class="btn" href="https://www.amazon.com/dp/B0GV9WSVCC">See it on Amazon</a>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <p class="disc">A general checklist, not professional, legal or safety advice. Adapt it to your property, your equipment and your local rules.</p>
+  </div>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><strong translate="no">Deedwell</strong> &middot; Free tools for rental hosts and landlords</p>
+    <p class="fnote">A brand of Cedarstone Ventures LLC &middot; <a href="/">Home</a> &middot; <a href="/privacy.html">Privacy</a> &middot; <a href="mailto:info@cedarstonellc.com">info@cedarstonellc.com</a></p>
+    <p class="fnote">&copy; 2026 Cedarstone Ventures LLC. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- Sign-up, progressive enhancement. Without JS the form still POSTs natively to
+     MailerLite (double opt-in is on, so nothing is subscribed until the reader clicks
+     the confirmation link); the reply is raw JSON, ugly but it works. With JS: inline
+     validation, a "Sending..." state, and the thanks page only on {"success": true}.
+     Hand-written on purpose instead of MailerLite's embed script: no third-party JS. -->
+<script>
+(function(){
+  var MSG='That didn\u2019t go through. Check the address, or email info@cedarstonellc.com.';
+  var forms=document.querySelectorAll('form.signup');
+  Array.prototype.forEach.call(forms,function(form){
+    var input=form.querySelector('input[type=email]'),btn=form.querySelector('button'),
+        err=form.querySelector('.err'),label=btn.textContent;
+    form.noValidate=true; // our inline message replaces the browser bubble
+    function fail(text){
+      err.textContent=text;input.setAttribute('aria-invalid','true');
+      btn.disabled=false;btn.removeAttribute('aria-busy');btn.textContent=label;input.focus();
+    }
+    input.addEventListener('input',function(){
+      if(err.textContent){err.textContent='';input.removeAttribute('aria-invalid');}
+    });
+    form.addEventListener('submit',function(e){
+      e.preventDefault();
+      input.value=input.value.trim();
+      if(!input.checkValidity()){fail('Enter a full email address, like name@example.com.');return;}
+      btn.disabled=true;btn.setAttribute('aria-busy','true');btn.textContent='Sending\u2026';
+      fetch(form.action,{method:'POST',body:new FormData(form)})
+        .then(function(r){return r.json();})
+        .then(function(j){if(j&&j.success){location.href=form.getAttribute('data-thanks');}else{fail(MSG);}})
+        .catch(function(){fail(MSG);});
+    });
+  });
+})();
+</script>
+
+<!-- Cloudflare Web Analytics. Privacy-first: no cookies, no cross-site
+     tracking, so no consent banner is required. The token is PUBLIC by
+     design - it labels which site a hit belongs to and grants nothing.
+     Installed by build/build_site_analytics.py; --check refuses when any
+     page is missing it, so a new page cannot ship unmeasured. -->
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "478e11c5d4574ad4b70f275d35088b7d"}'></script>
+</body>
+</html>
