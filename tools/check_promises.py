@@ -297,7 +297,9 @@ def esp_configured(root):
 # --- rule 2: "no form" claim vs. an actual form control ----------------------
 NO_FORM_PHRASES = [
     r"no form to fill in",
-    r"\bno form\b",
+    # "no Form 1098" (a tax form name) is not a promise about web forms: skip a form
+    # NUMBER after it. Added 2026-11-01 when the checklist gained an optional sign-up.
+    r"\bno form\b(?!\s*\d)",
 ]
 FORM_CONTROLS = [r"<form\b", r"<input\b", r"<textarea\b", r"<select\b"]
 
