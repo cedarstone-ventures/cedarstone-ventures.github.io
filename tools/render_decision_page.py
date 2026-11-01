@@ -512,7 +512,7 @@ a{{color:var(--cedar)}}
   <div class="wrap">
     <p>Robots-excluded and linked from nowhere. Delete this directory once the branch is merged or dropped &mdash;
        it is a snapshot of a decision, not a page.</p>
-    <p>Gabriel, Office of the CEO &middot; Cedarstone Ventures LLC</p>
+    <p>Ayobami Olanrewaju, Founder &amp; Publisher &middot; Cedarstone Ventures LLC</p>
   </div>
 </footer>
 
