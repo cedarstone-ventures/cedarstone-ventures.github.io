@@ -248,6 +248,26 @@ footer .legal{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap
   table.dl tr.grp td .q{color:#333}
   .caveat{background:#f2f2f2}
 }
+:root{--err:#9b2c1f}
+/* optional email box. Deliberately AFTER the download and visibly separate from it:
+   the checklist is not behind this form and the copy must never imply it is. */
+.optin{padding:20px 0 46px}
+.optin .obox{background:#fff;border:1px solid var(--line);border-radius:22px;padding:40px 42px;
+  display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+.optin h2{font-size:clamp(1.35rem,2.3vw,1.75rem);margin-top:10px}
+.optin .obox>div>p{margin-top:14px;color:#514c40;font-size:1rem}
+@media(max-width:860px){.optin .obox{grid-template-columns:1fr;padding:30px 24px;gap:22px}}
+.signup label{display:block;font-weight:600;font-size:.95rem;margin-bottom:8px}
+.signup .row{display:flex;flex-wrap:wrap;gap:10px}
+/* 16px minimum: anything smaller makes iOS Safari zoom the page on focus */
+.signup input[type=email]{flex:1 1 220px;min-width:0;font:inherit;font-size:16px;color:var(--ink);background:#fff;
+  border:1.5px solid #b9ae97;border-radius:12px;padding:13px 14px;min-height:48px}
+.signup input[type=email][aria-invalid=true]{border-color:var(--err)}
+.signup button{min-height:48px}
+.signup button[disabled]{opacity:.75;cursor:progress;transform:none}
+.signup .err{color:var(--err);font-size:.92rem;font-weight:500;margin-top:8px;min-height:1.4em}
+.signup .note{font-size:.84rem;color:var(--dim);margin-top:4px}
+.signup .note a{color:var(--cedar);font-weight:500}
 </style>
 </head>
 <body>
@@ -278,7 +298,7 @@ footer .legal{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap
     </p>
     <p class="micro" style="margin-top:12px">Two pages, landlord edition, with the 2026 split
       mileage rate and its IRS source. Straight download, no email.</p>
-    <p class="micro">No form, no download gate, no email to read it. The whole checklist is on this page. Print it and tick it, or work down it on screen.</p>
+    <p class="micro">No download gate: the whole checklist is on this page. Print it and tick it, or work down it on screen.</p>
     <div class="stats">
       <div><b>35</b><span>Deductions</span></div>
       <div><b>15</b><span>Every Schedule&nbsp;E expense line</span></div>
@@ -429,6 +449,29 @@ footer .legal{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap
   </div>
 </section>
 
+<section class="optin" id="email">
+  <div class="wrap">
+    <div class="obox">
+      <div>
+        <p class="eyebrow">Separate from the checklist</p>
+        <h2>Optional: get new landlord resources and Deedwell book news by email.</h2>
+        <p>Separate from the checklist, which is yours either way. We aim for a few emails a year.</p>
+      </div>
+      <form class="signup" action="https://assets.mailerlite.com/jsonp/2755930/forms/202968718016251619/subscribe" method="post" data-thanks="/checklist/thanks/">
+        <label for="cl-email">Email address</label>
+        <div class="row">
+          <input id="cl-email" type="email" name="fields[email]" required autocomplete="email" inputmode="email" spellcheck="false" autocapitalize="off" aria-describedby="cl-email-err cl-email-note">
+          <button class="btn" type="submit">Sign up</button>
+        </div>
+        <p class="err" id="cl-email-err" aria-live="polite"></p>
+        <input type="hidden" name="ml-submit" value="1">
+        <input type="hidden" name="anticsrf" value="true">
+        <p class="note" id="cl-email-note">New subscribers receive a confirmation email first. We aim for a few marketing emails a year. Every marketing email includes an unsubscribe link. We never sell your address. See our <a href="/privacy.html">privacy policy</a>.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
 <section class="follow">
   <div class="wrap">
     <div class="fbox">
@@ -469,6 +512,34 @@ footer .legal{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap
      design - it labels which site a hit belongs to and grants nothing.
      Installed by build/build_site_analytics.py; --check refuses when any
      page is missing it, so a new page cannot ship unmeasured. -->
+<script>
+(function(){
+  var MSG='That didn\u2019t go through. Check the address, or email info@cedarstonellc.com.';
+  var forms=document.querySelectorAll('form.signup');
+  Array.prototype.forEach.call(forms,function(form){
+    var input=form.querySelector('input[type=email]'),btn=form.querySelector('button'),
+        err=form.querySelector('.err'),label=btn.textContent;
+    form.noValidate=true; // our inline message replaces the browser bubble
+    function fail(text){
+      err.textContent=text;input.setAttribute('aria-invalid','true');
+      btn.disabled=false;btn.removeAttribute('aria-busy');btn.textContent=label;input.focus();
+    }
+    input.addEventListener('input',function(){
+      if(err.textContent){err.textContent='';input.removeAttribute('aria-invalid');}
+    });
+    form.addEventListener('submit',function(e){
+      e.preventDefault();
+      input.value=input.value.trim();
+      if(!input.checkValidity()){fail('Enter a full email address, like name@example.com.');return;}
+      btn.disabled=true;btn.setAttribute('aria-busy','true');btn.textContent='Sending\u2026';
+      fetch(form.action,{method:'POST',body:new FormData(form)})
+        .then(function(r){return r.json();})
+        .then(function(j){if(j&&j.success){location.href=form.getAttribute('data-thanks');}else{fail(MSG);}})
+        .catch(function(){fail(MSG);});
+    });
+  });
+})();
+</script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "478e11c5d4574ad4b70f275d35088b7d"}'></script>
 </body>
 </html>
