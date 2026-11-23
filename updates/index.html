@@ -351,13 +351,17 @@ body{animation:pgfade .55s ease both}
     });
     form.addEventListener('submit',function(e){
       e.preventDefault();
+      if (btn.disabled) return;
       input.value=input.value.trim();
       if(!input.checkValidity()){fail('Enter a full email address, like name@example.com.');return;}
       btn.disabled=true;btn.setAttribute('aria-busy','true');btn.textContent='Sending\u2026';
-      fetch(form.action,{method:'POST',body:new FormData(form)})
-        .then(function(r){return r.json();})
+      var controller = new AbortController();
+      var timeout = setTimeout(function(){controller.abort();}, 15000);
+      fetch(form.action,{method:'POST',body:new FormData(form),signal:controller.signal})
+        .then(function(r){if(!r.ok) throw new Error(); return r.json();})
         .then(function(j){if(j&&j.success){location.href=form.getAttribute('data-thanks');}else{fail(MSG);}})
-        .catch(function(){fail(MSG);});
+        .catch(function(){fail(MSG);})
+        .finally(function(){clearTimeout(timeout);});
     });
   });
 })();

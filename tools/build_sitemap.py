@@ -41,6 +41,8 @@ SITE = "https://deedwell.co"
 # Crawl weighting is a judgement call, so it stays explicit. An .html file that is
 # not named here aborts the build rather than defaulting silently.
 WEIGHTS = {
+    "/business/": ("monthly", "0.7"),
+    "/rental-property-record-book/": ("monthly", "0.8"),
     "/":              ("weekly",  "1.0"),
     "/checklist/":    ("weekly",  "0.9"),
     "/rental/":       ("weekly",  "0.9"),
