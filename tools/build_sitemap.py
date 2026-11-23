@@ -49,6 +49,7 @@ WEIGHTS = {
     "/updates/":      ("monthly", "0.6"),
     "/books/":        ("monthly", "0.8"),    # hand-added 2026-10-29; weighted here 10-30
     "/host/":         ("weekly",  "0.8"),
+    "/terms.html": ("yearly", "0.3"),
     "/privacy.html":  ("yearly",  "0.3"),
 }
 
