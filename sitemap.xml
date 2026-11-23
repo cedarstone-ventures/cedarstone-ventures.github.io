@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://deedwell.co/</loc>
-    <lastmod>2026-10-30</lastmod>
+    <lastmod>2026-11-22</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -43,4 +43,5 @@
     <priority>0.3</priority>
   </url>
   <url><loc>https://deedwell.co/business/</loc></url>
+  <url><loc>https://deedwell.co/rental-property-record-book/</loc><lastmod>2026-11-22</lastmod></url>
 </urlset>

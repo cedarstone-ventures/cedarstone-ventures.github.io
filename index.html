@@ -2,539 +2,185 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Rental Property Record Book for Schedule E — Landlord Tax Logbook | Deedwell</title>
-<meta name="description" content="A structured record book for small landlords, built backwards from IRS Schedule E. Every expense mapped to its exact line, a worked example month, and a mileage log built for 2026's split rate. 108 pages, 8.5 x 11.">
-<meta name="theme-color" content="#16301F">
-<meta name="color-scheme" content="light">
-<link rel="canonical" href="https://deedwell.co/">
-<link rel="preload" as="image" type="image/webp" href="/assets/hero-warm-bg-1600.webp" imagesrcset="/assets/hero-warm-bg-1600.webp 1600w, /assets/hero-warm-bg-2400.webp 2400w" imagesizes="100vw" fetchpriority="high">
-<!-- Pinterest domain claim. Public verification token, not a secret: it only proves we
-     control this document. Claiming gets Deedwell attribution on every Pin that links
-     here and unlocks per-pin analytics. Do not remove: Pinterest re-checks the tag and
-     un-claims the domain if it disappears. (Ported from the live site 2026-08-12.) -->
-<meta name="p:domain_verify" content="5f08ec59b8b4f5ebc0443f2bbaff87f0">
-<meta property="og:title" content="Deedwell | The Rental Property Record Book">
-<meta property="og:description" content="Every rent payment, every expense, every deductible mile, recorded once, in the order your tax return actually reads.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://deedwell.co/">
-<meta property="og:site_name" content="Deedwell">
-<meta property="og:image" content="/assets/cover.jpg">
-<meta name="twitter:card" content="summary_large_image">
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Organization",
-      "@id": "https://deedwell.co/#deedwell",
-      "name": "Deedwell",
-      "url": "https://deedwell.co/",
-      "description": "Deedwell publishes structured paper record books for people who own rental property, organized around the tax form the records end up on.",
-      "email": "info@cedarstonellc.com",
-      "areaServed": { "@type": "Country", "name": "United States" },
-      "knowsAbout": [
-        "Rental property record keeping",
-        "IRS Schedule E",
-        "Landlord bookkeeping",
-        "Rental property mileage deduction",
-        "Depreciation recapture when selling a rental",
-        "Adjusted basis reconstruction for a rental sale"
-      ],
-      "parentOrganization": { "@type": "Organization", "name": "Cedarstone Ventures LLC" }
-    },
-    {
-      "@type": "Book",
-      "@id": "https://deedwell.co/#recordbook",
-      "name": "Rental Property Record Book",
-      "alternateName": "Rental Property Record Book: The Small Landlord's Tax-Ready Record",
-      "bookFormat": "https://schema.org/Paperback",
-      "numberOfPages": 108,
-      "inLanguage": "en-US",
-      "publisher": { "@id": "https://deedwell.co/#deedwell" },
-      "image": "/assets/cover.jpg",
-      "description": "A structured record book built backwards from IRS Schedule E, for the landlord with one to a few rentals."
-    },
-    {
-      "@type": "WebSite",
-      "@id": "https://deedwell.co/#website",
-      "name": "Deedwell",
-      "url": "https://deedwell.co/",
-      "inLanguage": "en-US",
-      "publisher": { "@id": "https://deedwell.co/#deedwell" }
-    }
-  ]
-}
-</script>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='11' fill='%231F3D2F'/%3E%3Cpath fill='%23F4F0E6' d='M12.04 37 L35.96 37 L24 23.48 Z'/%3E%3Cpath fill='%23F4F0E6' d='M14.9 29.2 L33.1 29.2 L24 16.72 Z'/%3E%3Cpath fill='%23F4F0E6' d='M17.5 22.44 L30.5 22.44 L24 11 Z'/%3E%3Crect fill='%23F4F0E6' x='22.83' y='37' width='2.34' height='2.86'/%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap"></noscript>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Deedwell: Books for Landlords and Vacation Rental Hosts</title>
+<meta name="description" content="Deedwell is an independent publisher of books for landlords and vacation rental hosts.">
 <style>
-:root{
-  /* ---- brand tokens (locked v1) ---- */
-  --cedar:#1F3D2F; --cedar-deep:#16301F; --cedar-line:#2C513E;
-  --stone:#C9BCA3; --stone-soft:#E7DFCE; --gold:#C2A15A; --gold-soft:#D3B36C; --gold-ink:#7A6021;
-  --ink:#1D1D18; --body:#3F3F38; --paper:#FBF8F1; --cream:#F4F0E6;
-  --dim:#6C6759; --line:#E5DDCA; --line-strong:#D8CEB6;
-  --serif:'Fraunces',Georgia,serif; --sans:'Inter',system-ui,-apple-system,sans-serif;
-  --gutter:clamp(20px,5vw,92px);
-  --shell:min(1320px,100% - (var(--gutter)*2));
-  --wide:min(1560px,100% - (var(--gutter)*2));
-  --measure:64ch;
-  --ease:cubic-bezier(.16,1,.3,1);
+:root{--g:#1d3a2c;--g2:#2b4f3d;--c:#f6f0e3;--c2:#ece3cf;--b:#b08a4f;--ink:#1b241f}
+*{box-sizing:border-box;margin:0}
+body{font:1.0625rem/1.65 Georgia,"Times New Roman",serif;color:var(--ink);background:var(--c)}
+a{color:inherit;text-underline-offset:.2em;text-decoration-color:var(--b)}
+a:focus-visible{outline:3px solid var(--b);outline-offset:3px}
+img{display:block;max-width:100%;height:auto}
+.w{width:min(68rem,100% - 2.5rem);margin:auto}
+.skip{position:absolute;left:-99em}.skip:focus{left:1rem;top:1rem;background:var(--c);padding:.5rem 1rem;z-index:9}
+header{background:var(--g);color:var(--c);border-bottom:3px solid var(--b)}
+.bar{display:flex;flex-wrap:wrap;gap:.5rem 1.5rem;align-items:center;justify-content:space-between;padding:1rem 0}
+.logo{font-size:1.5rem;letter-spacing:.06em;text-decoration:none}
+.logo span{color:var(--b)}
+nav ul{display:flex;flex-wrap:wrap;gap:.25rem 1.25rem;padding:0;list-style:none;font:600 .8rem/2 system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase}
+.hero{display:grid;gap:2.5rem;padding:3rem 0 4rem}
+.k{font:600 .75rem system-ui,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:var(--b)}
+h1,h2,h3{font-weight:400;line-height:1.15}
+h1{font-size:clamp(2.4rem,7vw,4.2rem);margin:.75rem 0 1.25rem}
+h1 em{color:var(--b)}
+h2{font-size:clamp(1.8rem,4.5vw,2.6rem);margin-bottom:1rem}
+h3{font-size:1.6rem;margin:.5rem 0}
+.hero p{max-width:32rem;color:#e4dccb}
+.art{justify-self:center;max-width:22rem;border:1px solid var(--b);padding:.6rem;background:var(--g2)}
+.btn{display:inline-block;margin:1.5rem .75rem 0 0;padding:.8rem 1.4rem;border:1px solid var(--b);font:600 .85rem system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;text-decoration:none}
+.btn.p{background:var(--b);color:var(--g)}
+.btn:hover{background:var(--c);color:var(--g)}
+section{padding:4rem 0}
+.paths{display:grid;gap:1.5rem}
+.path{background:var(--c2);border-top:4px solid var(--g);padding:2rem}
+.path a{font-weight:700}
+.alt{background:#fbf8f1;border-block:1px solid var(--c2)}
+.book{display:grid;gap:2rem;align-items:center;padding:2.5rem 0}
+.book+.book{border-top:1px solid var(--b)}
+.book img{max-width:15rem;box-shadow:12px 12px 0 var(--g)}
+.links{display:flex;flex-wrap:wrap;gap:.5rem 1.5rem;margin-top:1rem;font:600 .95rem system-ui,sans-serif}
+.cat{background:var(--g);color:var(--c);text-align:center}
+footer{background:#132a1f;color:#c9c0ad;padding:2rem 0;font:.85rem system-ui,sans-serif}
+@media(min-width:48rem){
+.hero{grid-template-columns:1.2fr .8fr;align-items:center;padding:5rem 0}
+.paths{grid-template-columns:1fr 1fr}
+.book{grid-template-columns:15rem 1fr;gap:3.5rem}
+.book:nth-child(odd of .book){grid-template-columns:1fr 15rem}
+.book:nth-child(odd of .book) img{order:2;box-shadow:-12px 12px 0 var(--g)}
 }
-@media(min-width:2000px){:root{--shell:min(1480px,100% - (var(--gutter)*2))}}
-*{box-sizing:border-box;margin:0;padding:0}
-html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
-body{background:var(--paper);color:var(--body);font-family:var(--sans);font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-img{max-width:100%;height:auto;display:block}
-a{color:inherit}
-:focus-visible{outline:2.5px solid var(--gold);outline-offset:3px;border-radius:4px}
-.shell{width:var(--shell);margin-inline:auto}
-.wide{width:var(--wide);margin-inline:auto}
-.measure{max-width:var(--measure)}
-
-h1,h2,h3{font-family:var(--serif);font-weight:400;letter-spacing:-.02em;line-height:1.05;color:var(--ink)}
-h1{font-size:clamp(2.9rem,6.4vw,5.6rem);letter-spacing:-.03em}
-h2{font-size:clamp(2rem,3.7vw,3.3rem);line-height:1.1}
-h3{font-size:1.18rem;line-height:1.3;letter-spacing:-.01em}
-p{text-wrap:pretty}
-.eyebrow{font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;font-weight:600;color:var(--gold-ink)}
-.num{font-variant-numeric:tabular-nums}
-em{font-style:italic}
-
-/* buttons */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:.55rem;min-height:54px;padding:0 30px;border-radius:999px;font-weight:600;font-size:1.02rem;text-decoration:none;background:var(--gold);color:#1B1607;box-shadow:0 1px 2px rgba(0,0,0,.14),0 12px 28px -14px rgba(0,0,0,.5);transition:transform .2s var(--ease),box-shadow .2s var(--ease),background-color .2s}
-.btn:hover{background:var(--gold-soft);transform:translateY(-2px);box-shadow:0 2px 4px rgba(0,0,0,.18),0 18px 36px -16px rgba(0,0,0,.55)}
-.btn:active{transform:translateY(0)}
-.btn.ghost{background:transparent;color:var(--cream);box-shadow:inset 0 0 0 1.5px rgba(201,188,163,.55)}
-.btn.ghost:hover{background:rgba(201,188,163,.12);color:#fff;box-shadow:inset 0 0 0 1.5px var(--stone)}
-.btn.dark{background:var(--cedar);color:var(--cream)}
-.btn.dark:hover{background:#27503C}
-.btn.line{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line-strong)}
-.btn.line:hover{box-shadow:inset 0 0 0 1.5px var(--gold);color:var(--ink)}
-
-/* header */
-header{position:sticky;top:0;z-index:40;background:rgba(251,248,241,.82);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
-.nav{display:flex;align-items:center;justify-content:space-between;gap:24px;height:72px}
-.brand{display:flex;align-items:center;gap:11px;text-decoration:none;color:var(--cedar)}
-.brand svg{width:29px;height:29px;flex:none}
-.brand b{font-family:var(--serif);font-weight:600;font-size:1.3rem;color:var(--ink);letter-spacing:-.01em}
-.links{display:flex;align-items:center;gap:30px}
-.links a{text-decoration:none;font-size:.95rem;font-weight:500;color:var(--body)}
-.links a:hover{color:var(--ink)}
-.links a.btn{min-height:44px;padding:0 22px;font-size:.92rem;color:#1B1607}
-@media(max-width:860px){.links a:not(.btn):not(.nav-free){display:none}.links{gap:14px}.links a.nav-free{font-size:.86rem;white-space:nowrap}}
-@media(max-width:430px){.brand b{display:none}.links a.nav-free{font-size:.82rem}.links a.btn{padding:0 16px}}
-
-/* hero */
-.hero{position:relative;min-height:clamp(620px,90vh,900px);display:flex;align-items:center;overflow:hidden;background:#2b2417;isolation:isolate}
-.hero .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
-.hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(22,32,20,.82) 0%,rgba(22,32,20,.62) 34%,rgba(22,32,20,.2) 66%,rgba(22,32,20,.05) 100%),linear-gradient(0deg,rgba(22,32,20,.55),transparent 42%)}
-.hero-grid{display:grid;grid-template-columns:1fr;gap:40px;align-items:center;padding:120px 0 84px}
-@media(min-width:1000px){.hero-grid{grid-template-columns:minmax(0,1.06fr) minmax(320px,.94fr)}}
-.hero-copy{position:relative;max-width:40rem}
-.hero .eyebrow{color:var(--gold)}
-.hero h1{color:#fff;margin-top:20px;max-width:14ch}
-.hero .lead{color:#E9E3D2;font-size:clamp(1.08rem,1.4vw,1.32rem);max-width:38ch;margin-top:24px;line-height:1.5}
-.cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:36px}
-.hero .micro{margin-top:24px;font-size:.9rem;color:#B9C0B2;max-width:46ch}
-.hero .micro b{color:var(--stone);font-weight:600}
-.hero-shot{position:relative;justify-self:center;width:100%;max-width:390px;aspect-ratio:1000/1304;transform:rotate(-2.4deg)}
-.hero-shot img{border-radius:5px;box-shadow:0 3px 8px rgba(0,0,0,.34),0 46px 90px -34px rgba(0,0,0,.9);outline:1px solid rgba(201,188,163,.28);outline-offset:-1px}
-.hero-shot::after{content:"";position:absolute;left:-8%;right:-8%;bottom:-7%;height:34px;background:radial-gradient(ellipse at center,rgba(0,0,0,.42),transparent 70%);filter:blur(7px);z-index:-1}
-@media(max-width:999px){.hero-shot{display:none}}
-
-/* section rhythm */
-section{padding:clamp(64px,8vw,124px) 0}
-.sec-head{max-width:34ch;margin-bottom:clamp(38px,4.5vw,64px)}
-.sec-head.center{margin-inline:auto;text-align:center;max-width:40ch}
-.sec-head h2{margin-top:14px}
-.sec-head p{margin-top:16px;color:var(--dim)}
-
-/* reveal (progressive enhancement; visible by default) */
-@media (prefers-reduced-motion:no-preference){
-  @supports (animation-timeline:view()){
-    .reveal{opacity:0;transform:translateY(26px);animation:rise .9s var(--ease) forwards;animation-timeline:view();animation-range:entry 2% cover 22%}
-    @keyframes rise{to{opacity:1;transform:none}}
-  }
-}
-
-/* PRODUCT PROOF (schedule E map) */
-.proof{background:var(--cream);border-block:1px solid var(--line)}
-.proof-grid{display:grid;gap:clamp(30px,4vw,68px);grid-template-columns:1fr;align-items:center}
-@media(min-width:980px){.proof-grid{grid-template-columns:minmax(0,1fr) minmax(0,1.06fr)}}
-.proof figure{position:relative;border-radius:14px;overflow:hidden;background:#fff;border:1px solid var(--line);box-shadow:0 2px 3px rgba(0,0,0,.04),0 34px 72px -40px rgba(31,61,47,.55)}
-.proof figcaption{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:.83rem;color:var(--dim);padding:14px 18px;border-top:1px solid var(--line);background:#fff}
-.proof figcaption b{font-family:var(--serif);color:var(--ink);font-weight:600;font-size:.98rem}
-.pill{font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--gold-ink);background:rgba(194,161,90,.15);padding:6px 11px;border-radius:999px;white-space:nowrap}
-.proof p.body{margin-top:18px;color:var(--body)}
-.proof .buys{display:flex;flex-wrap:wrap;gap:14px;margin-top:30px}
-.fine{font-size:.88rem;color:var(--dim);margin-top:16px}
-
-/* NUMERALS */
-.pains{background:var(--paper)}
-.pains .sec-head{max-width:34ch}
-.prow{display:grid;grid-template-columns:clamp(64px,7vw,112px) 1fr;gap:clamp(24px,4vw,64px);align-items:baseline;padding:clamp(26px,3.4vw,42px) 0;border-top:1px solid var(--line-strong)}
-.prow:last-child{border-bottom:1px solid var(--line-strong)}
-.pn{font-family:var(--serif);font-variant-numeric:tabular-nums;font-size:clamp(2.6rem,5.4vw,4.6rem);color:var(--gold);line-height:.9;letter-spacing:-.02em}
-.pc h3{font-size:clamp(1.3rem,2.2vw,1.9rem);font-weight:500;color:var(--ink);letter-spacing:-.015em}
-.pc p{margin-top:11px;color:var(--dim);font-size:1.04rem;max-width:54ch}
-
-/* GALLERY */
-.pages{background:var(--cream);border-block:1px solid var(--line)}
-.pagevid{position:relative;margin-top:8px;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#fff;box-shadow:0 2px 3px rgba(0,0,0,.04),0 34px 70px -42px rgba(31,61,47,.5)}
-.pagevid video{display:block;width:100%;height:auto}
-.pagevid figcaption{font-size:.85rem;color:var(--dim);padding:14px 18px;border-top:1px solid var(--line)}
-.gal{display:grid;gap:18px;grid-template-columns:1fr 1fr;margin-top:20px}
-.gal figure{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff}
-.gal figure img{width:100%;height:auto;display:block}
-.gal figcaption{font-size:.84rem;color:var(--dim);padding:13px 16px;border-top:1px solid var(--line)}
-@media(max-width:560px){.gal{grid-template-columns:1fr}}
-
-/* CONTENTS + honesty */
-.contents{background:var(--paper)}
-.toc{columns:2;column-gap:56px;list-style:none;max-width:980px;margin-top:6px}
-@media(max-width:720px){.toc{columns:1}}
-.toc li{break-inside:avoid;padding:12px 0 12px 26px;position:relative;border-bottom:1px dotted var(--line-strong);font-size:1rem;color:var(--body)}
-.toc li::before{content:"";position:absolute;left:2px;top:20px;width:8px;height:8px;border-radius:2px;background:var(--gold);opacity:.85}
-.disclose{margin-top:36px;font-size:.96rem;color:var(--dim);max-width:72ch}
-.disclose b{color:var(--ink)}
-
-/* SPECS (material specificity) */
-.specs{background:var(--cedar-deep);color:#CFCBBD;border-block:1px solid var(--cedar-line)}
-.specs .eyebrow{color:var(--gold)}
-.specs h2{color:#fff}
-.specrow{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:clamp(34px,4vw,56px)}
-.spec{padding:26px 26px 26px 0;border-top:1px solid rgba(201,188,163,.2)}
-.spec b{display:block;font-family:var(--serif);font-variant-numeric:tabular-nums;font-size:clamp(2.4rem,4vw,3.4rem);color:#fff;line-height:1}
-.spec span{display:block;margin-top:10px;font-size:.9rem;color:var(--stone)}
-@media(max-width:820px){.specrow{grid-template-columns:1fr 1fr;gap:0 30px}}
-@media(max-width:460px){.specrow{grid-template-columns:1fr}.spec{padding-right:0}}
-.specnote{margin-top:34px;font-size:.95rem;color:var(--stone);max-width:70ch}
-.specnote a{color:var(--gold-soft);text-underline-offset:3px}
-/* desktop: heading beside its content, so neither section leaves a blank right half */
-@media(min-width:980px){
-.specs .shell{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:clamp(48px,6vw,96px);align-items:end}
-.specs .sec-head{max-width:none;margin-bottom:0}
-.specs h2{max-width:16ch}
-.specs .specnote{grid-row:1;grid-column:2;margin-top:0;font-size:1.02rem;line-height:1.6}
-.specs .specrow{grid-column:1/-1}
-.pains .shell{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);column-gap:clamp(48px,6vw,96px);align-items:start}
-.pains .sec-head{position:sticky;top:120px;max-width:none;margin-bottom:0}
-.pains h2{max-width:13ch}
-}
-
-/* THE KIT (product-family system, dark cedar) */
-.kit{background:var(--cedar);color:#DCD7C6;border-block:1px solid var(--cedar-line)}
-.kit .eyebrow{color:var(--gold)}
-.kit h2{color:#fff}
-.kit .sec-head p{color:#C9D2C4}
-.kitgrid{display:grid;gap:18px;grid-template-columns:1fr;margin-top:clamp(34px,4vw,56px)}
-.kit-featured{display:grid;grid-template-columns:auto 1fr;gap:clamp(22px,3vw,44px);align-items:center;background:var(--paper);border-radius:16px;padding:clamp(22px,2.6vw,36px);box-shadow:0 24px 56px -32px rgba(0,0,0,.65)}
-.kit-featured img{width:clamp(116px,15vw,184px);border-radius:5px;box-shadow:0 2px 5px rgba(0,0,0,.22),0 24px 42px -22px rgba(0,0,0,.55);outline:1px solid rgba(31,61,47,.12)}
-.kit-featured .k-body{min-width:0}
-.kit-tag{display:inline-block;font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--gold-ink);margin-bottom:10px}
-.kit-featured h3{font-size:clamp(1.4rem,2.4vw,2rem);color:var(--ink);font-weight:500;letter-spacing:-.02em;font-family:var(--serif)}
-.kit-featured p{margin-top:10px;color:var(--dim);font-size:1rem;max-width:50ch}
-.k-cta{display:flex;flex-wrap:wrap;gap:16px;margin-top:22px;align-items:center}
-.kit-price{font-family:var(--serif);font-size:1.16rem;color:var(--ink);font-variant-numeric:tabular-nums}
-.kit-cards{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(228px,1fr))}
-.kit-card{background:var(--paper);border-radius:14px;padding:26px 24px 24px;display:flex;flex-direction:column;box-shadow:0 16px 38px -28px rgba(0,0,0,.55)}
-.kit-card h3{font-size:1.18rem;color:var(--ink);font-weight:500;font-family:var(--serif);margin-top:12px}
-.kit-card p{margin-top:9px;color:var(--dim);font-size:.95rem;flex:1}
-.kit-card .k-foot{margin-top:18px}
-.kit-free{align-self:flex-start;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--gold-ink)}
-.kit-soon{align-self:flex-start;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--dim)}
-.klink{font-weight:600;font-size:.96rem;color:var(--cedar);text-decoration:none;border-bottom:1.5px solid var(--gold);padding-bottom:2px}
-.klink:hover{color:var(--gold-ink)}
-.kit-soontag{font-size:.9rem;color:var(--dim)}
-.kit-more{margin-top:24px;font-size:.9rem;color:#A9B3A5;text-align:center}
-@media(max-width:760px){.kit-featured{grid-template-columns:1fr}.kit-featured img{width:148px}}
-
-/* ALERTS (quiet signup) */
-.signup{max-width:660px;margin-inline:auto;text-align:center}
-.signup h2{font-size:clamp(1.4rem,2.4vw,2rem);font-weight:500;margin-top:12px;line-height:1.16}
-.signup p{margin-top:16px;color:var(--dim)}
-.signup .btn{margin-top:26px}
-.signup .fine{margin-top:20px;line-height:1.6}
-.signup .fine a,.signup p a{color:var(--cedar);text-underline-offset:3px}
-@media(max-width:720px){.signup p,.signup .fine{text-align:left}}
-
-/* SELLING */
-.selling{background:var(--cream);border-block:1px solid var(--line)}
-
-/* ABOUT */
-.about .sig{margin-top:40px;padding-top:24px;border-top:1px solid var(--line-strong);font-size:.94rem;color:var(--dim);max-width:60ch;margin-inline:auto;text-align:center}
-.about .sig b{display:block;color:var(--ink);font-family:var(--serif);font-size:1.08rem;margin-bottom:4px}
-.about .sig a{color:var(--cedar)}
-
-/* footer */
-footer{background:var(--cedar-deep);color:#A9B3A5;padding:64px 0 46px;font-size:.9rem}
-footer .top{display:flex;flex-wrap:wrap;gap:40px;justify-content:space-between;padding-bottom:34px;border-bottom:1px solid var(--cedar-line)}
-footer .brand b{color:var(--cream)}
-footer .cols{display:flex;flex-wrap:wrap;gap:56px}
-footer .cols div{display:flex;flex-direction:column;gap:11px}
-footer .cols b{color:var(--stone);font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;margin-bottom:3px}
-footer a{color:#A9B3A5;text-decoration:none}
-footer a:hover{color:var(--cream);text-decoration:underline;text-underline-offset:3px}
-footer .legal{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;padding-top:26px;font-size:.84rem}
-.skip{position:absolute;left:-9999px}
-.skip:focus{left:16px;top:12px;z-index:99;background:var(--cream);color:var(--ink);padding:10px 16px;border-radius:8px;position:fixed}
-.more-books{background:var(--cedar);color:var(--stone-soft);padding:18px 0}
-.more-books .shell{display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center;justify-content:space-between}
-.more-books p{margin:0;font-size:.95rem}
-.more-books a{color:var(--gold-soft);font-weight:600;text-decoration:underline;text-underline-offset:3px;min-height:44px;display:inline-flex;align-items:center}
 </style>
+<style>:root{--g:#173f2a;--g2:#24563a;--c:#f8f2df;--c2:#e9e0c4;--b:#6d8957;--ink:#183226}
+body{font-family:system-ui,sans-serif}
+header{background:var(--c);color:var(--g);border-bottom:2px solid var(--g)}
+.bar{padding:.8rem 0}.logo{font-weight:900;letter-spacing:-.04em}.logo span{color:var(--b)}
+nav ul{gap:.1rem .9rem;font-size:.68rem}
+.hero{padding:2rem 0 2.5rem;gap:1.5rem}
+h1,h2,h3{font-family:system-ui,sans-serif;font-weight:800;letter-spacing:-.035em}
+h1{font-size:clamp(2.5rem,11vw,4.8rem)}h1 em{color:var(--b);font-style:normal}
+.hero p{color:#355143}.k{color:#4f7045}
+.art{border:0;padding:0;background:none;border-radius:10rem 10rem .3rem .3rem;box-shadow:8px 8px 0 #cbd3ac}
+.btn{border:2px solid var(--g);border-radius:99px;margin-top:1rem}.btn.p{background:var(--g);color:var(--c)}.btn:hover{background:#dce3c4}
+section{padding:3rem 0}.paths{gap:1rem}.path{border:1px solid #bdc99e;border-top:6px solid var(--g);border-radius:.3rem;background:#f0e9d2;padding:1.4rem}
+.alt{background:#e9e4cf;border-color:#cad0b0}.book{gap:1.75rem}.book img{border-radius:6rem 6rem 0 0;box-shadow:8px 8px 0 #8da47a}
+.cat{background:var(--g)}footer{background:#102d1d}
+@media(min-width:48rem){.book:nth-child(odd of .book) img{box-shadow:-8px 8px 0 #8da47a}}</style><style>body{font-family:Georgia,"Times New Roman",serif;line-height:1.7}h1,h2,h3{text-wrap:balance}h1{max-width:13ch;font-size:clamp(2.35rem,8vw,4.5rem);line-height:1.04}h2{max-width:22ch}.hero p{max-width:34rem}.k{line-height:1.5}.logo,nav a,.btn,.links a,.path a,footer a{display:inline-flex;align-items:center;min-height:44px}nav a{padding-inline:.25rem}.btn{padding:.75rem 1.35rem}.path p:last-child{margin-top:.75rem}.book p{max-width:38rem}.book img{justify-self:center}.cat .k{color:#dce3c4}.btn:hover{color:var(--g)}a:focus-visible{outline-color:#8a5a19}@media(max-width:47.99rem){.bar{align-items:flex-start}.hero{padding-top:2.5rem}.art{max-width:18rem}.book{padding:2rem 0}.links{gap:.25rem 1rem}.btn{margin-right:.35rem}section{padding:2.75rem 0}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation:none!important;transition:none!important}} .art{width:100%;height:auto}.book img{height:auto}.logo{display:inline-flex;align-items:center;min-height:44px}nav a,.links a,footer a{min-height:44px;display:inline-flex;align-items:center}a:focus-visible{outline:3px solid currentColor;outline-offset:3px} .links a:focus-visible{outline-offset:0} main .k{color:#655020}.cat a.btn{background:#eed29b;color:#153424}footer a{margin-right:1em} .hero .btn{min-height:46px}.btn:hover{text-decoration:underline} @media(max-width:460px){.bar{gap:.15rem}.hero{gap:1.5rem;padding-block:1.7rem 2.5rem}nav ul{gap:.1rem .9rem}.btn{margin-top:.6rem}.hero .art{max-width:17rem}.book img{max-width:100%;width:min(65%,15rem)} .hero .btn{min-width:8rem}} </style><style>:root{--b:#4e683d}nav ul a{font-size:0.8rem} .alt,.cat{padding-inline:12px} .book img{box-shadow:0 3px 12px #192f211c} .hero .btn.p{background:#173f2a;color:#fff}</style><style>
+.collections{background:#f8f2df;padding:clamp(24px,4vw,58px) 0}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.plate{position:relative;display:flex;align-items:center;isolation:isolate;min-height:clamp(230px,22vw,315px);overflow:hidden;background:#102f21;color:#fcf3dd;text-decoration:none;padding:clamp(20px,2.6vw,42px);border:1px solid #7a784d}
+.plate::before{content:"";position:absolute;inset:7px;border:1px solid #bd9e5e66;pointer-events:none}
+.plate-copy{display:grid;gap:.75rem;width:56%;position:relative;z-index:1}
+.plate strong{font:normal clamp(27px,2.6vw,42px)/1.06 Georgia,serif;letter-spacing:-.035em}
+.plate-copy>span{font:normal 16px/1.4 Georgia,serif;color:#ede3c8;max-width:19ch}
+.plate i{font:600 12px/1.5 system-ui,sans-serif;color:#f4d399;margin-top:.45rem}.plate b{margin-left:4px}
+.object{position:absolute;right:3%;top:7%;height:86%;aspect-ratio:.59;pointer-events:none}.object img{position:absolute;max-width:none;width:auto;height:100%;display:block}
+.key img{height:163%;top:-50%;right:-11%;clip-path:polygon(68% 32%,76% 31%,81% 34%,82% 39%,89% 42%,95% 48%,94% 56%,88% 62%,78% 65%,78% 71%,75% 73%,79% 75%,76% 78%,79% 81%,76% 83%,77% 88%,71% 95%,65% 93%,65% 65%,55% 62%,50% 55%,50% 48%,55% 42%,65% 39%)}
+.door{aspect-ratio:.59}.door img{height:119%;top:-3%;left:50%;transform:translateX(-50%);mask-image:radial-gradient(ellipse 55% 62% at 50% 42%,#000 64%,transparent 100%);clip-path:inset(0 0 15% 0)}
+.lamplight{position:absolute;left:43%;top:55%;width:14%;height:5%;background:radial-gradient(ellipse,#ffe7a7 12%,#ffc86685 55%,transparent 75%);opacity:.2}
+.plate:hover i,.plate:focus-visible i{text-decoration:underline}.hosting:is(:hover,:focus-visible) .lamplight{opacity:.95}
+@media(prefers-reduced-motion:no-preference){.lamplight{transition:opacity .32s ease}}
+@media(max-width:760px){.pair{grid-template-columns:1fr}.plate{min-height:210px}.plate-copy{width:60%}.object{right:6%}}
+@media(prefers-reduced-motion:reduce),(hover:none){.hosting .lamplight{opacity:.65}}
+</style><style>
+#books{background:#fbf5e7;border:none;padding:clamp(40px,6vw,86px) 0}
+#books-h{max-width:none;font:500 clamp(32px,4.4vw,61px)/1.05 Georgia,serif;letter-spacing:-.045em;margin:0 0 32px}
+.shelf{display:grid;grid-template-columns:1fr 1fr;gap:clamp(22px,4vw,60px)}
+.shelf .book{display:flex;flex-direction:column;align-items:stretch;padding:0;gap:23px;border:none;scroll-margin:18px}
+.cover-space{display:grid;place-items:center;min-height:260px;height:clamp(260px,27vw,355px);position:relative;background:#e9e3ce;border-bottom:2px solid #968968}
+#book-host .cover-space{background:#e3e8dd}
+.shelf .book .cover-space img{height:79%;width:auto;max-width:86%;object-fit:contain;border-radius:0;margin:auto;box-shadow:3px 7px 14px #23302338}
+.shelf .book>div:last-child{display:flex;flex-direction:column;flex:1}
+.shelf h3{font:500 clamp(25px,2.4vw,36px)/1.13 Georgia,serif;letter-spacing:-.035em;margin:.4rem 0 .6rem}
+.shelf .k{color:#42533c}.shelf p{max-width:40ch}.shelf .links{margin-top:auto;padding-top:.65rem;align-items:center;gap:4px 20px}
+.shelf .links a{font:600 .875rem/1.3 system-ui,sans-serif;min-height:44px}
+.shelf .links a:first-child{color:#18402a;text-decoration-thickness:1px;text-underline-offset:.32em}
+.shelf .links a:last-child{font-weight:500}.shelf .book:target .cover-space{border-bottom-color:#345a43}
+@media(max-width:690px){.shelf{grid-template-columns:1fr;gap:42px}.cover-space{height:235px;min-height:0}.shelf .book{gap:17px}#books-h{font-size:36px;margin-bottom:24px}.shelf .links{padding-top:4px}}
+</style><style>.shelf .book .cover-space img{position:absolute;inset:0;height:78%;width:auto;max-height:78%;max-width:80%;margin:auto}.shelf .book .cover-space{flex:none}</style><meta name="p:domain_verify" content="5f08ec59b8b4f5ebc0443f2bbaff87f0">
+<link rel="canonical" href="https://deedwell.co/">
+<meta name="theme-color" content="#f8f2df">
+<meta property="og:title" content="Deedwell · Books for landlords and vacation rental hosts">
+<meta property="og:description" content="Explore the Rental Property Record Book and Cabin Guest Book, including pages from each book.">
+<meta property="og:image" content="https://deedwell.co/assets/deedwell/street.webp">
+<meta property="og:type" content="website"><meta property="og:url" content="https://deedwell.co/">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","@id":"https://deedwell.co/#deedwell","name":"Deedwell","url":"https://deedwell.co/","parentOrganization":{"@type":"Organization","name":"Cedarstone Ventures LLC"}}</script>
+<script>if (['#about','#alerts','#buy','#inside','#kit','#mk','#pages','#why'].includes(location.hash)) location.replace('/rental-property-record-book/'+location.search+location.hash)</script>
 </head>
-<body>
+<body id="top">
 <a class="skip" href="#main">Skip to content</a>
-
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="mk" viewBox="0 0 48 48"><path fill="currentColor" d="M12.04 37 L35.96 37 L24 23.48 Z"/><path fill="currentColor" d="M14.9 29.2 L33.1 29.2 L24 16.72 Z"/><path fill="currentColor" d="M17.5 22.44 L30.5 22.44 L24 11 Z"/><rect fill="currentColor" x="22.83" y="37" width="2.34" height="2.86"/></symbol></svg>
-
 <header>
-  <div class="shell nav">
-    <a class="brand" href="/" aria-label="Deedwell home"><svg aria-hidden="true"><use href="#mk"/></svg><b>Deedwell</b></a>
-    <nav class="links" aria-label="Primary">
-      <a href="#kit">The kit</a>
-      <a href="#inside">What&rsquo;s inside</a>
-      <a href="/books/">All books</a>
-      <a href="/business/">For hosts &amp; managers</a>
-      <a class="nav-free" href="/checklist/">Free checklist</a>
-      <a class="btn" href="#buy">The record book</a>
-    </nav>
-  </div>
+<div class="w">
+<div class="bar">
+<a class="logo" href="#top">Deed<span>well</span></a>
+<nav aria-label="Primary"><ul>
+<li><a href="#book-landlord">Landlords</a></li>
+<li><a href="#book-host">Hosts</a></li>
+<li><a href="#books">Featured</a></li>
+<li><a href="https://deedwell.co/books/">Catalog</a></li>
+</ul></nav>
+</div>
+<div class="hero">
+<div>
+
+<h1>Books for <em>landlords</em> and vacation rental <em>hosts</em>.</h1>
+<p>Track a month of rent and expenses, or give cabin guests a place to leave their favorite memories.</p>
+<a class="btn p" href="#book-landlord">I'm a landlord</a>
+<a class="btn" href="#book-host">I'm a host</a>
+</div>
+<img class="art" src="/assets/deedwell/street.webp" srcset="/assets/deedwell/street-small.webp 440w, /assets/deedwell/street.webp 733w" sizes="(max-width: 460px) 272px, 352px" alt="Engraving of an open book whose pages rise into a street of houses" width="733" height="1100" fetchpriority="high">
+</div>
+</div>
 </header>
+<main id="main"><section id="collections" class="collections" aria-label="Choose a collection"><div class="w pair">
+<a class="plate ownership" href="#book-landlord"><span class="plate-copy"><strong>For landlords</strong><span>Rent, repairs and the year’s records.</span><i>Explore the book <b aria-hidden="true">→</b></i></span><span class="object key" aria-hidden="true"><img src="/assets/deedwell/house-key.webp" srcset="/assets/deedwell/house-key-shelf.webp 280w, /assets/deedwell/house-key.webp 600w" sizes="(max-width:760px) 195px, 280px" width="600" height="900" alt=""></span></a>
+<a class="plate hosting" href="#book-host"><span class="plate-copy"><strong>For hosts</strong><span>Help guests feel at home from the moment they arrive.</span><i>Explore the book <b aria-hidden="true">→</b></i></span><span class="object door" aria-hidden="true"><img src="/assets/deedwell/welcome-door.webp" srcset="/assets/deedwell/welcome-door-shelf.webp 230w, /assets/deedwell/welcome-door.webp 600w" sizes="(max-width:760px) 145px, 215px" width="600" height="900" loading="lazy" alt=""><span class="lamplight"></span></span></a>
+</div></section>
 
-<main id="main">
+<section class="alt" id="books" aria-labelledby="books-h">
+<div class="w">
 
-<section class="hero">
-  <picture>
-    <source type="image/webp" srcset="/assets/hero-warm-bg-1600.webp 1600w, /assets/hero-warm-bg-2400.webp 2400w" sizes="100vw">
-    <img class="bg" src="/assets/hero-warm-bg-1600.jpg" srcset="/assets/hero-warm-bg-1600.jpg 1600w, /assets/hero-warm-bg-2400.jpg 2400w" sizes="100vw" width="2752" height="1536" fetchpriority="high" decoding="async" alt="" aria-hidden="true">
-  </picture>
-  <div class="shell hero-grid">
-    <div class="hero-copy">
-      <p class="eyebrow">Deedwell &middot; Record-keeping tools for landlords</p>
-      <h1>Tax time, already done.</h1>
-      <p class="lead">Every rent payment, every expense, every deductible mile, recorded once, in the order your tax return actually reads.</p>
-      <div class="cta">
-        <a class="btn" href="#buy">See the record book</a>
-        <a class="btn ghost" href="/checklist/">Free deduction checklist</a>
-      </div>
-      <p class="micro">Built for the landlord with one to a few rentals. <b class="num">108 pages</b>, 8.5&nbsp;&times;&nbsp;11. <b class="num">$12.99</b> paperback. No app, no login. You write in it.</p>
-    </div>
-    <div class="hero-shot">
-      <picture>
-        <source type="image/webp" srcset="/assets/cover-800.webp 800w" sizes="390px">
-        <img src="/assets/cover-800.jpg" srcset="/assets/cover-800.jpg 800w" sizes="390px" width="1000" height="1304" fetchpriority="high" decoding="async" alt="Cover of the Deedwell Rental Property Record Book: a lit craftsman cottage at dusk above a deep green band with the title in gold.">
-      </picture>
-    </div>
-  </div>
+<h2 id="books-h">Look inside the books</h2>
+<div class="shelf"><article class="book" id="book-landlord">
+<div class="cover-space"><img src="/assets/deedwell/landlord.webp" srcset="/assets/deedwell/landlord-shelf.webp 230w, /assets/deedwell/landlord.webp 420w" sizes="(max-width:690px) 140px, 200px" alt="Cover of Deedwell's featured book for landlords" width="420" height="548" loading="lazy"></div>
+<div>
+<p class="k">For landlords</p>
+<h3>Rental Property Record Book</h3>
+<p>Follow a filled-in month, then use the same layout for your own rental records.</p>
+<div class="links">
+<a href="/assets/worked.jpg">See a worked month</a>
+<a href="/rental-property-record-book/">Book details</a>
+<a href="https://www.amazon.com/dp/B0HBP9DKY4?maas=maas_adg_9E1DA2B3804415A150593C7F4A15EFE4_afap_abs&amp;ref_=aa_maas&amp;tag=maas">Buy on Amazon<span class="skip"> (landlord edition)</span></a>
+</div>
+</div>
+</article>
+<article class="book" id="book-host">
+<div class="cover-space"><img src="/assets/deedwell/cabin.webp" srcset="/assets/deedwell/cabin-shelf.webp 275w, /assets/deedwell/cabin.webp 420w" sizes="(max-width:690px) 185px, 260px" alt="Cover of Deedwell's featured book for vacation rental hosts" width="420" height="420" loading="lazy"></div>
+<div>
+<p class="k">For vacation rental hosts</p>
+<h3>Cabin Guest Book</h3>
+<p>See the page guests can fill in before they hand the cabin keys back.</p>
+<div class="links">
+<a href="/assets/books/cabin-guest-entry.jpg">See a guest entry</a>
+<a href="https://www.amazon.com/dp/B0HPH7N2VN?maas=maas_adg_9E1DA2B3804415A150593C7F4A15EFE4_afap_abs&amp;ref_=aa_maas&amp;tag=maas">Buy on Amazon<span class="skip"> (host edition)</span></a>
+</div>
+</div>
+</article></div>
+</div>
 </section>
+<section class="cat" aria-labelledby="cat-h">
+<div class="w">
 
-<section class="more-books" aria-label="Other Deedwell books">
-  <div class="shell">
-    <p>Not a landlord? Deedwell also makes guest books for cabins and vacation rentals, and a camping &amp; RV trip logbook.</p>
-    <a href="/books/">See all Deedwell books &rarr;</a>
-  </div>
+<h2 id="cat-h">Explore the Deedwell catalog</h2>
+<a class="btn p" href="https://deedwell.co/books/">Open the catalog</a>
+</div>
 </section>
-
-<section class="proof" id="buy">
-  <div class="shell proof-grid">
-    <div class="reveal">
-      <p class="eyebrow">The whole point</p>
-      <h2>Blank columns leave the hard part to you. This one shows where each dollar goes.</h2>
-      <p class="body measure">A plain-English <strong>Schedule&nbsp;E Map</strong> pairs every expense with its exact IRS line, so a year of receipts ends up somewhere the form can actually use. It is page&nbsp;5, the first thing you see, before you have written anything.</p>
-      <p class="body measure">And because the 2026 mileage rate changed mid-year, the mileage log carries <strong>both rates</strong>, split by trip date, with columns for date, purpose, and odometer start and end. That is the substantiation an examiner asks for, and the reason most handwritten logs fail.</p>
-      <div class="buys">
-        <a class="btn" href="https://www.amazon.com/dp/B0HBP9DKY4?maas=maas_adg_9E1DA2B3804415A150593C7F4A15EFE4_afap_abs&amp;ref_=aa_maas&amp;tag=maas">Buy the paperback, $12.99</a>
-      </div>
-      <p class="fine measure">Printed and bound on Amazon. <a href="/checklist/" style="color:var(--cedar)">The free checklist</a> is the same thinking on one page, and it stays free.</p>
-    </div>
-    <figure class="reveal">
-      <picture><source type="image/webp" srcset="/assets/map-800.webp 800w, /assets/map.webp 1600w" sizes="(max-width: 860px) 100vw, 860px"><img src="/assets/map.jpg?v=4" width="1600" height="1293" loading="lazy" decoding="async" alt="Page 5, Your Schedule E Map: a table pairing IRS Schedule E lines 3 and 5 through 19 with plain-English descriptions of what belongs on each line."></picture>
-      <figcaption><b>Page&nbsp;5 &middot; Your Schedule&nbsp;E Map</b><span class="pill">The first page you see</span></figcaption>
-    </figure>
-  </div>
-</section>
-
-<section class="specs">
-  <div class="shell">
-    <div class="sec-head">
-      <p class="eyebrow">Made to be trusted</p>
-      <h2>Built from the IRS&rsquo;s own instructions, and dated so you can check.</h2>
-    </div>
-    <div class="specrow">
-      <div class="spec reveal"><b class="num">108</b><span>pages, 8.5&nbsp;&times;&nbsp;11, perfect-bound</span></div>
-      <div class="spec reveal"><b class="num">16</b><span>Schedule&nbsp;E lines mapped in plain English</span></div>
-      <div class="spec reveal"><b class="num">2</b><span>2026 mileage rates, split by date</span></div>
-      <div class="spec reveal"><b class="num">$0</b><span>to start &mdash; the checklist is free</span></div>
-    </div>
-    <p class="specnote reveal">Deedwell is a brand of Cedarstone&nbsp;Ventures&nbsp;LLC, a registered US company. We build from the IRS&rsquo;s own Schedule&nbsp;E instructions, we name the source next to any figure we print, and we say plainly what a book does not do. Records you own and keep, not an app holding your data. <a href="#about">Why Deedwell</a>.</p>
-  </div>
-</section>
-
-<section class="pains" id="why">
-  <div class="shell">
-    <div class="sec-head">
-      <p class="eyebrow">Sound familiar?</p>
-      <h2>Renting the place out is easy. The money side is where it slips.</h2>
-    </div>
-    <div class="plist">
-      <div class="prow reveal"><div class="pn">01</div><div class="pc"><h3>Receipts in three places</h3><p>A folder, a glovebox and a banking app. None of them adds up to a number you can put on a form.</p></div></div>
-      <div class="prow reveal"><div class="pn">02</div><div class="pc"><h3>Leaked deductions</h3><p>Mileage, supplies, repairs, depreciation. What goes untracked all year is the hardest money to find again in April.</p></div></div>
-      <div class="prow reveal"><div class="pn">03</div><div class="pc"><h3>Schedule&nbsp;E guesswork</h3><p>Generic ledgers do not map to the form the IRS actually wants, so April becomes translation work.</p></div></div>
-      <div class="prow reveal"><div class="pn">04</div><div class="pc"><h3>Repairs, or improvement?</h3><p>Deduct it now or depreciate it over 27.5 years. The call that most often goes wrong, and it is worth real money.</p></div></div>
-    </div>
-  </div>
-</section>
-
-<section class="pages" id="pages">
-  <div class="shell">
-    <div class="sec-head">
-      <p class="eyebrow">See it before you buy it</p>
-      <h2>The inside, shown.</h2>
-      <p>Every book on this shelf asks you to trust a cover. Here are the actual pages, at full size.</p>
-    </div>
-    <figure class="pagevid reveal">
-      <video src="/assets/inside.mp4?v=1" poster="/assets/inside-poster.jpg?v=1" width="1080" height="1080" autoplay muted loop playsinline preload="metadata" aria-label="Fifteen seconds of the book, page by page."></video>
-      <figcaption>Fifteen seconds, five real pages: the Schedule&nbsp;E map, a filled-in month, a rent roll, an expense ledger and the mileage log. No sound.</figcaption>
-    </figure>
-    <div class="gal">
-      <figure class="reveal"><img src="/assets/worked.jpg?v=4" width="1600" height="1293" loading="lazy" decoding="async" alt="A fully worked example month, filled in."><figcaption>A worked example month, filled in, so you see the finished result first.</figcaption></figure>
-      <figure class="reveal"><img src="/assets/mileage.jpg?v=4" width="1600" height="1293" loading="lazy" decoding="async" alt="The mileage log with both 2026 rates."><figcaption>The mileage log, both 2026 rates split by trip date.</figcaption></figure>
-      <figure class="reveal"><img src="/assets/repairs.jpg?v=4" width="1600" height="1293" loading="lazy" decoding="async" alt="The repairs versus improvements tracker."><figcaption>Repairs vs. improvements: the call that most often goes wrong.</figcaption></figure>
-      <figure class="reveal"><img src="/assets/ledger.jpg?v=4" width="1600" height="1293" loading="lazy" decoding="async" alt="The full-year expense ledger."><figcaption>The full-year expense ledger. Every entry carries its Schedule&nbsp;E line, and each page ends in a tally strip.</figcaption></figure>
-    </div>
-  </div>
-</section>
-
-<section class="contents" id="inside">
-  <div class="shell">
-    <div class="sec-head">
-      <p class="eyebrow">Inside the book</p>
-      <h2><span class="num">108</span> pages, in the order the year happens.</h2>
-      <p>Nothing decorative. Every page exists because a landlord has to record something, and the tax return has to receive it.</p>
-    </div>
-    <ul class="toc reveal">
-      <li>The Schedule&nbsp;E Map: every expense line, in plain English</li>
-      <li>A worked example month, filled in</li>
-      <li>Property profiles</li>
-      <li>A cost-basis worksheet that feeds depreciation</li>
-      <li>Tenant and lease logs</li>
-      <li>Security-deposit tracking</li>
-      <li>Twelve monthly rent rolls</li>
-      <li>A full-year expense ledger, tallied by Schedule&nbsp;E line</li>
-      <li>The mileage log, built for 2026&rsquo;s split rate</li>
-      <li>Repairs vs. improvements</li>
-      <li>Depreciation and assets</li>
-      <li>Per-property year summaries</li>
-      <li>The Annual Schedule&nbsp;E Summary</li>
-      <li>A landlord deduction checklist</li>
-    </ul>
-    <p class="disclose reveal"><b>Please know what this is.</b> It is a <em>structured</em> record book, organized around one tax form, for the landlord with one to a few rentals who wants the year to end tidily. It is not a blank ledger you can repurpose, and it is not software. If you want free-form columns, a plain ledger will serve you better and cost less.</p>
-  </div>
-</section>
-
-<section class="kit" id="kit">
-  <div class="shell">
-    <div class="sec-head">
-      <p class="eyebrow">Everything in one system</p>
-      <h2>The Deedwell landlord kit.</h2>
-      <p>Start with the free deduction checklist, then add the record book when you are ready. One system, in plain English, all built around Schedule&nbsp;E.</p>
-    </div>
-    <div class="kitgrid reveal">
-      <div class="kit-featured">
-        <img src="/assets/cover.jpg?v=4" width="1000" height="1304" loading="lazy" decoding="async" alt="The Deedwell Rental Property Record Book.">
-        <div class="k-body">
-          <span class="kit-tag">The flagship</span>
-          <h3>Rental Property Record Book</h3>
-          <p>108 pages, built backwards from Schedule&nbsp;E. Every rent payment, expense and deductible mile, recorded once, in the order your return reads.</p>
-          <div class="k-cta">
-            <a class="btn" href="#buy">See the record book</a>
-            <span class="kit-price">$12.99 paperback</span>
-          </div>
-        </div>
-      </div>
-      <div class="kit-cards">
-        <div class="kit-card">
-          <span class="kit-free">Free</span>
-          <h3>Deduction Checklist</h3>
-          <p>The landlord deductions easiest to miss, each named next to the expense category that captures it. One page, no email.</p>
-          <div class="k-foot"><a class="klink" href="/checklist/">Read it</a></div>
-        </div>
-        <div class="kit-card">
-          <span class="kit-soon">In development</span>
-          <h3>Basis &amp; Recapture Kit</h3>
-          <p>The full interactive tool for a rental sale: reconstruct multi-year basis, model depreciation recapture, hand your CPA a finished figure.</p>
-          <div class="k-foot"><span class="kit-soontag">Coming soon</span></div>
-        </div>
-      </div>
-      <p class="kit-more">More tools for landlords are in the works.</p>
-    </div>
-  </div>
-</section>
-
-<section class="alerts" id="alerts">
-  <div class="shell">
-    <div class="signup reveal">
-      <p class="eyebrow">Public change notes</p>
-      <h2>The numbers on your Schedule&nbsp;E move. One of them moved halfway through 2026.</h2>
-      <p>The IRS standard mileage rate ran at <strong class="num">72.5&cent;</strong> a mile through 30&nbsp;June 2026, then <strong class="num">76&cent;</strong> from 1&nbsp;July, a split year that is easy to file wrong. Read the public change notes for what changed and which Schedule&nbsp;E line it touches.</p>
-      <a class="btn dark" href="/updates/">Read the change notes</a>
-      <p class="fine">The free checklist stays free. Change notes are posted openly at <a href="/updates/">deedwell.co/updates</a> with no email required.</p>
-    </div>
-  </div>
-</section>
-
-<section class="about" id="about">
-  <div class="shell">
-    <p class="sig reveal"><b>Ayobami Olanrewaju, Founder &amp; Publisher</b>Questions? Write to <a href="mailto:info@cedarstonellc.com">info@cedarstonellc.com</a>. We check this inbox daily.</p>
-  </div>
-</section>
-
 </main>
-
 <footer>
-  <div class="shell">
-    <div class="top">
-      <a class="brand" href="/" aria-label="Deedwell home" style="color:var(--stone)"><svg style="width:34px;height:34px" aria-hidden="true"><use href="#mk"/></svg><b style="font-family:var(--serif);font-weight:600;font-size:1.3rem">Deedwell</b></a>
-      <div class="cols">
-        <div>
-          <b>The kit</b>
-          <a href="#inside">What&rsquo;s inside</a>
-          <a href="#pages">See the pages</a>
-          <a href="/checklist/">Free checklist</a>
-          <a href="/host/">Free host checklist</a>
-          <a href="/rental/">The record book</a>
-          <a href="/books/">All Deedwell books</a>
-          <a href="/updates/">Register your copy</a>
-        </div>
-        <div>
-          <b>Company</b>
-          <a href="#about">About</a>
-          <a href="https://cedarstonellc.com/" rel="noopener">Cedarstone Ventures</a>
-          <a href="mailto:info@cedarstonellc.com">Contact</a>
-          <a href="/privacy.html">Privacy</a>
-        </div>
-      </div>
-    </div>
-    <div class="legal">
-      <span>&copy; 2026 Cedarstone Ventures LLC. A record-keeping aid, not tax advice.</span>
-      <span>info@cedarstonellc.com</span>
-    </div>
-  </div>
+<div class="w">
+<p>© Deedwell, an independent publisher for landlords and vacation rental hosts. <a href="https://deedwell.co/checklist/">Landlord checklist</a> <a href="https://deedwell.co/host/">Host checklist</a> <a href="/business/">Bulk copies</a> <a href="/updates/">Updates</a> <a href="https://deedwell.co/privacy.html">Privacy</a></p>
+</div>
 </footer>
-
-<!-- Cloudflare Web Analytics. Privacy-first: no cookies, no cross-site
-     tracking, so no consent banner is required. The token is PUBLIC by
-     design - it labels which site a hit belongs to and grants nothing.
-     Installed by build/build_site_analytics.py; --check refuses when any
-     page is missing it, so a new page cannot ship unmeasured. -->
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "478e11c5d4574ad4b70f275d35088b7d"}'></script>
 </body>
 </html>
